@@ -345,8 +345,21 @@ let photoDataUrl=null;
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
 
 document.addEventListener('DOMContentLoaded',()=>{
-  sb=window.supabase.createClient(SB_URL,SB_KEY);
-  checkSession();
+  try{
+    sb=window.supabase.createClient(SB_URL,SB_KEY,{
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:false,
+        flowType:'implicit'
+      }
+    });
+    console.log('Supabase initialized');
+    checkSession();
+  }catch(e){
+    console.error('Supabase init error:',e);
+    document.getElementById('lErr').textContent='Verbindung fehlgeschlagen: '+e.message;
+  }
 });
 
 // ── AUTH ──
@@ -354,13 +367,32 @@ async function checkSession(){const{data:{session}}=await sb.auth.getSession();i
 async function doLogin(){
   const email=document.getElementById('lEmail').value.trim();
   const pw=document.getElementById('lPw').value;
+  const errEl=document.getElementById('lErr');
   const btn=document.getElementById('lBtn');
-  document.getElementById('lErr').textContent='';
+  errEl.textContent='';
+  if(!email||!pw){errEl.textContent='Bitte E-Mail und Passwort eingeben.';return;}
+  if(!sb){errEl.textContent='Verbindung nicht bereit. Seite neu laden.';return;}
   btn.disabled=true;btn.textContent='Einloggen…';
-  const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
-  btn.disabled=false;btn.textContent='Einloggen';
-  if(error){document.getElementById('lErr').textContent='Falsche E-Mail oder Passwort';return;}
-  currentUser=data.user;showApp();
+  try{
+    const{data,error}=await sb.auth.signInWithPassword({email,password:pw});
+    btn.disabled=false;btn.textContent='Einloggen';
+    if(error){
+      console.error('Login error:',error);
+      if(error.message.includes('Invalid login')||error.message.includes('invalid_credentials')){
+        errEl.textContent='Falsche E-Mail oder Passwort.';
+      } else if(error.message.includes('fetch')||error.message.includes('network')||error.message.includes('Failed')){
+        errEl.textContent='Netzwerkfehler – bitte Seite neu laden oder Verbindung prüfen.';
+      } else {
+        errEl.textContent='Fehler: '+error.message;
+      }
+      return;
+    }
+    currentUser=data.user;showApp();
+  }catch(e){
+    btn.disabled=false;btn.textContent='Einloggen';
+    console.error('Login exception:',e);
+    errEl.textContent='Verbindungsfehler: '+e.message;
+  }
 }
 async function logout(){
   await sb.auth.signOut();currentUser=null;
