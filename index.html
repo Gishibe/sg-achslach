@@ -824,8 +824,6 @@ function showModal(type,extra){
         <input id="mEOpp" placeholder="z.B. SV Musterbach" style="border:2px solid var(--g-border);border-radius:8px;padding:10px 12px;font-family:Barlow,sans-serif;font-size:13px;width:100%;outline:none;">
       </div>
       <div class="save-bar"><button class="btn-cl" onclick="closeModal()">Abbrechen</button><button class="btn-sv" onclick="saveEvent()">Anlegen & Erfassen</button></div>`;
-    // Pre-select type if from calendar click on existing event type
-    `;
   }
   else if(type==='attendance'){
     const ev=currentSeason._events.find(e=>e.id===extra);
