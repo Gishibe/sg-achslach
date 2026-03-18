@@ -4,294 +4,205 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>SG Achslach-Gotteszell</title>
-
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green: #2D6A4F; --green-l: #52B788; --green-pale: #D8F3DC;
-  --amber: #E07A00; --amber-pale: #FFF3CD;
-  --red: #C62828; --red-pale: #FFEBEE;
-  --blue: #185FA5; --blue-pale: #E6F1FB;
-  --g0: #F8F9FA; --g1: #F1F3F5; --g2: #E9ECEF; --g3: #DEE2E6;
-  --g5: #ADB5BD; --g7: #495057; --g9: #212529;
-  --sh: 0 1px 4px rgba(0,0,0,.08); --sh2: 0 4px 20px rgba(0,0,0,.12);
-  --r: 10px;
+  --green:#2D6A4F;--green-l:#52B788;--green-pale:#D8F3DC;
+  --amber:#E07A00;--amber-pale:#FFF3CD;
+  --red:#C62828;--red-pale:#FFEBEE;
+  --blue:#185FA5;--blue-pale:#E6F1FB;
+  --g0:#F8F9FA;--g1:#F1F3F5;--g2:#E9ECEF;--g3:#DEE2E6;
+  --g5:#ADB5BD;--g7:#495057;--g9:#212529;
+  --sh:0 1px 4px rgba(0,0,0,.08);--sh2:0 4px 20px rgba(0,0,0,.13);--r:10px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--g1); color: var(--g9); min-height: 100vh; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--g1);color:var(--g9);min-height:100vh;}
 
-/* ── CONFIG BANNER ── */
-#configBanner {
-  background: #FFF3CD; border-bottom: 2px solid #E07A00;
-  padding: 12px 20px; font-size: 13px; color: #5a3e00;
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-}
-#configBanner strong { font-weight: 600; }
-#configBanner input {
-  padding: 6px 10px; border-radius: 6px; border: 1px solid #E07A00;
-  font-size: 12px; font-family: monospace; width: 280px;
-  background: white;
-}
-#configBanner button {
-  padding: 6px 14px; border-radius: 6px; border: none;
-  background: #E07A00; color: white; font-family: inherit; font-size: 12px;
-  cursor: pointer; font-weight: 500;
-}
+/* HEADER */
+.header{background:var(--green);color:white;padding:0 20px;display:flex;align-items:center;gap:12px;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.header-title{font-size:15px;font-weight:600;}
+.header-sub{font-size:11px;opacity:.7;}
+.header-nav{margin-left:auto;display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.nav-btn{padding:6px 12px;border-radius:20px;border:none;background:rgba(255,255,255,.15);color:white;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s;white-space:nowrap;}
+.nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.3);}
+.trainer-info{font-size:11px;opacity:.7;margin-left:4px;}
 
-/* ── HEADER ── */
-.header {
-  background: var(--green); color: white; padding: 0 20px;
-  display: flex; align-items: center; gap: 12px; height: 56px;
-  position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,.2);
-}
-.header-icon { font-size: 22px; }
-.header-title { font-size: 15px; font-weight: 600; }
-.header-sub { font-size: 11px; opacity: .7; }
-.header-nav { margin-left: auto; display: flex; gap: 4px; }
-.nav-btn {
-  padding: 6px 12px; border-radius: 20px; border: none;
-  background: rgba(255,255,255,.15); color: white;
-  font-size: 12px; font-family: inherit; cursor: pointer; transition: background .15s;
-}
-.nav-btn:hover, .nav-btn.active { background: rgba(255,255,255,.3); }
-.trainer-badge {
-  font-size: 11px; background: rgba(255,255,255,.2);
-  padding: 3px 8px; border-radius: 20px; margin-left: 8px;
-}
+/* SEASON DROPDOWN BAR */
+.season-bar{background:white;border-bottom:1px solid var(--g2);padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.season-select{padding:7px 12px;border-radius:8px;border:1px solid var(--g3);font-family:inherit;font-size:13px;font-weight:500;background:white;color:var(--g9);cursor:pointer;outline:none;min-width:180px;}
+.season-select:focus{border-color:var(--green);}
+.season-label{font-size:12px;color:var(--g5);}
 
-/* ── LOGIN ── */
-#loginScreen {
-  display: flex; align-items: center; justify-content: center;
-  min-height: calc(100vh - 56px); padding: 20px;
-}
-.login-card {
-  background: white; border-radius: 16px; padding: 36px;
-  box-shadow: var(--sh2); width: 100%; max-width: 380px;
-}
-.login-logo { text-align: center; font-size: 40px; margin-bottom: 8px; }
-.login-title { text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-.login-sub { text-align: center; font-size: 13px; color: var(--g5); margin-bottom: 28px; }
-.form-group { margin-bottom: 16px; }
-.form-label { font-size: 12px; font-weight: 500; color: var(--g7); margin-bottom: 5px; display: block; }
-.form-input {
-  width: 100%; padding: 10px 12px; border-radius: 8px;
-  border: 1px solid var(--g3); font-family: inherit; font-size: 14px; outline: none;
-  transition: border-color .15s;
-}
-.form-input:focus { border-color: var(--green); }
-.btn-primary {
-  width: 100%; padding: 11px; border-radius: 8px; border: none;
-  background: var(--green); color: white; font-family: inherit;
-  font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity .15s;
-}
-.btn-primary:hover { opacity: .9; }
-.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
-.err-msg { color: var(--red); font-size: 12px; margin-top: 8px; text-align: center; }
+/* LOGIN */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:20px;}
+.login-card{background:white;border-radius:16px;padding:36px;box-shadow:var(--sh2);width:100%;max-width:380px;}
+.login-logo{text-align:center;font-size:40px;margin-bottom:8px;}
+.login-title{text-align:center;font-size:20px;font-weight:600;margin-bottom:4px;}
+.login-sub{text-align:center;font-size:13px;color:var(--g5);margin-bottom:28px;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:12px;font-weight:500;color:var(--g7);margin-bottom:5px;display:block;}
+.form-input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--g3);font-family:inherit;font-size:14px;outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:var(--green);}
+.btn-primary{width:100%;padding:11px;border-radius:8px;border:none;background:var(--green);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+.err-msg{color:var(--red);font-size:12px;margin-top:8px;text-align:center;}
 
-/* ── SEASON TABS ── */
-.season-bar {
-  background: white; border-bottom: 1px solid var(--g2);
-  padding: 0 20px; display: flex; gap: 0; overflow-x: auto;
-}
-.season-tab {
-  padding: 13px 18px; border: none; background: none;
-  font-family: inherit; font-size: 13px; font-weight: 500;
-  color: var(--g5); cursor: pointer; border-bottom: 3px solid transparent;
-  white-space: nowrap; transition: color .15s, border-color .15s;
-}
-.season-tab:hover { color: var(--g7); }
-.season-tab.active { color: var(--green); border-bottom-color: var(--green); }
+/* CONTENT */
+.content{padding:20px;max-width:1100px;margin:0 auto;}
+.view{display:none;}.view.active{display:block;}
 
-/* ── CONTENT ── */
-.content { padding: 20px; max-width: 1100px; margin: 0 auto; }
-.view { display: none; }
-.view.active { display: block; }
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:white;border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);}
+.stat-label{font-size:11px;color:var(--g5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
+.stat-value{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;}
+.stat-sub{font-size:11px;color:var(--g5);margin-top:2px;}
 
-/* ── STATS ── */
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-.stat-card { background: white; border-radius: var(--r); padding: 16px 18px; box-shadow: var(--sh); }
-.stat-label { font-size: 11px; color: var(--g5); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
-.stat-value { font-size: 26px; font-weight: 600; font-family: 'DM Mono', monospace; }
-.stat-sub { font-size: 11px; color: var(--g5); margin-top: 2px; }
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
+.search-input{flex:1;min-width:150px;padding:8px 12px;border-radius:8px;border:1px solid var(--g2);font-family:inherit;font-size:13px;outline:none;}
+.search-input:focus{border-color:var(--green);}
+.filt-btn{padding:7px 12px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;color:var(--g7);white-space:nowrap;}
+.filt-btn.active{background:var(--green-pale);border-color:var(--green);color:var(--green);font-weight:500;}
+.add-btn{padding:7px 14px;border-radius:8px;border:none;background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;}
+.add-btn.amber{background:var(--amber);}
+.add-btn.gray{background:var(--g7);}
 
-/* ── TABLE ── */
-.toolbar { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; flex-wrap: wrap; }
-.search-input {
-  flex: 1; min-width: 160px; padding: 8px 12px; border-radius: 8px;
-  border: 1px solid var(--g2); font-family: inherit; font-size: 13px; outline: none;
-}
-.search-input:focus { border-color: var(--green); }
-.filt-btn {
-  padding: 7px 12px; border-radius: 8px; border: 1px solid var(--g2);
-  background: white; font-family: inherit; font-size: 12px; cursor: pointer; color: var(--g7);
-}
-.filt-btn.active { background: var(--green-pale); border-color: var(--green); color: var(--green); font-weight: 500; }
-.add-btn {
-  padding: 7px 14px; border-radius: 8px; border: none;
-  background: var(--green); color: white; font-family: inherit;
-  font-size: 12px; font-weight: 500; cursor: pointer; margin-left: auto;
-}
-.table-wrap { background: white; border-radius: var(--r); box-shadow: var(--sh); overflow: hidden; margin-bottom: 20px; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-thead tr { background: var(--g0); border-bottom: 1px solid var(--g2); }
-th { padding: 9px 12px; text-align: left; font-size: 11px; font-weight: 600; color: var(--g5); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
-th:hover { color: var(--g7); }
-tbody tr { border-bottom: 1px solid var(--g1); cursor: pointer; transition: background .1s; }
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: var(--g0); }
-td { padding: 10px 12px; vertical-align: middle; }
-.pname { font-weight: 500; }
-.pct-bar { display: flex; align-items: center; gap: 6px; }
-.bar-track { flex: 1; height: 5px; background: var(--g2); border-radius: 3px; overflow: hidden; max-width: 70px; }
-.bar-fill { height: 100%; border-radius: 3px; }
-.bg { background: var(--green-l); } .ba { background: var(--amber); } .br { background: var(--red); }
-.pct-val { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--g7); min-width: 34px; }
+/* TABLE */
+.table-wrap{background:white;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:20px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--g0);border-bottom:1px solid var(--g2);}
+th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
+th:hover{color:var(--g7);}
+tbody tr{border-bottom:1px solid var(--g1);cursor:pointer;transition:background .1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:var(--g0);}
+td{padding:10px 12px;vertical-align:middle;}
+.pname{font-weight:500;}
+.pct-bar{display:flex;align-items:center;gap:6px;}
+.bar-track{flex:1;height:5px;background:var(--g2);border-radius:3px;overflow:hidden;max-width:70px;}
+.bar-fill{height:100%;border-radius:3px;}
+.bg{background:var(--green-l);}.ba{background:var(--amber);}.br{background:var(--red);}
+.pct-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--g7);min-width:34px;}
 
-/* ── MODAL ── */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,.45);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 200; padding: 16px;
-}
-.modal-overlay.hidden { display: none; }
-.modal {
-  background: white; border-radius: 14px; padding: 28px;
-  width: 100%; max-width: 520px; box-shadow: var(--sh2); max-height: 90vh; overflow-y: auto;
-}
-.modal-title { font-size: 17px; font-weight: 600; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--g5); padding: 0 4px; }
-.modal-close:hover { color: var(--g9); }
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;}
+.badge-green{background:var(--green-pale);color:var(--green);}
+.badge-amber{background:var(--amber-pale);color:var(--amber);}
+.badge-red{background:var(--red-pale);color:var(--red);}
 
-/* ── FORM ELEMENTS ── */
-.field { margin-bottom: 16px; }
-.field label { font-size: 12px; font-weight: 500; color: var(--g7); margin-bottom: 5px; display: block; }
-.field input, .field select {
-  width: 100%; padding: 9px 11px; border-radius: 8px;
-  border: 1px solid var(--g3); font-family: inherit; font-size: 13px; outline: none;
-}
-.field input:focus, .field select:focus { border-color: var(--green); }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;}
+.modal-overlay.hidden{display:none;}
+.modal{background:white;border-radius:14px;padding:28px;width:100%;max-width:560px;box-shadow:var(--sh2);max-height:92vh;overflow-y:auto;}
+.modal-title{font-size:17px;font-weight:600;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--g5);line-height:1;}
+.modal-close:hover{color:var(--g9);}
+.field{margin-bottom:16px;}
+.field label{font-size:12px;font-weight:500;color:var(--g7);margin-bottom:5px;display:block;}
+.field input,.field select{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--g3);font-family:inherit;font-size:13px;outline:none;}
+.field input:focus,.field select:focus{border-color:var(--green);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.save-bar{display:flex;gap:10px;margin-top:20px;}
+.btn-save{flex:1;padding:11px;border-radius:8px;border:none;background:var(--green);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;}
+.btn-cancel{padding:11px 20px;border-radius:8px;border:1px solid var(--g3);background:white;font-family:inherit;font-size:14px;cursor:pointer;color:var(--g7);}
 
-/* ── ATTENDANCE INPUT ── */
-.att-grid { display: flex; flex-direction: column; gap: 6px; max-height: 360px; overflow-y: auto; padding: 2px; }
-.att-row {
-  display: flex; align-items: center; gap: 10px; padding: 8px 10px;
-  background: var(--g0); border-radius: 8px;
-}
-.att-name { flex: 1; font-size: 13px; font-weight: 500; }
-.att-btns { display: flex; gap: 6px; }
-.att-btn {
-  padding: 5px 11px; border-radius: 6px; border: 1px solid var(--g3);
-  font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit;
-  transition: all .12s; background: white; color: var(--g7);
-}
-.att-btn.ja { background: var(--green-pale); border-color: var(--green); color: var(--green); }
-.att-btn.nein { background: var(--red-pale); border-color: #FFCDD2; color: var(--red); }
-.att-btn.na { background: var(--g2); border-color: var(--g3); color: var(--g5); }
-.save-bar { display: flex; gap: 10px; margin-top: 20px; }
-.btn-save {
-  flex: 1; padding: 11px; border-radius: 8px; border: none;
-  background: var(--green); color: white; font-family: inherit;
-  font-size: 14px; font-weight: 500; cursor: pointer;
-}
-.btn-cancel {
-  padding: 11px 20px; border-radius: 8px; border: 1px solid var(--g3);
-  background: white; font-family: inherit; font-size: 14px; cursor: pointer; color: var(--g7);
-}
+/* ATTENDANCE INPUT */
+.att-header{display:flex;gap:8px;margin-bottom:8px;padding:0 10px;}
+.att-header-name{flex:1;font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;}
+.att-header-col{font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;width:90px;text-align:center;}
+.att-grid{display:flex;flex-direction:column;gap:5px;max-height:400px;overflow-y:auto;padding:2px;}
+.att-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--g0);border-radius:8px;}
+.att-name{flex:1;font-size:13px;font-weight:500;}
+.att-stat-inputs{display:flex;gap:6px;align-items:center;}
+.att-stat-input{width:46px;padding:4px 6px;border-radius:6px;border:1px solid var(--g3);font-size:12px;text-align:center;font-family:'DM Mono',monospace;}
+.att-stat-label{font-size:10px;color:var(--g5);text-align:center;}
+.att-btns{display:flex;gap:5px;}
+.att-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--g3);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;background:white;color:var(--g7);transition:all .12s;white-space:nowrap;}
+.att-btn.anwesend{background:var(--green-pale);border-color:var(--green);color:var(--green);}
+.att-btn.abwesend{background:var(--red-pale);border-color:#FFCDD2;color:var(--red);}
+.att-btn.na{background:var(--g2);border-color:var(--g3);color:var(--g5);}
 
-/* ── PLAYER DETAIL ── */
-.back-btn {
-  display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px;
-  border-radius: 8px; border: 1px solid var(--g2); background: white;
-  font-family: inherit; font-size: 13px; cursor: pointer; margin-bottom: 18px; color: var(--g7);
-}
-.back-btn:hover { background: var(--g0); }
-.player-header {
-  background: white; border-radius: var(--r); padding: 22px; margin-bottom: 14px;
-  display: flex; align-items: center; gap: 16px; box-shadow: var(--sh);
-}
-.player-avatar {
-  width: 50px; height: 50px; border-radius: 50%;
-  background: var(--green-pale); color: var(--green);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; font-weight: 600; flex-shrink: 0;
-}
-.season-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-.sc { background: white; border-radius: var(--r); padding: 16px; box-shadow: var(--sh); }
-.sc-title { font-size: 11px; font-weight: 600; color: var(--g5); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 10px; }
-.big-num { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; }
+/* PLAYER DETAIL */
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:13px;cursor:pointer;margin-bottom:18px;color:var(--g7);}
+.back-btn:hover{background:var(--g0);}
+.player-header{background:white;border-radius:var(--r);padding:22px;margin-bottom:14px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh);}
+.player-avatar{width:50px;height:50px;border-radius:50%;background:var(--green-pale);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;flex-shrink:0;}
+.season-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.sc{background:white;border-radius:var(--r);padding:16px;box-shadow:var(--sh);}
+.sc-title{font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
+.big-num{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;}
 
-/* ── DASHBOARD ── */
-.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.dash-card { background: white; border-radius: var(--r); padding: 18px; box-shadow: var(--sh); }
-.dash-title { font-size: 13px; font-weight: 600; color: var(--g7); margin-bottom: 14px; }
-.rank-item { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--g1); }
-.rank-item:last-child { border-bottom: none; }
-.rn { font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace; color: var(--g5); width: 18px; }
-.rname { flex: 1; font-size: 13px; font-weight: 500; }
-.rval { font-size: 13px; font-family: 'DM Mono', monospace; font-weight: 600; color: var(--green); }
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.dash-card{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);}
+.dash-title{font-size:13px;font-weight:600;color:var(--g7);margin-bottom:14px;}
+.rank-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--g1);}
+.rank-item:last-child{border-bottom:none;}
+.rn{font-size:11px;font-weight:600;font-family:'DM Mono',monospace;color:var(--g5);width:18px;}
+.rname{flex:1;font-size:13px;font-weight:500;}
+.rval{font-size:13px;font-family:'DM Mono',monospace;font-weight:600;color:var(--green);}
 
-/* ── LOADING ── */
-.spinner { text-align: center; padding: 40px; color: var(--g5); font-size: 13px; }
-.spinner::before { content: '⟳'; display: block; font-size: 24px; animation: spin 1s linear infinite; margin-bottom: 8px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.toast {
-  position: fixed; bottom: 24px; right: 24px; z-index: 300;
-  background: var(--g9); color: white; padding: 10px 18px;
-  border-radius: 8px; font-size: 13px; font-weight: 500;
-  animation: fadeIn .2s; box-shadow: var(--sh2);
-}
-.toast.success { background: var(--green); }
-.toast.error { background: var(--red); }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } }
+/* PARENT VIEW */
+.parent-hero{background:var(--green);color:white;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--sh2);}
+.parent-hero h2{font-size:22px;font-weight:600;margin-bottom:4px;}
+.parent-hero p{font-size:13px;opacity:.8;}
+.parent-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
+.parent-card{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);text-align:center;}
+.parent-card .big{font-size:32px;font-weight:600;font-family:'DM Mono',monospace;}
+.parent-card .lbl{font-size:12px;color:var(--g5);margin-top:4px;}
+.top-list{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);margin-bottom:14px;}
+.top-list-title{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.medal{font-size:16px;}
 
-/* ── RESPONSIVE ── */
-@media (max-width: 700px) {
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .season-cards { grid-template-columns: 1fr; }
-  .dash-grid { grid-template-columns: 1fr; }
-  .header-nav .nav-btn:not(.active) { display: none; }
-  .content { padding: 12px; }
-  #configBanner input { width: 200px; }
+/* LOADING */
+.spinner{text-align:center;padding:40px;color:var(--g5);font-size:13px;}
+.toast{position:fixed;bottom:24px;right:24px;z-index:300;background:var(--g9);color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;animation:fadeIn .2s;box-shadow:var(--sh2);}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--red);}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .season-cards{grid-template-columns:1fr;}
+  .dash-grid{grid-template-columns:1fr;}
+  .parent-grid{grid-template-columns:1fr 1fr;}
+  .content{padding:12px;}
+  .row2,.row3{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<!-- CONFIG BANNER -->
-<div id="configBanner" style="display:none;">
-  <strong>⚙️ Supabase verbinden:</strong>
-  <div style="display:flex;flex-direction:column;gap:4px;">
-    <label style="font-size:11px;font-weight:600;">Project URL</label>
-    <input id="cfgUrl" type="url" placeholder="https://abcdefgh.supabase.co" autocomplete="off" spellcheck="false">
-  </div>
-  <div style="display:flex;flex-direction:column;gap:4px;">
-    <label style="font-size:11px;font-weight:600;">Anon Key (eyJ…)</label>
-    <input id="cfgKey" type="text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" spellcheck="false">
-  </div>
-  <button onclick="saveConfig()">Verbinden</button>
-  <span id="cfgStatus" style="font-size:11px;"></span>
-</div>
-
 <!-- HEADER -->
 <div class="header">
-  <div class="header-icon">⚽</div>
+  <div>⚽</div>
   <div>
     <div class="header-title">SG Achslach-Gotteszell</div>
     <div class="header-sub">Jugendabteilung</div>
   </div>
-  <nav class="header-nav" id="mainNav" style="display:none;">
-    <button class="nav-btn active" onclick="showView('saison')">Saison</button>
+  <nav class="header-nav" id="trainerNav" style="display:none;">
+    <button class="nav-btn active" onclick="showView('saison')">Übersicht</button>
     <button class="nav-btn" onclick="showView('eingabe')">Eingabe</button>
-    <button class="nav-btn" onclick="showView('dashboard')">Auswertung</button>
-    <span class="trainer-badge" id="trainerName"></span>
-    <button class="nav-btn" onclick="logout()" style="background:rgba(255,255,255,.1);">Abmelden</button>
+    <button class="nav-btn" onclick="showView('auswertung')">Auswertung</button>
+    <button class="nav-btn" onclick="showView('eltern')" style="background:rgba(255,255,255,.1);">👨‍👩‍👦 Eltern</button>
+    <span class="trainer-info" id="trainerName"></span>
+    <button class="nav-btn" onclick="logout()" style="background:rgba(255,255,255,.08);">Abmelden</button>
+  </nav>
+  <nav class="header-nav" id="parentNav" style="display:none;">
+    <button class="nav-btn active" onclick="showParentView()">Übersicht</button>
+    <button class="nav-btn" onclick="showView('login'); document.getElementById('parentNav').style.display='none';">← Trainer-Login</button>
   </nav>
 </div>
 
 <!-- SEASON BAR -->
-<div class="season-bar" id="seasonBar" style="display:none;"></div>
+<div class="season-bar" id="seasonBar" style="display:none;">
+  <span class="season-label">Saison:</span>
+  <select class="season-select" id="seasonSelect" onchange="selectSeasonByDropdown()"></select>
+  <span id="seasonMeta" style="font-size:12px;color:var(--g5);"></span>
+</div>
 
 <!-- LOGIN -->
 <div id="loginScreen">
@@ -309,6 +220,9 @@ td { padding: 10px 12px; vertical-align: middle; }
     </div>
     <button class="btn-primary" id="loginBtn" onclick="doLogin()">Einloggen</button>
     <div class="err-msg" id="loginErr"></div>
+    <div style="text-align:center;margin-top:16px;">
+      <button onclick="showParentView()" style="background:none;border:none;font-size:13px;color:var(--g5);cursor:pointer;font-family:inherit;">👨‍👩‍👦 Eltern-Ansicht öffnen</button>
+    </div>
   </div>
 </div>
 
@@ -321,7 +235,7 @@ td { padding: 10px 12px; vertical-align: middle; }
     <div id="saisonPlayerList">
       <div id="statsGrid" class="stats-grid"></div>
       <div class="toolbar">
-        <input class="search-input" type="text" placeholder="Spieler suchen…" oninput="filterPlayers()">
+        <input class="search-input" type="text" placeholder="Spieler suchen…" oninput="renderPlayerTable()">
         <button class="filt-btn active" id="fa" onclick="setFilt('all')">Alle</button>
         <button class="filt-btn" id="ft" onclick="setFilt('training')">Training</button>
         <button class="filt-btn" id="fs" onclick="setFilt('spiel')">Spiele</button>
@@ -336,97 +250,69 @@ td { padding: 10px 12px; vertical-align: middle; }
     <div id="eingabeContent"></div>
   </div>
 
-  <!-- DASHBOARD VIEW -->
-  <div class="view" id="view-dashboard">
-    <div id="dashContent"></div>
+  <!-- AUSWERTUNG VIEW -->
+  <div class="view" id="view-auswertung">
+    <div id="auswertungContent"></div>
+  </div>
+
+  <!-- ELTERN VIEW -->
+  <div class="view" id="view-eltern">
+    <div id="elternContent"></div>
   </div>
 
 </div>
 </div>
 
-<!-- MODALS -->
+<!-- MODAL -->
 <div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal" id="modalBox"></div>
 </div>
-
-<!-- TOAST -->
 <div id="toastEl" style="display:none;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ═══════════════════════════════════════════════════════
-// CONFIG & SUPABASE INIT
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════
+const SUPABASE_URL = 'https://niorgrizesaoeclvdtiy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
 let sb = null;
 let currentUser = null;
 let seasons = [];
 let currentSeason = null;
 let filt = 'all';
+const pendingAtt = {};
 
-function saveConfig() {
-  let url = document.getElementById('cfgUrl').value.trim();
-  const key = document.getElementById('cfgKey').value.trim();
-  const status = document.getElementById('cfgStatus');
-
-  if (!url || !key) { status.textContent = '⚠ Bitte beide Felder ausfüllen'; return; }
-
-  // Auto-fix common mistakes
-  url = url.replace(/\s+/g, '');           // remove all spaces
-  url = url.replace(/\/+$/, '');           // remove trailing slashes
-  if (!url.startsWith('http')) url = 'https://' + url;
-
-  // Validate
-  try { new URL(url); } catch(e) {
-    status.textContent = '✗ URL ungültig – Beispiel: https://xyz.supabase.co';
-    return;
-  }
-  if (!url.includes('supabase.co') && !url.includes('supabase.com')) {
-    status.textContent = '⚠ Sieht nicht wie eine Supabase-URL aus – trotzdem versuchen…';
-  }
-
-  document.getElementById('cfgUrl').value = url; // show cleaned value
-  localStorage.setItem('sb_url', url);
-  localStorage.setItem('sb_key', key);
-  initSupabase(url, key);
-}
-
-function initSupabase(url, key) {
-  try {
-    sb = window.supabase.createClient(url, key);
-    checkSession();
-  } catch(e) {
-    document.getElementById('cfgStatus').textContent = '✗ Fehler: ' + e.message;
-    localStorage.removeItem('sb_url');
-    localStorage.removeItem('sb_key');
-  }
-}
-
-// Pre-configured – kein Setup nötig
-const SUPABASE_URL = 'https://niorgrizesaoeclvdtiy.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
-
-document.addEventListener('DOMContentLoaded', function() {
-  initSupabase(SUPABASE_URL, SUPABASE_KEY);
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  checkSession();
 });
 
-// ═══════════════════════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════════════════════
 async function checkSession() {
-  if (!sb) return;
   const { data: { session } } = await sb.auth.getSession();
   if (session) { currentUser = session.user; showApp(); }
 }
 
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
 async function doLogin() {
-  if (!sb) { showToast('Bitte zuerst Supabase konfigurieren', 'error'); return; }
-  const email = document.getElementById('loginEmail').value;
+  const email = document.getElementById('loginEmail').value.trim();
   const pw = document.getElementById('loginPw').value;
   const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginErr');
+  err.textContent = '';
   btn.disabled = true; btn.textContent = 'Einloggen…';
   const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
   btn.disabled = false; btn.textContent = 'Einloggen';
-  if (error) { document.getElementById('loginErr').textContent = 'Falsche E-Mail oder Passwort'; return; }
+  if (error) { err.textContent = 'Falsche E-Mail oder Passwort'; return; }
   currentUser = data.user;
   showApp();
 }
@@ -436,280 +322,293 @@ async function logout() {
   currentUser = null;
   document.getElementById('appScreen').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('mainNav').style.display = 'none';
+  document.getElementById('trainerNav').style.display = 'none';
   document.getElementById('seasonBar').style.display = 'none';
 }
 
 function showApp() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'block';
-  document.getElementById('mainNav').style.display = 'flex';
+  document.getElementById('trainerNav').style.display = 'flex';
   document.getElementById('trainerName').textContent = currentUser.email.split('@')[0];
   loadSeasons();
 }
 
-// ═══════════════════════════════════════════════════════
-// DATA LOADING
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// SEASONS
+// ═══════════════════════════════════════
 async function loadSeasons() {
-  if (!sb) return;
   const { data, error } = await sb.from('seasons').select('*').order('saison');
-  if (error) { showToast('Fehler beim Laden der Saisons', 'error'); return; }
-
-  // If no data yet, offer to import
-  if (!data || data.length === 0) {
-    showImportOption();
-    return;
-  }
-
-  seasons = data;
+  if (error) { showToast('Ladefehler: ' + error.message, 'error'); return; }
+  seasons = data || [];
+  if (seasons.length === 0) { showEmptyState(); return; }
   currentSeason = seasons[seasons.length - 1];
-  buildSeasonTabs();
-  loadSeasonData();
+  buildSeasonDropdown();
+  await loadSeasonData();
 }
 
-function showImportOption() {
-  document.getElementById('statsGrid').innerHTML = '';
-  document.getElementById('playerTableArea').innerHTML = `
-    <div style="background:white;border-radius:12px;padding:32px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.08);">
-      <div style="font-size:32px;margin-bottom:12px;">📁</div>
-      <div style="font-size:16px;font-weight:600;margin-bottom:8px;">Keine Daten vorhanden</div>
-      <div style="font-size:13px;color:#ADB5BD;margin-bottom:20px;">Importiere die bestehenden Daten aus der Excel-Datei oder lege eine neue Saison an.</div>
-      <button onclick="showModal('import')" style="padding:10px 22px;border-radius:8px;border:none;background:#2D6A4F;color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;margin-right:8px;">📥 Historische Daten importieren</button>
-      <button onclick="showModal('newSeason')" style="padding:10px 22px;border-radius:8px;border:1px solid #DEE2E6;background:white;font-family:inherit;font-size:13px;cursor:pointer;">+ Neue Saison</button>
-    </div>`;
+function buildSeasonDropdown() {
+  const sel = document.getElementById('seasonSelect');
+  sel.innerHTML = seasons.map(s =>
+    `<option value="${s.id}" ${s.id === currentSeason?.id ? 'selected' : ''}>${s.team} ${s.saison}</option>`
+  ).join('');
+  document.getElementById('seasonBar').style.display = 'flex';
+}
+
+async function selectSeasonByDropdown() {
+  const id = document.getElementById('seasonSelect').value;
+  currentSeason = seasons.find(s => s.id === id);
+  await loadSeasonData();
 }
 
 async function loadSeasonData() {
   if (!currentSeason) return;
   document.getElementById('playerTableArea').innerHTML = '<div class="spinner"></div>';
 
-  const [playersRes, eventsRes] = await Promise.all([
+  const [plRes, evRes] = await Promise.all([
     sb.from('players').select('*').eq('season_id', currentSeason.id).order('name'),
     sb.from('events').select('*').eq('season_id', currentSeason.id).order('date')
   ]);
-
-  if (playersRes.error || eventsRes.error) { showToast('Ladefehler', 'error'); return; }
-
-  currentSeason._players = playersRes.data || [];
-  currentSeason._events = eventsRes.data || [];
+  currentSeason._players = plRes.data || [];
+  currentSeason._events = evRes.data || [];
 
   if (currentSeason._players.length > 0 && currentSeason._events.length > 0) {
-    const attRes = await sb.from('attendance')
-      .select('*, players(name)')
-      .in('player_id', currentSeason._players.map(p => p.id));
+    const [attRes, goalsRes] = await Promise.all([
+      sb.from('attendance').select('*').in('player_id', currentSeason._players.map(p => p.id)),
+      sb.from('goals').select('*').in('player_id', currentSeason._players.map(p => p.id))
+    ]);
     currentSeason._attendance = attRes.data || [];
+    currentSeason._goals = goalsRes.data || [];
   } else {
     currentSeason._attendance = [];
+    currentSeason._goals = [];
   }
 
+  updateSeasonMeta();
   renderStats();
   renderPlayerTable();
   renderEingabe();
-  renderDashboard();
+  renderAuswertung();
+  renderEltern();
 }
 
-// ═══════════════════════════════════════════════════════
-// UI: SEASON TABS
-// ═══════════════════════════════════════════════════════
-function buildSeasonTabs() {
-  const bar = document.getElementById('seasonBar');
-  bar.style.display = '';
-  bar.innerHTML = seasons.map((s, i) =>
-    `<button class="season-tab ${s.id === currentSeason?.id ? 'active' : ''}" onclick="selectSeason('${s.id}')">${s.team} ${s.saison}</button>`
-  ).join('') + `<button class="season-tab" onclick="showModal('newSeason')" style="color:var(--green);font-weight:600;">+ Saison</button>`;
+function updateSeasonMeta() {
+  const s = currentSeason;
+  const tr = (s._events||[]).filter(e=>e.type==='Training').length;
+  const sp = (s._events||[]).filter(e=>e.type!=='Training').length;
+  document.getElementById('seasonMeta').textContent = `${tr} Trainings · ${sp} Spiele · ${s._players?.length||0} Spieler`;
 }
 
-function selectSeason(id) {
-  currentSeason = seasons.find(s => s.id === id);
-  buildSeasonTabs();
-  loadSeasonData();
+function showEmptyState() {
+  document.getElementById('seasonBar').style.display = 'none';
+  document.getElementById('statsGrid').innerHTML = '';
+  document.getElementById('playerTableArea').innerHTML = `
+    <div style="background:white;border-radius:12px;padding:32px;text-align:center;box-shadow:var(--sh);">
+      <div style="font-size:32px;margin-bottom:12px;">📁</div>
+      <div style="font-size:16px;font-weight:600;margin-bottom:8px;">Noch keine Daten</div>
+      <div style="font-size:13px;color:var(--g5);margin-bottom:20px;">Lege eine neue Saison an oder importiere die historischen Daten.</div>
+      <button onclick="showModal('newSeason')" class="add-btn" style="margin-right:8px;padding:10px 20px;font-size:13px;">+ Neue Saison</button>
+      <button onclick="showModal('import')" class="add-btn gray" style="padding:10px 20px;font-size:13px;">📥 Historische Daten</button>
+    </div>`;
 }
 
-// ═══════════════════════════════════════════════════════
-// SAISON: STATS
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// STATS BAR
+// ═══════════════════════════════════════
 function renderStats() {
   const s = currentSeason;
-  const trainings = (s._events || []).filter(e => e.type === 'Training').length;
-  const spiele = (s._events || []).filter(e => e.type !== 'Training').length;
-  const players = s._players || [];
-  const att = s._attendance || [];
-
-  // avg training attendance
-  let avgAtt = 0;
-  if (trainings > 0 && players.length > 0) {
-    const tEvents = (s._events || []).filter(e => e.type === 'Training').map(e => e.id);
-    const perPlayer = players.map(p => {
-      const jaCount = att.filter(a => a.player_id === p.id && tEvents.includes(a.event_id) && a.status === 'ja').length;
-      return jaCount / trainings;
-    });
-    avgAtt = Math.round(perPlayer.reduce((a,b) => a+b, 0) / players.length * 100);
-  }
+  const tr = (s._events||[]).filter(e=>e.type==='Training').length;
+  const sp = (s._events||[]).filter(e=>e.type!=='Training').length;
+  const pl = s._players||[];
+  const att = s._attendance||[];
+  const tIds = (s._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
+  const avg = tr>0 && pl.length>0
+    ? Math.round(pl.reduce((a,p)=>a+att.filter(x=>x.player_id===p.id&&tIds.includes(x.event_id)&&x.status==='anwesend').length,0)/pl.length/tr*100)
+    : 0;
+  const goals = (s._goals||[]).reduce((a,g)=>a+g.goals,0);
 
   document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Spieler</div><div class="stat-value">${players.length}</div><div class="stat-sub">${s.team} ${s.saison}</div></div>
-    <div class="stat-card"><div class="stat-label">Trainings</div><div class="stat-value">${trainings}</div><div class="stat-sub">Einheiten</div></div>
-    <div class="stat-card"><div class="stat-label">Spiele</div><div class="stat-value">${spiele}</div><div class="stat-sub">inkl. Testspiele</div></div>
-    <div class="stat-card"><div class="stat-label">Ø Anwesenheit</div><div class="stat-value">${avgAtt || '–'}${avgAtt ? '%' : ''}</div><div class="stat-sub">Training</div></div>
-  `;
+    <div class="stat-card"><div class="stat-label">Spieler</div><div class="stat-value">${pl.length}</div><div class="stat-sub">${s.team} ${s.saison}</div></div>
+    <div class="stat-card"><div class="stat-label">Trainings</div><div class="stat-value">${tr}</div><div class="stat-sub">Einheiten</div></div>
+    <div class="stat-card"><div class="stat-label">Spiele</div><div class="stat-value">${sp}</div><div class="stat-sub">inkl. Testspiele</div></div>
+    <div class="stat-card"><div class="stat-label">Ø Anwesenheit</div><div class="stat-value">${avg||'–'}${avg?'%':''}</div><div class="stat-sub">Training · ${goals} Tore gesamt</div></div>`;
 }
 
-// ═══════════════════════════════════════════════════════
-// SAISON: PLAYER TABLE
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// PLAYER TABLE
+// ═══════════════════════════════════════
 function setFilt(f) {
   filt = f;
-  ['fa','ft','fs'].forEach(id => document.getElementById(id).classList.remove('active'));
-  document.getElementById(f === 'all' ? 'fa' : f === 'training' ? 'ft' : 'fs').classList.add('active');
+  ['fa','ft','fs'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById(f==='all'?'fa':f==='training'?'ft':'fs').classList.add('active');
   renderPlayerTable();
 }
 
-function filterPlayers() { renderPlayerTable(); }
-
 function renderPlayerTable() {
   const s = currentSeason;
-  const q = document.querySelector('#view-saison .search-input')?.value?.toLowerCase() || '';
-  const players = (s._players || []).filter(p => p.name.toLowerCase().includes(q));
-  const att = s._attendance || [];
-  const trainings = (s._events || []).filter(e => e.type === 'Training');
-  const spiele = (s._events || []).filter(e => e.type !== 'Training');
-  const tIds = trainings.map(e => e.id);
-  const sIds = spiele.map(e => e.id);
+  if (!s) return;
+  const q = document.querySelector('#view-saison .search-input')?.value?.toLowerCase()||'';
+  const players = (s._players||[]).filter(p=>p.name.toLowerCase().includes(q));
+  const att = s._attendance||[];
+  const goals = s._goals||[];
+  const trainings = (s._events||[]).filter(e=>e.type==='Training');
+  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
+  const tIds = trainings.map(e=>e.id);
+  const sIds = spiele.map(e=>e.id);
 
   const enriched = players.map(p => {
-    const tCount = att.filter(a => a.player_id === p.id && tIds.includes(a.event_id) && a.status === 'ja').length;
-    const sCount = att.filter(a => a.player_id === p.id && sIds.includes(a.event_id) && a.status === 'ja').length;
-    return { ...p, tCount, sCount };
-  }).sort((a,b) => b.tCount - a.tCount);
+    const tCount = att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length;
+    const sCount = att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length;
+    const g = goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.goals,0);
+    const as = goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.assists,0);
+    return {...p, tCount, sCount, goals:g, assists:as};
+  }).sort((a,b)=>b.tCount-a.tCount);
 
-  const showT = filt !== 'spiel';
-  const showS = filt !== 'training';
+  const showT = filt!=='spiel';
+  const showS = filt!=='training';
 
   let html = `<div class="table-wrap"><table><thead><tr>
     <th>Name</th>
-    ${showT ? `<th>Training</th><th>Quote</th>` : ''}
-    ${showS ? `<th>Spiele</th><th>Quote</th>` : ''}
+    ${showT?`<th>Training</th><th>Quote</th>`:''}
+    ${showS?`<th>Spiele</th><th>Tore</th><th>Assists</th>`:''}
     <th></th>
   </tr></thead><tbody>`;
 
   for (const p of enriched) {
-    const tp = trainings.length > 0 ? Math.round(p.tCount / trainings.length * 100) : 0;
-    const sp = spiele.length > 0 ? Math.round(p.sCount / spiele.length * 100) : 0;
-    const tc = tp >= 75 ? 'bg' : tp >= 50 ? 'ba' : 'br';
-    const sc = sp >= 75 ? 'bg' : sp >= 50 ? 'ba' : 'br';
+    const tp = trainings.length>0?Math.round(p.tCount/trainings.length*100):0;
+    const sp = spiele.length>0?Math.round(p.sCount/spiele.length*100):0;
+    const tc = tp>=75?'bg':tp>=50?'ba':'br';
     html += `<tr onclick="openPlayer('${p.id}')">
       <td class="pname">${p.name}</td>
-      ${showT ? `<td><b>${p.tCount}</b><span style="color:var(--g5)"> / ${trainings.length}</span></td>
-        <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${tc}" style="width:${tp}%"></div></div><span class="pct-val">${tp}%</span></div></td>` : ''}
-      ${showS ? `<td><b>${p.sCount}</b><span style="color:var(--g5)"> / ${spiele.length}</span></td>
-        <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${sc}" style="width:${sp}%"></div></div><span class="pct-val">${sp}%</span></div></td>` : ''}
-      <td style="text-align:right;"><span style="color:var(--g5);font-size:16px;">›</span></td>
+      ${showT?`<td><b>${p.tCount}</b><span style="color:var(--g5)"> /${trainings.length}</span></td>
+        <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${tc}" style="width:${tp}%"></div></div><span class="pct-val">${tp}%</span></div></td>`:''}
+      ${showS?`<td><b>${p.sCount}</b><span style="color:var(--g5)"> /${spiele.length}</span></td>
+        <td><b>${p.goals}</b> ⚽</td>
+        <td><b>${p.assists}</b> 🅰️</td>`:''}
+      <td style="text-align:right;color:var(--g5);">›</td>
     </tr>`;
   }
   html += '</tbody></table></div>';
-
-  html += `<div style="display:flex;gap:8px;margin-bottom:20px;">
-    <button onclick="showModal('addPlayer')" class="add-btn">+ Spieler hinzufügen</button>
-    <button onclick="showModal('addEvent')" class="add-btn" style="background:var(--amber);">+ Training / Spiel eintragen</button>
+  html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    <button onclick="showModal('addPlayer')" class="add-btn">+ Spieler</button>
+    <button onclick="showModal('addEvent')" class="add-btn amber">+ Training / Spiel</button>
+    <button onclick="showModal('newSeason')" class="add-btn gray">+ Neue Saison</button>
   </div>`;
 
   document.getElementById('playerTableArea').innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 // PLAYER DETAIL
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 function openPlayer(pid) {
   const s = currentSeason;
-  const player = s._players.find(p => p.id === pid);
+  const player = s._players.find(p=>p.id===pid);
   if (!player) return;
-
-  document.getElementById('saisonPlayerList').style.display = 'none';
+  document.getElementById('saisonPlayerList').style.display='none';
   const det = document.getElementById('playerDetailArea');
-  det.style.display = '';
+  det.style.display='';
 
-  const att = s._attendance || [];
-  const trainings = (s._events || []).filter(e => e.type === 'Training');
-  const spiele = (s._events || []).filter(e => e.type !== 'Training');
-  const tCount = att.filter(a => a.player_id === pid && trainings.map(e=>e.id).includes(a.event_id) && a.status === 'ja').length;
-  const sCount = att.filter(a => a.player_id === pid && spiele.map(e=>e.id).includes(a.event_id) && a.status === 'ja').length;
-  const tp = trainings.length > 0 ? Math.round(tCount / trainings.length * 100) : 0;
-  const sp = spiele.length > 0 ? Math.round(sCount / spiele.length * 100) : 0;
+  const att = s._attendance||[];
+  const goals = s._goals||[];
+  const trainings = (s._events||[]).filter(e=>e.type==='Training');
+  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
+  const tCount = att.filter(a=>a.player_id===pid&&trainings.map(e=>e.id).includes(a.event_id)&&a.status==='anwesend').length;
+  const sCount = att.filter(a=>a.player_id===pid&&spiele.map(e=>e.id).includes(a.event_id)&&a.status==='anwesend').length;
+  const totalGoals = goals.filter(x=>x.player_id===pid).reduce((a,x)=>a+x.goals,0);
+  const totalAssists = goals.filter(x=>x.player_id===pid).reduce((a,x)=>a+x.assists,0);
+  const tp = trainings.length>0?Math.round(tCount/trainings.length*100):0;
+  const sp = spiele.length>0?Math.round(sCount/spiele.length*100):0;
   const initials = player.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
 
   // Heatmap
-  const events = s._events || [];
-  const colors = { ja: '#52B788', nein: '#FFCDD2', na: '#E9ECEF' };
-  const heatmap = events.map(e => {
-    const a = att.find(a => a.player_id === pid && a.event_id === e.id);
-    const v = a ? a.status : 'na';
-    const border = e.type !== 'Training' ? '2px solid #E07A00' : '2px solid transparent';
-    return `<div title="${e.type} ${e.date}: ${v}" style="width:22px;height:22px;border-radius:4px;background:${colors[v]||'#E9ECEF'};border:${border};"></div>`;
+  const events = s._events||[];
+  const heatmap = events.map(e=>{
+    const a = att.find(a=>a.player_id===pid&&a.event_id===e.id);
+    const v = a?a.status:'na';
+    const col = v==='anwesend'?'#52B788':v==='abwesend'?'#FFCDD2':'#E9ECEF';
+    const border = e.type!=='Training'?'2px solid #E07A00':'2px solid transparent';
+    const d = new Date(e.date).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+    return `<div title="${e.type} ${d}: ${v}" style="width:22px;height:22px;border-radius:4px;background:${col};border:${border};"></div>`;
   }).join('');
 
   det.innerHTML = `
     <button class="back-btn" onclick="closePlayer()">← Übersicht</button>
     <div class="player-header">
       <div class="player-avatar">${initials}</div>
-      <div>
+      <div style="flex:1;">
         <div style="font-size:18px;font-weight:600;">${player.name}</div>
         <div style="font-size:12px;color:var(--g5);">${s.team} ${s.saison}</div>
       </div>
-      <button onclick="showModal('editPlayer','${pid}')" style="margin-left:auto;padding:7px 14px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;">Bearbeiten</button>
+      <button onclick="showModal('editPlayer','${pid}')" style="padding:7px 14px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;">Bearbeiten</button>
     </div>
     <div class="season-cards">
       <div class="sc"><div class="sc-title">Training</div>
-        <div class="big-num" style="color:var(--green)">${tCount}<span style="font-size:16px;color:var(--g5)"> / ${trainings.length}</span></div>
+        <div class="big-num" style="color:var(--green)">${tCount}<span style="font-size:16px;color:var(--g5)"> /${trainings.length}</span></div>
         <div class="pct-bar" style="margin-top:8px;"><div class="bar-track" style="max-width:100px;"><div class="bar-fill ${tp>=75?'bg':tp>=50?'ba':'br'}" style="width:${tp}%"></div></div><span class="pct-val">${tp}%</span></div>
       </div>
-      <div class="sc"><div class="sc-title">Spiele</div>
-        <div class="big-num" style="color:var(--amber)">${sCount}<span style="font-size:16px;color:var(--g5)"> / ${spiele.length}</span></div>
+      <div class="sc"><div class="sc-title">Spieleinsätze</div>
+        <div class="big-num" style="color:var(--amber)">${sCount}<span style="font-size:16px;color:var(--g5)"> /${spiele.length}</span></div>
         <div class="pct-bar" style="margin-top:8px;"><div class="bar-track" style="max-width:100px;"><div class="bar-fill ${sp>=75?'bg':sp>=50?'ba':'br'}" style="width:${sp}%"></div></div><span class="pct-val">${sp}%</span></div>
       </div>
-      <div class="sc"><div class="sc-title">Anwesenheits-Raster</div>
-        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;">${heatmap}</div>
-        <div style="font-size:10px;color:var(--g5);margin-top:6px;">Orange Rahmen = Spiel</div>
+      <div class="sc"><div class="sc-title">Tore & Assists</div>
+        <div style="display:flex;gap:16px;">
+          <div><div class="big-num" style="color:var(--green)">${totalGoals}</div><div style="font-size:11px;color:var(--g5);">Tore ⚽</div></div>
+          <div><div class="big-num" style="color:var(--blue)">${totalAssists}</div><div style="font-size:11px;color:var(--g5);">Assists 🅰️</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap" style="padding:18px;">
+      <div style="font-size:13px;font-weight:600;color:var(--g7);margin-bottom:12px;">Anwesenheits-Raster ${s.saison}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:3px;">${heatmap}</div>
+      <div style="display:flex;gap:14px;margin-top:10px;font-size:11px;color:var(--g5);">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#52B788;display:inline-block;"></span>Anwesend</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#FFCDD2;display:inline-block;"></span>Abwesend</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E9ECEF;display:inline-block;"></span>Keine Info</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;border:2px solid #E07A00;display:inline-block;"></span>Spiel</span>
       </div>
     </div>`;
 }
 
 function closePlayer() {
-  document.getElementById('saisonPlayerList').style.display = '';
-  document.getElementById('playerDetailArea').style.display = 'none';
+  document.getElementById('saisonPlayerList').style.display='';
+  document.getElementById('playerDetailArea').style.display='none';
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 // EINGABE VIEW
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 function renderEingabe() {
   const s = currentSeason;
-  const events = (s._events || []).slice().reverse().slice(0,10);
+  if (!s) return;
+  const events = [...(s._events||[])].reverse().slice(0,15);
 
-  let html = `<div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+  let html = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
     <button onclick="showModal('addEvent')" class="add-btn" style="font-size:13px;padding:10px 18px;">+ Training / Spiel anlegen</button>
     <button onclick="showModal('addPlayer')" class="add-btn" style="font-size:13px;padding:10px 18px;background:var(--blue);">+ Spieler hinzufügen</button>
-    <button onclick="showModal('newSeason')" class="add-btn" style="font-size:13px;padding:10px 18px;background:var(--g7);">+ Neue Saison</button>
+    <button onclick="showModal('newSeason')" class="add-btn gray" style="font-size:13px;padding:10px 18px;">+ Neue Saison</button>
   </div>
-  <div style="font-size:13px;font-weight:600;color:var(--g7);margin-bottom:10px;">Letzte Einträge</div>
+  <div style="font-size:13px;font-weight:600;color:var(--g7);margin-bottom:10px;">Einträge – ${s.team} ${s.saison}</div>
   <div class="table-wrap"><table><thead><tr>
-    <th>Datum</th><th>Typ</th><th>Anwesenheit erfasst</th><th></th>
+    <th>Datum</th><th>Typ</th><th>Anwesenheit</th><th>Tore / Assists</th><th></th>
   </tr></thead><tbody>`;
 
-  if (events.length === 0) {
-    html += `<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--g5);">Noch keine Einträge – lege ein Training oder Spiel an.</td></tr>`;
+  if (events.length===0) {
+    html += `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--g5);">Noch keine Einträge.</td></tr>`;
   }
-
   for (const e of events) {
-    const attCount = (s._attendance || []).filter(a => a.event_id === e.id && a.status === 'ja').length;
-    const date = new Date(e.date).toLocaleDateString('de-DE', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' });
-    const typeColor = e.type === 'Training' ? 'var(--green)' : 'var(--amber)';
+    const attCount = (s._attendance||[]).filter(a=>a.event_id===e.id&&a.status==='anwesend').length;
+    const goalsCount = (s._goals||[]).filter(g=>g.event_id===e.id).reduce((a,g)=>a+g.goals,0);
+    const assistsCount = (s._goals||[]).filter(g=>g.event_id===e.id).reduce((a,g)=>a+g.assists,0);
+    const date = new Date(e.date).toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'});
+    const isSpiel = e.type!=='Training';
     html += `<tr>
       <td><b>${date}</b></td>
-      <td><span style="font-weight:500;color:${typeColor}">${e.type}</span></td>
-      <td>${attCount > 0 ? `<span style="color:var(--green);font-weight:500;">${attCount} Spieler ✓</span>` : '<span style="color:var(--g5);">Noch nicht erfasst</span>'}</td>
-      <td><button onclick="showModal('attendance','${e.id}')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;">
-        ${attCount > 0 ? 'Bearbeiten' : 'Anwesenheit'}
+      <td><span style="font-weight:500;color:${isSpiel?'var(--amber)':'var(--green)'}">${e.type}</span></td>
+      <td>${attCount>0?`<span style="color:var(--green);font-weight:500;">${attCount} anwesend</span>`:'<span style="color:var(--g5);">Nicht erfasst</span>'}</td>
+      <td>${isSpiel?(goalsCount>0||assistsCount>0?`${goalsCount} ⚽ · ${assistsCount} 🅰️`:'<span style="color:var(--g5);">–</span>'):'<span style="color:var(--g5);">–</span>'}</td>
+      <td><button onclick="showModal('attendance','${e.id}')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;white-space:nowrap;">
+        ${attCount>0?'Bearbeiten':'Erfassen'}
       </button></td>
     </tr>`;
   }
@@ -717,151 +616,300 @@ function renderEingabe() {
   document.getElementById('eingabeContent').innerHTML = html;
 }
 
-// ═══════════════════════════════════════════════════════
-// DASHBOARD
-// ═══════════════════════════════════════════════════════
-function renderDashboard() {
-  const allSeasonData = seasons.map(s => {
-    const tr = (s._events || []).filter(e => e.type === 'Training').length;
-    const sp = (s._events || []).filter(e => e.type !== 'Training').length;
-    const pl = s._players || [];
-    const att = s._attendance || [];
-    const tIds = (s._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
-    const avg = tr > 0 && pl.length > 0
-      ? Math.round(pl.reduce((a,p) => a + att.filter(x=>x.player_id===p.id&&tIds.includes(x.event_id)&&x.status==='ja').length, 0) / pl.length / tr * 100)
-      : null;
-    return { ...s, tr, sp, playerCount: pl.length, avg };
-  });
+// ═══════════════════════════════════════
+// AUSWERTUNG VIEW
+// ═══════════════════════════════════════
+function renderAuswertung() {
+  const s = currentSeason;
+  if (!s) return;
+  const att = s._attendance||[];
+  const goals = s._goals||[];
+  const trainings = (s._events||[]).filter(e=>e.type==='Training');
+  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
+  const tIds = trainings.map(e=>e.id);
+  const sIds = spiele.map(e=>e.id);
 
-  // Top training current season
-  const cs = currentSeason;
-  const att = cs._attendance || [];
-  const tIds = (cs._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
-  const sIds = (cs._events||[]).filter(e=>e.type!=='Training').map(e=>e.id);
-  const topT = [...(cs._players||[])].map(p => ({
+  const enriched = (s._players||[]).map(p=>({
     name: p.name,
-    val: att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='ja').length
-  })).sort((a,b)=>b.val-a.val).slice(0,8);
-  const topS = [...(cs._players||[])].map(p => ({
-    name: p.name,
-    val: att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='ja').length
-  })).sort((a,b)=>b.val-a.val).slice(0,8);
+    tCount: att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
+    sCount: att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
+    goals: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.goals,0),
+    assists: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.assists,0),
+  }));
 
-  document.getElementById('dashContent').innerHTML = `
+  const topT = [...enriched].sort((a,b)=>b.tCount-a.tCount).slice(0,8);
+  const topS = [...enriched].sort((a,b)=>b.sCount-a.sCount).slice(0,8);
+  const topG = [...enriched].sort((a,b)=>b.goals-a.goals).slice(0,8);
+  const topA = [...enriched].sort((a,b)=>b.assists-a.assists).slice(0,8);
+
+  const rankHtml = (list, valKey, icon) => list.map((p,i)=>
+    `<div class="rank-item"><span class="rn">${i+1}.</span><span class="rname">${p.name}</span><span class="rval">${p[valKey]} ${icon}</span></div>`
+  ).join('');
+
+  // Season overview across all seasons
+  const allRows = seasons.map(s=>{
+    const tr2=(s._events||[]).filter(e=>e.type==='Training').length;
+    const sp2=(s._events||[]).filter(e=>e.type!=='Training').length;
+    const pl2=s._players||[];
+    const att2=s._attendance||[];
+    const tIds2=(s._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
+    const avg2=tr2>0&&pl2.length>0?Math.round(pl2.reduce((a,p)=>a+att2.filter(x=>x.player_id===p.id&&tIds2.includes(x.event_id)&&x.status==='anwesend').length,0)/pl2.length/tr2*100):null;
+    const g2=(s._goals||[]).reduce((a,g)=>a+g.goals,0);
+    return `<tr style="border-bottom:1px solid var(--g1);">
+      <td style="padding:9px 12px;font-weight:500;">${s.team} ${s.saison}</td>
+      <td style="padding:9px 12px;">${pl2.length}</td>
+      <td style="padding:9px 12px;">${tr2}</td>
+      <td style="padding:9px 12px;">${sp2}</td>
+      <td style="padding:9px 12px;">${g2}</td>
+      <td style="padding:9px 12px;">${avg2!=null?`<div class="pct-bar"><div class="bar-track"><div class="bar-fill ${avg2>=75?'bg':avg2>=50?'ba':'br'}" style="width:${avg2}%"></div></div><span class="pct-val">${avg2}%</span></div>`:'–'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('auswertungContent').innerHTML = `
     <div class="dash-grid">
-      <div class="dash-card">
-        <div class="dash-title">Top Training – ${cs.team} ${cs.saison}</div>
-        ${topT.map((p,i)=>`<div class="rank-item"><span class="rn">${i+1}.</span><span class="rname">${p.name}</span><span class="rval">${p.val}</span></div>`).join('')}
-      </div>
-      <div class="dash-card">
-        <div class="dash-title">Top Spiele – ${cs.team} ${cs.saison}</div>
-        ${topS.map((p,i)=>`<div class="rank-item"><span class="rn">${i+1}.</span><span class="rname">${p.name}</span><span class="rval">${p.val}</span></div>`).join('')}
-      </div>
+      <div class="dash-card"><div class="dash-title">🏃 Top Training – ${s.team} ${s.saison}</div>${rankHtml(topT,'tCount','')}</div>
+      <div class="dash-card"><div class="dash-title">🏅 Top Spieleinsätze – ${s.team} ${s.saison}</div>${rankHtml(topS,'sCount','')}</div>
+      <div class="dash-card"><div class="dash-title">⚽ Torschützen – ${s.team} ${s.saison}</div>${rankHtml(topG,'goals','⚽')}</div>
+      <div class="dash-card"><div class="dash-title">🅰️ Vorlagen – ${s.team} ${s.saison}</div>${rankHtml(topA,'assists','🅰️')}</div>
       <div class="dash-card" style="grid-column:span 2;">
-        <div class="dash-title">Saison-Überblick</div>
+        <div class="dash-title">Alle Saisons im Überblick</div>
         <table style="width:100%;border-collapse:collapse;font-size:13px;">
           <thead><tr>
-            <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Saison</th>
-            <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Spieler</th>
-            <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Trainings</th>
-            <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Spiele</th>
-            <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Ø Anwesenheit</th>
+            ${['Saison','Spieler','Trainings','Spiele','Tore','Ø Anwesenheit'].map(h=>`<th style="text-align:left;padding:8px 12px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">${h}</th>`).join('')}
           </tr></thead>
-          <tbody>${allSeasonData.map(s=>`<tr style="border-bottom:1px solid var(--g1);">
-            <td style="padding:9px 10px;font-weight:500;">${s.team} ${s.saison}</td>
-            <td style="padding:9px 10px;">${s.playerCount}</td>
-            <td style="padding:9px 10px;">${s.tr}</td>
-            <td style="padding:9px 10px;">${s.sp}</td>
-            <td style="padding:9px 10px;">${s.avg != null ? `<div class="pct-bar"><div class="bar-track"><div class="bar-fill ${s.avg>=75?'bg':s.avg>=50?'ba':'br'}" style="width:${s.avg}%"></div></div><span class="pct-val">${s.avg}%</span></div>` : '–'}</td>
-          </tr>`).join('')}</tbody>
+          <tbody>${allRows}</tbody>
         </table>
       </div>
     </div>`;
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// ELTERN VIEW (public)
+// ═══════════════════════════════════════
+function showParentView() {
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appScreen').style.display='block';
+  document.getElementById('trainerNav').style.display='none';
+  document.getElementById('parentNav').style.display='flex';
+  document.getElementById('seasonBar').style.display='flex';
+  // Load data if not yet loaded
+  if (seasons.length===0) {
+    loadSeasonsPublic();
+  } else {
+    showView('eltern');
+    renderEltern();
+  }
+}
+
+async function loadSeasonsPublic() {
+  const { data } = await sb.from('seasons').select('*').order('saison');
+  seasons = data||[];
+  if (seasons.length>0) {
+    currentSeason = seasons[seasons.length-1];
+    buildSeasonDropdown();
+    await loadSeasonData();
+  }
+  showView('eltern');
+  renderEltern();
+}
+
+function renderEltern() {
+  const s = currentSeason;
+  if (!s) return;
+
+  const att = s._attendance||[];
+  const goals = s._goals||[];
+  const trainings = (s._events||[]).filter(e=>e.type==='Training');
+  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
+  const tIds = trainings.map(e=>e.id);
+  const sIds = spiele.map(e=>e.id);
+  const players = s._players||[];
+
+  const enriched = players.map(p=>({
+    name: p.name,
+    tCount: att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
+    sCount: att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
+    goals: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.goals,0),
+    assists: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.assists,0),
+  }));
+
+  const totalGoals = enriched.reduce((a,p)=>a+p.goals,0);
+  const avgAtt = trainings.length>0&&players.length>0
+    ? Math.round(enriched.reduce((a,p)=>a+p.tCount,0)/players.length/trainings.length*100) : 0;
+  const topScorer = [...enriched].sort((a,b)=>b.goals-a.goals)[0];
+  const topTrainer = [...enriched].sort((a,b)=>b.tCount-a.tCount)[0];
+
+  const medal = (i) => i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+
+  const topGoals = [...enriched].sort((a,b)=>b.goals-a.goals).filter(p=>p.goals>0).slice(0,5);
+  const topAtt = [...enriched].sort((a,b)=>b.tCount-a.tCount).slice(0,5);
+  const topSpiele = [...enriched].sort((a,b)=>b.sCount-a.sCount).slice(0,5);
+
+  // Full player table for parents
+  const allPlayers = [...enriched].sort((a,b)=>b.tCount-a.tCount);
+
+  document.getElementById('elternContent').innerHTML = `
+    <div class="parent-hero">
+      <h2>⚽ ${s.team} – Saison ${s.saison}</h2>
+      <p>SG Achslach-Gotteszell · ${players.length} Spieler · ${trainings.length} Trainings · ${spiele.length} Spiele</p>
+    </div>
+
+    <div class="parent-grid">
+      <div class="parent-card">
+        <div class="big" style="color:var(--green)">${avgAtt}%</div>
+        <div class="lbl">Ø Trainings-Anwesenheit</div>
+      </div>
+      <div class="parent-card">
+        <div class="big" style="color:var(--amber)">${totalGoals}</div>
+        <div class="lbl">Tore gesamt ⚽</div>
+      </div>
+      <div class="parent-card">
+        <div class="big" style="color:var(--blue)">${spiele.length}</div>
+        <div class="lbl">Spiele absolviert</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;">
+      <div class="top-list">
+        <div class="top-list-title">⚽ Torschützen</div>
+        ${topGoals.length>0 ? topGoals.map((p,i)=>`
+          <div class="rank-item"><span style="font-size:16px;width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.goals}</span></div>`).join('')
+          : '<div style="font-size:13px;color:var(--g5);padding:8px 0;">Noch keine Tore erfasst</div>'}
+      </div>
+      <div class="top-list">
+        <div class="top-list-title">🏃 Fleiß-Ranking</div>
+        ${topAtt.map((p,i)=>`
+          <div class="rank-item"><span style="font-size:16px;width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.tCount} ×</span></div>`).join('')}
+      </div>
+      <div class="top-list">
+        <div class="top-list-title">🅰️ Vorlagen</div>
+        ${enriched.filter(p=>p.assists>0).length>0
+          ? [...enriched].sort((a,b)=>b.assists-a.assists).filter(p=>p.assists>0).slice(0,5).map((p,i)=>`
+              <div class="rank-item"><span style="font-size:16px;width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.assists}</span></div>`).join('')
+          : '<div style="font-size:13px;color:var(--g5);padding:8px 0;">Noch keine Assists erfasst</div>'}
+      </div>
+    </div>
+
+    <div class="top-list">
+      <div class="top-list-title" style="margin-bottom:12px;">Alle Spieler – Übersicht</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead><tr>
+          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Spieler</th>
+          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Training</th>
+          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Spiele</th>
+          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Tore</th>
+          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Assists</th>
+        </tr></thead>
+        <tbody>${allPlayers.map(p=>{
+          const tp=trainings.length>0?Math.round(p.tCount/trainings.length*100):0;
+          return `<tr style="border-bottom:1px solid var(--g1);">
+            <td style="padding:9px 10px;font-weight:500;">${p.name}</td>
+            <td style="padding:9px 10px;"><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${tp>=75?'bg':tp>=50?'ba':'br'}" style="width:${tp}%"></div></div><span class="pct-val">${p.tCount}/${trainings.length}</span></div></td>
+            <td style="padding:9px 10px;">${p.sCount}/${spiele.length}</td>
+            <td style="padding:9px 10px;font-weight:600;color:var(--green)">${p.goals>0?p.goals+'  ⚽':'–'}</td>
+            <td style="padding:9px 10px;font-weight:600;color:var(--blue)">${p.assists>0?p.assists+' 🅰️':'–'}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+}
+
+// ═══════════════════════════════════════
 // MODALS
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 function showModal(type, extra) {
   const box = document.getElementById('modalBox');
   document.getElementById('modalOverlay').classList.remove('hidden');
 
-  if (type === 'newSeason') {
-    box.innerHTML = `<div class="modal-title">Neue Saison <button class="modal-close" onclick="closeModal()">×</button></div>
+  if (type==='newSeason') {
+    box.innerHTML=`<div class="modal-title">Neue Saison <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="row2">
         <div class="field"><label>Team</label>
           <select id="mTeam"><option>E-Jugend</option><option>F-Jugend</option><option>D-Jugend</option><option>C-Jugend</option></select></div>
         <div class="field"><label>Saison (z.B. 2026/27)</label><input id="mSaison" placeholder="2026/27"></div>
       </div>
-      <div class="save-bar">
-        <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-        <button class="btn-save" onclick="saveSeason()">Saison anlegen</button>
-      </div>`;
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="btn-save" onclick="saveSeason()">Anlegen</button></div>`;
   }
-  else if (type === 'addPlayer') {
-    box.innerHTML = `<div class="modal-title">Spieler hinzufügen <button class="modal-close" onclick="closeModal()">×</button></div>
+  else if (type==='addPlayer') {
+    box.innerHTML=`<div class="modal-title">Spieler hinzufügen <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="field"><label>Name (Nachname Vorname)</label><input id="mPlayerName" placeholder="Mustermann Max"></div>
-      <div class="save-bar">
-        <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-        <button class="btn-save" onclick="savePlayer()">Hinzufügen</button>
-      </div>`;
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="btn-save" onclick="savePlayer()">Hinzufügen</button></div>`;
   }
-  else if (type === 'editPlayer') {
-    const p = currentSeason._players.find(p => p.id === extra);
-    box.innerHTML = `<div class="modal-title">Spieler bearbeiten <button class="modal-close" onclick="closeModal()">×</button></div>
-      <div class="field"><label>Name</label><input id="mPlayerName" value="${p?.name || ''}"></div>
-      <div class="save-bar">
-        <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-        <button class="btn-save" onclick="savePlayer('${extra}')">Speichern</button>
-      </div>`;
+  else if (type==='editPlayer') {
+    const p = currentSeason._players.find(p=>p.id===extra);
+    box.innerHTML=`<div class="modal-title">Spieler bearbeiten <button class="modal-close" onclick="closeModal()">×</button></div>
+      <div class="field"><label>Name</label><input id="mPlayerName" value="${p?.name||''}"></div>
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="btn-save" onclick="savePlayer('${extra}')">Speichern</button></div>`;
   }
-  else if (type === 'addEvent') {
+  else if (type==='addEvent') {
     const today = new Date().toISOString().split('T')[0];
-    box.innerHTML = `<div class="modal-title">Training / Spiel anlegen <button class="modal-close" onclick="closeModal()">×</button></div>
+    box.innerHTML=`<div class="modal-title">Training / Spiel anlegen <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="row2">
         <div class="field"><label>Typ</label>
           <select id="mEvType"><option>Training</option><option>Spiel</option><option>Test - Spiel</option></select></div>
         <div class="field"><label>Datum</label><input id="mEvDate" type="date" value="${today}"></div>
       </div>
-      <div class="save-bar">
-        <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-        <button class="btn-save" onclick="saveEvent()">Anlegen & Anwesenheit erfassen</button>
-      </div>`;
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+      <button class="btn-save" onclick="saveEvent()">Anlegen & Anwesenheit erfassen</button></div>`;
   }
-  else if (type === 'attendance') {
-    const event = currentSeason._events.find(e => e.id === extra);
+  else if (type==='attendance') {
+    const event = currentSeason._events.find(e=>e.id===extra);
     const players = currentSeason._players;
     const att = currentSeason._attendance;
+    const goals = currentSeason._goals||[];
+    const isSpiel = event?.type !== 'Training';
+    const date = new Date(event?.date).toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
 
-    const rows = players.map(p => {
-      const existing = att.find(a => a.player_id === p.id && a.event_id === extra);
-      const status = existing?.status || 'na';
+    const rows = players.map(p=>{
+      const existing = att.find(a=>a.player_id===p.id&&a.event_id===extra);
+      const status = existing?.status||'na';
+      const g = goals.find(x=>x.player_id===p.id&&x.event_id===extra);
+      const gVal = g?.goals||0;
+      const aVal = g?.assists||0;
       return `<div class="att-row" id="arow-${p.id}">
         <span class="att-name">${p.name}</span>
+        ${isSpiel?`<div class="att-stat-inputs">
+          <div style="text-align:center;">
+            <input class="att-stat-input" type="number" min="0" max="20" value="${gVal}" id="goal-${p.id}" placeholder="0">
+            <div class="att-stat-label">⚽ Tore</div>
+          </div>
+          <div style="text-align:center;">
+            <input class="att-stat-input" type="number" min="0" max="20" value="${aVal}" id="asst-${p.id}" placeholder="0">
+            <div class="att-stat-label">🅰️ Assists</div>
+          </div>
+        </div>`:''}
         <div class="att-btns">
-          <button class="att-btn ja ${status==='ja'?'ja':''}" onclick="setAtt('${p.id}','${extra}','ja')">✓ Dabei</button>
-          <button class="att-btn nein ${status==='nein'?'nein':''}" onclick="setAtt('${p.id}','${extra}','nein')">✗ Fehlt</button>
-          <button class="att-btn na ${status==='na'?'na':''}" onclick="setAtt('${p.id}','${extra}','na')">–</button>
+          <button class="att-btn ${status==='anwesend'?'anwesend':''}" onclick="setAtt('${p.id}','${extra}','anwesend')">✓ Anwesend</button>
+          <button class="att-btn ${status==='abwesend'?'abwesend':''}" onclick="setAtt('${p.id}','${extra}','abwesend')">✗ Abwesend</button>
+          <button class="att-btn ${status==='na'?'na':''}" onclick="setAtt('${p.id}','${extra}','na')">–</button>
         </div>
       </div>`;
     }).join('');
 
-    const dateStr = new Date(event?.date).toLocaleDateString('de-DE', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
-    box.innerHTML = `<div class="modal-title">${event?.type} – ${dateStr} <button class="modal-close" onclick="closeModal()">×</button></div>
+    box.innerHTML=`<div class="modal-title">${event?.type} – ${date} <button class="modal-close" onclick="closeModal()">×</button></div>
+      ${isSpiel?`<div style="font-size:12px;color:var(--g5);margin-bottom:12px;">Tore und Assists nur für anwesende Spieler eingeben.</div>`:''}
+      <div class="att-header">
+        <span class="att-header-name">Spieler</span>
+        ${isSpiel?`<span class="att-header-col">Stats</span>`:''}
+        <span class="att-header-col">Anwesenheit</span>
+      </div>
       <div class="att-grid">${rows}</div>
       <div class="save-bar">
         <button class="btn-cancel" onclick="closeModal()">Schließen</button>
-        <button class="btn-save" onclick="saveAllAttendance('${extra}')">Alle speichern</button>
+        <button class="btn-save" onclick="saveAllAttendance('${extra}',${isSpiel})">Alle speichern</button>
       </div>`;
   }
-  else if (type === 'import') {
-    box.innerHTML = `<div class="modal-title">Historische Daten importieren <button class="modal-close" onclick="closeModal()">×</button></div>
+  else if (type==='import') {
+    box.innerHTML=`<div class="modal-title">Historische Daten <button class="modal-close" onclick="closeModal()">×</button></div>
       <div style="font-size:13px;color:var(--g7);line-height:1.6;margin-bottom:20px;">
-        Dies importiert alle 3 Saisons aus eurer Excel-Datei in die Supabase-Datenbank:<br><br>
-        • F-Jugend 2023/24 – 25 Spieler, 42 Events<br>
-        • E-Jugend 2024/25 – 20 Spieler, 61 Events<br>
-        • E-Jugend 2025/26 – 31 Spieler, 21 Events<br><br>
-        <strong>Dieser Vorgang kann 1–2 Minuten dauern.</strong>
+        Importiert alle 3 Saisons aus der Excel-Datei:<br><br>
+        • F-Jugend 2023/24 – 25 Spieler<br>
+        • E-Jugend 2024/25 – 20 Spieler<br>
+        • E-Jugend 2025/26 – 31 Spieler<br><br>
+        <strong>Dauert ca. 1–2 Minuten.</strong>
       </div>
       <div id="importStatus" style="font-size:12px;color:var(--g5);min-height:20px;"></div>
       <div class="save-bar">
@@ -871,177 +919,194 @@ function showModal(type, extra) {
   }
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.add('hidden');
-}
-document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+function closeModal() { document.getElementById('modalOverlay').classList.add('hidden'); }
+document.getElementById('modalOverlay').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
 
-// ── Attendance state tracking ──
-const pendingAtt = {};
+// ═══════════════════════════════════════
+// ATTENDANCE STATE
+// ═══════════════════════════════════════
 function setAtt(pid, eid, status) {
-  if (!pendingAtt[eid]) pendingAtt[eid] = {};
-  pendingAtt[eid][pid] = status;
+  if (!pendingAtt[eid]) pendingAtt[eid]={};
+  pendingAtt[eid][pid]=status;
   const row = document.getElementById(`arow-${pid}`);
   if (!row) return;
-  row.querySelectorAll('.att-btn').forEach(b => {
-    b.className = 'att-btn ' + b.textContent.trim().split(' ')[0].toLowerCase().replace('✓','ja').replace('✗','nein').replace('–','na');
-  });
-  // highlight active
-  row.querySelectorAll('.att-btn').forEach(b => {
-    const s = b.classList.contains('ja') ? 'ja' : b.classList.contains('nein') ? 'nein' : 'na';
-    if (s === status) b.classList.add(status);
+  row.querySelectorAll('.att-btn').forEach(b=>{
+    b.classList.remove('anwesend','abwesend','na');
+    const s = b.textContent.includes('Anwesend')?'anwesend':b.textContent.includes('Abwesend')?'abwesend':'na';
+    if(s===status) b.classList.add(status);
   });
 }
 
-async function saveAllAttendance(eid) {
-  if (!pendingAtt[eid]) { closeModal(); return; }
-  const upserts = Object.entries(pendingAtt[eid]).map(([pid, status]) => ({
-    player_id: pid, event_id: eid, status
-  }));
-  const { error } = await sb.from('attendance').upsert(upserts, { onConflict: 'player_id,event_id' });
-  if (error) { showToast('Fehler beim Speichern', 'error'); return; }
-  showToast('Anwesenheit gespeichert ✓', 'success');
+async function saveAllAttendance(eid, isSpiel) {
+  const attToSave = pendingAtt[eid]||{};
+  const players = currentSeason._players;
+
+  // Build all attendance for players that have been interacted with
+  // Also check current state of buttons for any not in pendingAtt
+  const allAtt = players.map(p=>{
+    const row = document.getElementById(`arow-${p.id}`);
+    let status = attToSave[p.id];
+    if (!status && row) {
+      const active = row.querySelector('.att-btn.anwesend,.att-btn.abwesend,.att-btn.na');
+      if (active) status = active.classList.contains('anwesend')?'anwesend':active.classList.contains('abwesend')?'abwesend':'na';
+    }
+    if (!status) return null;
+    return { player_id: p.id, event_id: eid, status };
+  }).filter(Boolean);
+
+  if (allAtt.length>0) {
+    const { error } = await sb.from('attendance').upsert(allAtt, { onConflict:'player_id,event_id' });
+    if (error) { showToast('Fehler: '+error.message,'error'); return; }
+  }
+
+  // Save goals/assists if it's a game
+  if (isSpiel) {
+    const goalsToSave = players.map(p=>{
+      const gEl = document.getElementById(`goal-${p.id}`);
+      const aEl = document.getElementById(`asst-${p.id}`);
+      if (!gEl&&!aEl) return null;
+      const g = parseInt(gEl?.value)||0;
+      const a = parseInt(aEl?.value)||0;
+      if (g===0&&a===0) return null;
+      return { player_id:p.id, event_id:eid, goals:g, assists:a };
+    }).filter(Boolean);
+
+    if (goalsToSave.length>0) {
+      await sb.from('goals').upsert(goalsToSave, { onConflict:'player_id,event_id' });
+    }
+  }
+
   delete pendingAtt[eid];
+  showToast('Gespeichert ✓','success');
   closeModal();
   await loadSeasonData();
 }
 
+// ═══════════════════════════════════════
+// SAVE HELPERS
+// ═══════════════════════════════════════
 async function saveSeason() {
   const team = document.getElementById('mTeam').value;
   const saison = document.getElementById('mSaison').value.trim();
   if (!saison) return;
-  const { data, error } = await sb.from('seasons').insert({ team, saison }).select().single();
-  if (error) { showToast('Fehler: ' + error.message, 'error'); return; }
-  seasons.push({ ...data, _players: [], _events: [], _attendance: [] });
-  currentSeason = seasons[seasons.length - 1];
-  buildSeasonTabs();
+  const { data, error } = await sb.from('seasons').insert({team,saison}).select().single();
+  if (error) { showToast('Fehler: '+error.message,'error'); return; }
+  seasons.push({...data,_players:[],_events:[],_attendance:[],_goals:[]});
+  currentSeason = seasons[seasons.length-1];
+  buildSeasonDropdown();
   closeModal();
   renderStats(); renderPlayerTable(); renderEingabe();
-  showToast('Saison angelegt ✓', 'success');
+  showToast('Saison angelegt ✓','success');
 }
 
 async function savePlayer(editId) {
   const name = document.getElementById('mPlayerName').value.trim();
   if (!name) return;
   if (editId) {
-    const { error } = await sb.from('players').update({ name }).eq('id', editId);
-    if (error) { showToast('Fehler', 'error'); return; }
-    const p = currentSeason._players.find(p => p.id === editId);
-    if (p) p.name = name;
+    const { error } = await sb.from('players').update({name}).eq('id',editId);
+    if (error) { showToast('Fehler','error'); return; }
+    const p = currentSeason._players.find(p=>p.id===editId);
+    if(p) p.name=name;
   } else {
-    const { data, error } = await sb.from('players').insert({ name, season_id: currentSeason.id }).select().single();
-    if (error) { showToast('Fehler', 'error'); return; }
+    const { data, error } = await sb.from('players').insert({name,season_id:currentSeason.id}).select().single();
+    if (error) { showToast('Fehler','error'); return; }
     currentSeason._players.push(data);
   }
-  closeModal();
-  closePlayer();
-  renderPlayerTable();
-  renderEingabe();
-  showToast('Spieler gespeichert ✓', 'success');
+  closeModal(); closePlayer();
+  renderPlayerTable(); renderEingabe();
+  showToast('Spieler gespeichert ✓','success');
 }
 
 async function saveEvent() {
   const type = document.getElementById('mEvType').value;
   const date = document.getElementById('mEvDate').value;
   if (!date) return;
-  const { data, error } = await sb.from('events').insert({ type, date, season_id: currentSeason.id }).select().single();
-  if (error) { showToast('Fehler', 'error'); return; }
+  const { data, error } = await sb.from('events').insert({type,date,season_id:currentSeason.id}).select().single();
+  if (error) { showToast('Fehler','error'); return; }
   currentSeason._events.push(data);
   closeModal();
-  renderStats();
-  renderPlayerTable();
-  renderEingabe();
-  showToast('Eingetragen – jetzt Anwesenheit erfassen', 'success');
-  setTimeout(() => showModal('attendance', data.id), 500);
+  renderStats(); renderPlayerTable(); renderEingabe();
+  showToast('Angelegt – jetzt Anwesenheit erfassen ✓','success');
+  setTimeout(()=>showModal('attendance',data.id),400);
 }
 
-// ═══════════════════════════════════════════════════════
-// HISTORIC DATA IMPORT
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// IMPORT
+// ═══════════════════════════════════════
 async function importHistoricData() {
-  const btn = document.getElementById('importBtn');
-  btn.disabled = true; btn.textContent = 'Importiere…';
-  const status = document.getElementById('importStatus');
+  const btn=document.getElementById('importBtn');
+  btn.disabled=true; btn.textContent='Importiere…';
+  const status=document.getElementById('importStatus');
 
-  // Inline historical data (condensed)
-  const historicSeasons = [
-    { team: 'F-Jugend', saison: '2023/24', players: ['Greil Gerhard','Kilger Elias','Weinberger Lio','Greil Max','Dachs Vincent','Aichinger Romy','Kandler Moritz','Kraus Sebastian','Ebner Felix','Dachs Franz','Kopp Johannes','Weinberger Elina','Kandler Xaver','Welter Luisa','Kilger Helmut','Seiderer Julian','Eizner Lukas','Weinberger Markus','Rager Felix','Weinberger Jonas','Thurnbauer Joschua','Loth Alexander','Metz Dominik','Aigner Ben'], summary: [{n:'Greil Gerhard',t:30,s:16},{n:'Kilger Elias',t:30,s:17},{n:'Weinberger Lio',t:25,s:17},{n:'Greil Max',t:29,s:16},{n:'Dachs Vincent',t:24,s:17},{n:'Aichinger Romy',t:26,s:15},{n:'Kandler Moritz',t:26,s:16},{n:'Kraus Sebastian',t:30,s:15},{n:'Ebner Felix',t:26,s:13},{n:'Dachs Franz',t:21,s:13},{n:'Kopp Johannes',t:21,s:13},{n:'Weinberger Elina',t:24,s:15},{n:'Kandler Xaver',t:26,s:7},{n:'Welter Luisa',t:22,s:5},{n:'Kilger Helmut',t:30,s:15},{n:'Seiderer Julian',t:24,s:5},{n:'Eizner Lukas',t:20,s:10},{n:'Weinberger Markus',t:25,s:15},{n:'Rager Felix',t:26,s:11},{n:'Weinberger Jonas',t:15,s:0},{n:'Thurnbauer Joschua',t:17,s:1},{n:'Loth Alexander',t:24,s:2},{n:'Metz Dominik',t:9,s:1},{n:'Aigner Ben',t:9,s:3}], trainings: 28, spiele: 14 },
-    { team: 'E-Jugend', saison: '2024/25', players: ['Greil Gerhard','Kilger Helmut','Dachs Vincent','Aichinger Romy','Greil Max','Kilger Elias','Kopp Johannes','Rager Felix','Ebner Felix','Eizner Lukas','Kandler Moritz','Pfeffer Severin','Weinberger Jonas','Loth Alexander','Seiderer Emil','Seiderer Julian','Kraus Sebastian','Baumgartner Tim','Kandler Xaver','Metz Dominik'], summary: [{n:'Greil Gerhard',t:33,s:18},{n:'Kilger Helmut',t:30,s:17},{n:'Dachs Vincent',t:32,s:17},{n:'Aichinger Romy',t:30,s:15},{n:'Greil Max',t:31,s:16},{n:'Kilger Elias',t:30,s:17},{n:'Kopp Johannes',t:34,s:12},{n:'Rager Felix',t:31,s:12},{n:'Ebner Felix',t:28,s:5},{n:'Eizner Lukas',t:26,s:10},{n:'Kandler Moritz',t:14,s:3},{n:'Pfeffer Severin',t:24,s:8},{n:'Weinberger Jonas',t:16,s:9},{n:'Loth Alexander',t:13,s:1},{n:'Seiderer Emil',t:13,s:2},{n:'Seiderer Julian',t:21,s:8},{n:'Kraus Sebastian',t:23,s:13},{n:'Baumgartner Tim',t:21,s:9},{n:'Kandler Xaver',t:1,s:1},{n:'Metz Dominik',t:0,s:0}], trainings: 43, spiele: 18 },
-    { team: 'E-Jugend', saison: '2025/26', players: ['Greil Gerhard','Kilger Helmut','Aichinger Romy','Dachs Vincent','Greil Max','Kilger Elias','Kopp Johannes','Kraus Sebastian','Rager Felix','Seiderer Julian','Pfeffer Severin','Zahlauer Jös','Baumgartner Tim','Ebner Felix','Eizner Lukas','Weinberger Jonas','Loth Alexander','Dachs Franze','Thurnbauer Joschua','Brunner Kilian','Ebner Leo','Ebner Sandro'], summary: [{n:'Kilger Helmut',t:12,s:2},{n:'Kilger Elias',t:11,s:2},{n:'Kraus Sebastian',t:11,s:2},{n:'Greil Gerhard',t:10,s:2},{n:'Aichinger Romy',t:10,s:2},{n:'Greil Max',t:10,s:2},{n:'Zahlauer Jös',t:8,s:2},{n:'Kopp Johannes',t:8,s:2},{n:'Rager Felix',t:7,s:1},{n:'Seiderer Julian',t:7,s:1},{n:'Eizner Lukas',t:7,s:0},{n:'Dachs Franze',t:7,s:2},{n:'Baumgartner Tim',t:6,s:0},{n:'Pfeffer Severin',t:5,s:1},{n:'Dachs Vincent',t:9,s:2},{n:'Ebner Felix',t:4,s:0},{n:'Thurnbauer Joschua',t:4,s:1},{n:'Weinberger Jonas',t:1,s:0},{n:'Loth Alexander',t:0,s:0},{n:'Brunner Kilian',t:2,s:0},{n:'Ebner Leo',t:1,s:0},{n:'Ebner Sandro',t:2,s:0}], trainings: 12, spiele: 9 }
+  const historic=[
+    {team:'F-Jugend',saison:'2023/24',players:['Greil Gerhard','Kilger Elias','Weinberger Lio','Greil Max','Dachs Vincent','Aichinger Romy','Kandler Moritz','Kraus Sebastian','Ebner Felix','Dachs Franz','Kopp Johannes','Weinberger Elina','Kandler Xaver','Welter Luisa','Kilger Helmut','Seiderer Julian','Eizner Lukas','Weinberger Markus','Rager Felix','Weinberger Jonas','Thurnbauer Joschua','Loth Alexander','Metz Dominik','Aigner Ben'],trainings:28,spiele:14,
+     summary:[{n:'Greil Gerhard',t:30,s:16},{n:'Kilger Elias',t:30,s:17},{n:'Weinberger Lio',t:25,s:17},{n:'Greil Max',t:29,s:16},{n:'Dachs Vincent',t:24,s:17},{n:'Aichinger Romy',t:26,s:15},{n:'Kandler Moritz',t:26,s:16},{n:'Kraus Sebastian',t:30,s:15},{n:'Ebner Felix',t:26,s:13},{n:'Dachs Franz',t:21,s:13},{n:'Kopp Johannes',t:21,s:13},{n:'Weinberger Elina',t:24,s:15},{n:'Kandler Xaver',t:26,s:7},{n:'Welter Luisa',t:22,s:5},{n:'Kilger Helmut',t:30,s:15},{n:'Seiderer Julian',t:24,s:5},{n:'Eizner Lukas',t:20,s:10},{n:'Weinberger Markus',t:25,s:15},{n:'Rager Felix',t:26,s:11},{n:'Weinberger Jonas',t:15,s:0},{n:'Thurnbauer Joschua',t:17,s:1},{n:'Loth Alexander',t:24,s:2},{n:'Metz Dominik',t:9,s:1},{n:'Aigner Ben',t:9,s:3}]},
+    {team:'E-Jugend',saison:'2024/25',players:['Greil Gerhard','Kilger Helmut','Dachs Vincent','Aichinger Romy','Greil Max','Kilger Elias','Kopp Johannes','Rager Felix','Ebner Felix','Eizner Lukas','Kandler Moritz','Pfeffer Severin','Weinberger Jonas','Loth Alexander','Seiderer Emil','Seiderer Julian','Kraus Sebastian','Baumgartner Tim','Kandler Xaver','Metz Dominik'],trainings:43,spiele:18,
+     summary:[{n:'Greil Gerhard',t:33,s:18},{n:'Kilger Helmut',t:30,s:17},{n:'Dachs Vincent',t:32,s:17},{n:'Aichinger Romy',t:30,s:15},{n:'Greil Max',t:31,s:16},{n:'Kilger Elias',t:30,s:17},{n:'Kopp Johannes',t:34,s:12},{n:'Rager Felix',t:31,s:12},{n:'Ebner Felix',t:28,s:5},{n:'Eizner Lukas',t:26,s:10},{n:'Kandler Moritz',t:14,s:3},{n:'Pfeffer Severin',t:24,s:8},{n:'Weinberger Jonas',t:16,s:9},{n:'Loth Alexander',t:13,s:1},{n:'Seiderer Emil',t:13,s:2},{n:'Seiderer Julian',t:21,s:8},{n:'Kraus Sebastian',t:23,s:13},{n:'Baumgartner Tim',t:21,s:9},{n:'Kandler Xaver',t:1,s:1},{n:'Metz Dominik',t:0,s:0}]},
+    {team:'E-Jugend',saison:'2025/26',players:['Greil Gerhard','Kilger Helmut','Aichinger Romy','Dachs Vincent','Greil Max','Kilger Elias','Kopp Johannes','Kraus Sebastian','Rager Felix','Seiderer Julian','Pfeffer Severin','Zahlauer Jös','Baumgartner Tim','Ebner Felix','Eizner Lukas','Weinberger Jonas','Loth Alexander','Dachs Franze','Thurnbauer Joschua','Brunner Kilian','Ebner Leo','Ebner Sandro'],trainings:12,spiele:9,
+     summary:[{n:'Kilger Helmut',t:12,s:2},{n:'Kilger Elias',t:11,s:2},{n:'Kraus Sebastian',t:11,s:2},{n:'Greil Gerhard',t:10,s:2},{n:'Aichinger Romy',t:10,s:2},{n:'Greil Max',t:10,s:2},{n:'Dachs Vincent',t:9,s:2},{n:'Zahlauer Jös',t:8,s:2},{n:'Kopp Johannes',t:8,s:2},{n:'Rager Felix',t:7,s:1},{n:'Seiderer Julian',t:7,s:1},{n:'Eizner Lukas',t:7,s:0},{n:'Dachs Franze',t:7,s:2},{n:'Baumgartner Tim',t:6,s:0},{n:'Pfeffer Severin',t:5,s:1},{n:'Ebner Felix',t:4,s:0},{n:'Thurnbauer Joschua',t:4,s:1},{n:'Weinberger Jonas',t:1,s:0},{n:'Loth Alexander',t:0,s:0},{n:'Brunner Kilian',t:2,s:0},{n:'Ebner Leo',t:1,s:0},{n:'Ebner Sandro',t:2,s:0}]}
   ];
 
-  let imported = 0;
-  for (const hs of historicSeasons) {
-    status.textContent = `Importiere ${hs.team} ${hs.saison}…`;
+  let imported=0;
+  for (const hs of historic) {
+    status.textContent=`Importiere ${hs.team} ${hs.saison}…`;
+    const {data:season,error:se}=await sb.from('seasons').insert({team:hs.team,saison:hs.saison}).select().single();
+    if(se){showToast('Fehler: '+se.message,'error');continue;}
 
-    // Insert season
-    const { data: season, error: se } = await sb.from('seasons').insert({ team: hs.team, saison: hs.saison }).select().single();
-    if (se) { showToast('Fehler: ' + se.message, 'error'); continue; }
+    const yr=hs.saison.split('/')[0];
+    const evs=[];
+    for(let i=0;i<hs.trainings;i++) evs.push({season_id:season.id,type:'Training',date:`${yr}-09-${String(i%28+1).padStart(2,'0')}`});
+    for(let i=0;i<hs.spiele;i++) evs.push({season_id:season.id,type:'Spiel',date:`${yr}-10-${String(i%28+1).padStart(2,'0')}`});
+    const {data:events}=await sb.from('events').insert(evs).select();
+    const tEvs=(events||[]).filter(e=>e.type==='Training');
+    const sEvs=(events||[]).filter(e=>e.type==='Spiel');
 
-    // Insert summary-based training/game events and players
-    // Create dummy events based on counts
-    const eventsToInsert = [];
-    for (let i = 0; i < hs.trainings; i++) eventsToInsert.push({ season_id: season.id, type: 'Training', date: `2023-09-${String(i+1).padStart(2,'0')}`.replace('2023', hs.saison.includes('2025') ? '2025' : hs.saison.includes('2024') ? '2024' : '2023') });
-    for (let i = 0; i < hs.spiele; i++) eventsToInsert.push({ season_id: season.id, type: 'Spiel', date: `2023-10-${String(i+1).padStart(2,'0')}`.replace('2023', hs.saison.includes('2025') ? '2025' : hs.saison.includes('2024') ? '2024' : '2023') });
-
-    const { data: events } = await sb.from('events').insert(eventsToInsert).select();
-    const tEvents = (events||[]).filter(e => e.type === 'Training');
-    const sEvents = (events||[]).filter(e => e.type === 'Spiel');
-
-    // Insert players
-    const { data: players } = await sb.from('players').insert(hs.players.map(n => ({ name: n, season_id: season.id }))).select();
-
-    // Insert attendance based on summary totals
-    const attInserts = [];
-    for (const sum of hs.summary) {
-      const player = (players||[]).find(p => p.name === sum.n);
-      if (!player) continue;
-      // Mark 'ja' for first t/s events, rest 'nein'
-      tEvents.forEach((e, i) => attInserts.push({ player_id: player.id, event_id: e.id, status: i < sum.t ? 'ja' : 'nein' }));
-      sEvents.forEach((e, i) => attInserts.push({ player_id: player.id, event_id: e.id, status: i < sum.s ? 'ja' : 'nein' }));
+    const {data:players}=await sb.from('players').insert(hs.players.map(n=>({name:n,season_id:season.id}))).select();
+    const attInserts=[];
+    for(const sum of hs.summary){
+      const p=(players||[]).find(p=>p.name===sum.n);
+      if(!p) continue;
+      tEvs.forEach((e,i)=>attInserts.push({player_id:p.id,event_id:e.id,status:i<sum.t?'anwesend':'abwesend'}));
+      sEvs.forEach((e,i)=>attInserts.push({player_id:p.id,event_id:e.id,status:i<sum.s?'anwesend':'abwesend'}));
     }
-    // batch insert
-    for (let i = 0; i < attInserts.length; i += 500) {
-      await sb.from('attendance').insert(attInserts.slice(i, i+500));
-    }
+    for(let i=0;i<attInserts.length;i+=500) await sb.from('attendance').insert(attInserts.slice(i,i+500));
 
-    seasons.push({ ...season, _players: players||[], _events: events||[], _attendance: [] });
+    seasons.push({...season,_players:players||[],_events:events||[],_attendance:[],_goals:[]});
     imported++;
   }
-
-  status.textContent = `✓ ${imported} Saisons importiert!`;
-  currentSeason = seasons[seasons.length - 1];
-  buildSeasonTabs();
+  status.textContent=`✓ ${imported} Saisons importiert!`;
+  currentSeason=seasons[seasons.length-1];
+  buildSeasonDropdown();
   await loadSeasonData();
   closeModal();
-  showToast('Import abgeschlossen ✓', 'success');
+  showToast('Import abgeschlossen ✓','success');
 }
 
-// ═══════════════════════════════════════════════════════
-// VIEW NAVIGATION
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
 function showView(v) {
-  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-  document.getElementById('view-' + v).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const idx = { saison: 0, eingabe: 1, dashboard: 2 };
-  document.querySelectorAll('#mainNav .nav-btn')[idx[v]]?.classList.add('active');
-  document.getElementById('seasonBar').style.display = v === 'saison' ? '' : 'none';
-  if (v === 'eingabe') renderEingabe();
-  if (v === 'dashboard') renderDashboard();
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('#trainerNav .nav-btn').forEach(b=>b.classList.remove('active'));
+  const idx={saison:0,eingabe:1,auswertung:2,eltern:3};
+  document.querySelectorAll('#trainerNav .nav-btn')[idx[v]]?.classList.add('active');
+  document.getElementById('seasonBar').style.display = v==='eltern' ? 'flex' : (currentUser ? 'flex' : 'none');
+  if(v==='eingabe') renderEingabe();
+  if(v==='auswertung') renderAuswertung();
+  if(v==='eltern') renderEltern();
 }
 
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 // TOAST
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════
 let toastTimer;
-function showToast(msg, type='success') {
-  const el = document.getElementById('toastEl');
-  el.textContent = msg;
-  el.className = 'toast ' + type;
-  el.style.display = 'block';
+function showToast(msg,type='success'){
+  const el=document.getElementById('toastEl');
+  el.textContent=msg; el.className='toast '+type;
+  el.style.display='block';
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.style.display = 'none', 3000);
+  toastTimer=setTimeout(()=>el.style.display='none',3000);
 }
 </script>
 </body>
