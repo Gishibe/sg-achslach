@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SG Achslach-Gotteszell</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet">
 <style>
@@ -273,13 +273,108 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
   .cal-wrap{grid-template-columns:1fr;}
   .auswertung-grid,.auswertung-grid-3,.eltern-stats,.eltern-rank-grid{grid-template-columns:1fr 1fr;}
 }
+/* ── TABLET ── */
+@media(max-width:900px){
+  .cal-wrap{grid-template-columns:1fr;}
+  .auswertung-grid-3{grid-template-columns:1fr 1fr;}
+  .eltern-rank-grid{grid-template-columns:1fr 1fr;}
+  .eltern-stats{grid-template-columns:1fr 1fr;}
+}
+
+/* ── MOBILE: Sidebar wird zur Bottom-Navigation ── */
 @media(max-width:700px){
-  .sidebar{width:54px;}
-  .sb-logo-name,.sb-logo-sub,.sb-season,.sb-section,.nav-item span:last-child,.sb-user-name,.sb-logout{display:none;}
-  .nav-item{justify-content:center;padding:10px;}
-  .nav-icon{width:auto;}
-  .stat-grid{grid-template-columns:1fr 1fr;}
-  .page-body{padding:14px;}
+  /* Shell: vertikal statt horizontal */
+  .shell{flex-direction:column;}
+
+  /* Sidebar verschwindet – ersetzt durch Bottom-Nav */
+  .sidebar{
+    display:none;
+  }
+
+  /* Bottom Navigation */
+  .bottom-nav{
+    display:flex !important;
+    position:fixed;bottom:0;left:0;right:0;z-index:200;
+    background:var(--bl);
+    box-shadow:0 -2px 12px rgba(26,61,143,.3);
+    height:60px;
+  }
+  .bottom-nav-item{
+    flex:1;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:2px;cursor:pointer;
+    border:none;background:none;color:rgba(255,255,255,.6);
+    font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;
+    transition:all .15s;padding:4px 0;
+  }
+  .bottom-nav-item:hover,.bottom-nav-item.active{color:#fff;background:rgba(255,255,255,.12);}
+  .bottom-nav-item .bni{font-size:20px;line-height:1;}
+  .bottom-nav-sel{
+    display:flex !important;
+    position:fixed;top:0;left:0;right:0;z-index:150;
+    background:var(--bl);padding:8px 14px;align-items:center;gap:10px;
+    box-shadow:0 2px 8px rgba(26,61,143,.3);
+  }
+  .bottom-nav-sel select{
+    flex:1;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
+    color:#fff;border-radius:6px;padding:6px 10px;font-size:13px;outline:none;
+  }
+  .bottom-nav-sel select option{background:var(--bl);}
+  .bottom-nav-sel .bns-label{font-size:11px;color:rgba(255,255,255,.6);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+
+  /* Main: padding for top season bar + bottom nav */
+  .main{padding-top:52px;padding-bottom:68px;}
+  .page-header{
+    padding:12px 14px;flex-wrap:wrap;gap:8px;
+    position:sticky;top:52px;z-index:100;
+  }
+  .page-title{font-size:15px;}
+  .page-body{padding:12px 14px;}
+
+  /* Stats: 2 columns */
+  .stat-grid{grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .stat-card{padding:12px 14px;}
+  .stat-val{font-size:22px;}
+
+  /* Tables: horizontal scroll */
+  .card{overflow-x:auto;}
+  .tbl{font-size:12px;min-width:500px;}
+  .tbl th,.tbl td{padding:8px 10px;}
+
+  /* Tabs: scrollable */
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:2px;}
+  .tab-btn{white-space:nowrap;padding:8px 12px;font-size:12px;}
+
+  /* Forms */
+  .fr2,.fr3{grid-template-columns:1fr;}
+  .modal-box{border-radius:var(--rl) var(--rl) 0 0;position:fixed;bottom:0;left:0;right:0;max-width:100%;max-height:90vh;margin:0;}
+  .modal-bg{align-items:flex-end;}
+
+  /* Attendance modal */
+  .att-btns{flex-wrap:wrap;gap:3px;}
+  .att-b{padding:5px 7px;font-size:11px;}
+  .att-row{flex-wrap:wrap;gap:6px;}
+  .goal-inputs{order:-1;width:100%;justify-content:flex-start;}
+
+  /* Calendar */
+  .cal-wrap{grid-template-columns:1fr;}
+  .month-cell{min-height:56px;padding:3px;}
+  .ev-chip{font-size:9px;padding:1px 3px;}
+  .cal-nav-title{font-size:13px;min-width:120px;}
+
+  /* Auswertung */
+  .auswertung-grid-3{grid-template-columns:1fr;}
+  .rank-card{margin-bottom:10px;}
+
+  /* Eltern */
+  .eltern-header{padding:18px 14px;}
+  .eltern-header h2{font-size:18px;}
+  .eltern-stats{grid-template-columns:1fr 1fr;}
+  .eltern-rank-grid{grid-template-columns:1fr;}
+  .next-game-row{flex-wrap:wrap;gap:6px;padding:10px 12px;}
+
+  /* Buttons */
+  .page-actions{flex-wrap:wrap;}
+  .page-actions .btn{font-size:12px;padding:6px 10px;}
 }
 
 .next-game-info { flex: 1; min-width: 0; }
@@ -294,6 +389,50 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 .result-score { font-family: 'Inter Tight', sans-serif; font-size: 18px; font-weight: 800; color: var(--blm); min-width: 48px; text-align: right; }
 .result-score-na { font-size: 14px; color: var(--gybl); min-width: 48px; text-align: right; }
 .result-scorers { font-size: 11px; color: var(--gy); margin-top: 2px; }
+
+/* ── MOBILE POLISH ── */
+/* Larger tap targets */
+@media(max-width:700px){
+  .btn { min-height: 40px; }
+  .att-b { min-height: 36px; min-width: 36px; }
+  .tab-btn { min-height: 40px; }
+  .cal-nav-btn { min-height: 36px; padding: 5px 12px; }
+
+  /* Safe area for notched phones */
+  .bottom-nav {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: calc(60px + env(safe-area-inset-bottom, 0px));
+  }
+  .main { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+
+  /* Prevent text size adjust */
+  body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  /* Smooth scrolling in lists */
+  .att-list, .ov-list, .card { -webkit-overflow-scrolling: touch; }
+
+  /* Input font size 16px prevents zoom on iOS */
+  .fi, .fs, .fta, .finp, .srch { font-size: 16px !important; }
+
+  /* Modal full-width on mobile */
+  .confirm-box { border-radius: var(--rl) var(--rl) 0 0; width: 100%; max-width: 100%; margin: 0; }
+
+  /* Condensed page header */
+  .page-header { padding: 10px 14px; }
+
+  /* Hide less important table columns on mobile */
+  .tbl .hide-mobile { display: none; }
+
+  /* Kalender week view simplified */
+  .week-dname { font-size: 10px; padding: 5px 2px; }
+
+  /* Eltern stats 2 col */
+  .eltern-stat .val { font-size: 26px; }
+
+  /* Touch-friendly nav items */
+  .bottom-nav-item { -webkit-tap-highlight-color: transparent; }
+  .nav-item { -webkit-tap-highlight-color: transparent; }
+}
 </style>
 </head>
 <body>
@@ -348,6 +487,29 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
       <button class="sb-logout" onclick="doLogout()">Abmelden</button>
     </div>
   </aside>
+
+  <!-- MOBILE TOP BAR (season selector) -->
+  <div class="bottom-nav-sel" id="mobileTopBar" style="display:none;">
+    <span class="bns-label">Saison</span>
+    <select id="seasonSelMobile" onchange="onSeasonChangeMobile()"></select>
+    <span id="mobileUser" style="font-size:11px;color:rgba(255,255,255,.6);"></span>
+  </div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="bottom-nav" id="bottomNav" style="display:none;">
+    <button class="bottom-nav-item active" id="bnav-admin" onclick="showPage('admin')">
+      <span class="bni">⚙️</span><span>Verwaltung</span>
+    </button>
+    <button class="bottom-nav-item" id="bnav-kalender" onclick="showPage('kalender')">
+      <span class="bni">📅</span><span>Kalender</span>
+    </button>
+    <button class="bottom-nav-item" id="bnav-auswertung" onclick="showPage('auswertung')">
+      <span class="bni">📊</span><span>Auswertung</span>
+    </button>
+    <button class="bottom-nav-item" id="bnav-eltern" onclick="showPage('eltern')">
+      <span class="bni">👨‍👩‍👦</span><span>Eltern</span>
+    </button>
+  </nav>
 
   <div class="main" id="mainArea">
 
@@ -519,6 +681,8 @@ async function doLogout() {
   await sb.auth.signOut();
   document.getElementById('appShell').style.display = 'none';
   document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('bottomNav').style.display = 'none';
+  document.getElementById('mobileTopBar').style.display = 'none';
 }
 
 function openParent() {
@@ -528,6 +692,13 @@ function openParent() {
   document.getElementById('nav-admin').style.display = 'none';
   document.getElementById('nav-kalender').style.display = 'none';
   document.getElementById('nav-auswertung').style.display = 'none';
+  // Show mobile elements (eltern only)
+  document.getElementById('bottomNav').style.display = '';
+  document.getElementById('mobileTopBar').style.display = '';
+  // Hide trainer tabs in bottom nav
+  var ba = document.getElementById('bnav-admin'); if(ba) ba.style.display='none';
+  var bk = document.getElementById('bnav-kalender'); if(bk) bk.style.display='none';
+  var bau = document.getElementById('bnav-auswertung'); if(bau) bau.style.display='none';
   loadData().then(function() { showPage('eltern'); });
 }
 
@@ -535,6 +706,11 @@ function startApp() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appShell').style.display = 'flex';
   document.getElementById('sbUser').textContent = authUser.email.split('@')[0];
+  // Show mobile elements
+  document.getElementById('bottomNav').style.display = '';
+  document.getElementById('mobileTopBar').style.display = '';
+  var mu = document.getElementById('mobileUser');
+  if (mu) mu.textContent = authUser.email.split('@')[0];
   loadData().then(function() { showPage('admin'); });
 }
 
@@ -549,16 +725,32 @@ async function loadData() {
 }
 
 function buildSeasonDropdown() {
+  var opts = '';
+  if (!seasons.length) { opts = '<option value="">Keine Saison</option>'; }
+  else {
+    if (!curSeason && seasons.length) curSeason = seasons[seasons.length - 1];
+    opts = seasons.map(function(s) {
+      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.team + ' ' + s.saison + '</option>';
+    }).join('');
+  }
   var sel = document.getElementById('seasonSel');
-  if (!seasons.length) { sel.innerHTML = '<option value="">Keine Saison</option>'; return; }
-  if (!curSeason && seasons.length) curSeason = seasons[seasons.length - 1];
-  sel.innerHTML = seasons.map(function(s) {
-    return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.team + ' ' + s.saison + '</option>';
-  }).join('');
+  if (sel) sel.innerHTML = opts;
+  var selM = document.getElementById('seasonSelMobile');
+  if (selM) selM.innerHTML = opts;
+}
+
+function onSeasonChangeMobile() {
+  var selM = document.getElementById('seasonSelMobile');
+  var sel = document.getElementById('seasonSel');
+  if (sel && selM) sel.value = selM.value;
+  onSeasonChange();
 }
 
 async function onSeasonChange() {
   var id = document.getElementById('seasonSel').value;
+  // sync mobile selector
+  var selM = document.getElementById('seasonSelMobile');
+  if (selM && selM.value !== id) selM.value = id;
   curSeason = seasons.find(function(s) { return s.id === id; }) || null;
   if (curSeason) await loadSeasonData();
   refreshPage();
@@ -594,6 +786,11 @@ function showPage(pg) {
   if (pageEl) pageEl.style.display = 'flex';
   var navEl = document.getElementById('nav-' + pg);
   if (navEl) navEl.classList.add('active');
+  // Update bottom nav
+  var bnavs = document.querySelectorAll('.bottom-nav-item');
+  for (var i=0; i<bnavs.length; i++) bnavs[i].classList.remove('active');
+  var bnavEl = document.getElementById('bnav-' + pg);
+  if (bnavEl) bnavEl.classList.add('active');
   renderPage(pg);
 }
 
