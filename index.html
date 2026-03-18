@@ -273,6 +273,9 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
   .cal-wrap{grid-template-columns:1fr;}
   .auswertung-grid,.auswertung-grid-3,.eltern-stats,.eltern-rank-grid{grid-template-columns:1fr 1fr;}
 }
+.bottom-nav { display: none; }
+.bottom-nav-sel { display: none; }
+
 /* ── TABLET ── */
 @media(max-width:900px){
   .cal-wrap{grid-template-columns:1fr;}
@@ -697,9 +700,11 @@ function openParent() {
   document.getElementById('nav-admin').style.display = 'none';
   document.getElementById('nav-kalender').style.display = 'none';
   document.getElementById('nav-auswertung').style.display = 'none';
-  // Show mobile elements (eltern only)
-  document.getElementById('bottomNav').style.display = '';
-  document.getElementById('mobileTopBar').style.display = '';
+  // Show mobile elements only on mobile screen width
+  if (window.innerWidth <= 700) {
+    document.getElementById('bottomNav').style.display = '';
+    document.getElementById('mobileTopBar').style.display = '';
+  }
   // Hide trainer tabs in bottom nav
   var ba = document.getElementById('bnav-admin'); if(ba) ba.style.display='none';
   var bk = document.getElementById('bnav-kalender'); if(bk) bk.style.display='none';
@@ -714,9 +719,11 @@ function startApp() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appShell').style.display = 'flex';
   document.getElementById('sbUser').textContent = authUser.email.split('@')[0];
-  // Show mobile elements
-  document.getElementById('bottomNav').style.display = '';
-  document.getElementById('mobileTopBar').style.display = '';
+  // Show mobile elements only on mobile screen width
+  if (window.innerWidth <= 700) {
+    document.getElementById('bottomNav').style.display = '';
+    document.getElementById('mobileTopBar').style.display = '';
+  }
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
   // Show trainer button in eltern header (only for logged-in trainers)
@@ -1695,6 +1702,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // TOAST
+// Handle window resize - show/hide mobile nav accordingly
+window.addEventListener('resize', function() {
+  var isMobile = window.innerWidth <= 700;
+  var isLoggedIn = !!authUser;
+  var bn = document.getElementById('bottomNav');
+  var mt = document.getElementById('mobileTopBar');
+  if (bn && mt) {
+    if (isMobile && (isLoggedIn || bn.style.display !== 'none')) {
+      bn.style.display = '';
+      mt.style.display = '';
+    } else if (!isMobile) {
+      bn.style.display = 'none';
+      mt.style.display = 'none';
+    }
+  }
+});
+
 var toastT;
 function toast(msg, type) {
   var el = document.getElementById('toastEl');
