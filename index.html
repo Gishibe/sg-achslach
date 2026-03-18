@@ -693,6 +693,13 @@ async function doLogout() {
 }
 
 function openParent() {
+  if (!sb) {
+    try {
+      sb = window.supabase.createClient(SB_URL, SB_KEY, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, flowType: 'implicit' }
+      });
+    } catch(e) { console.error('Supabase init error:', e); }
+  }
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appShell').style.display = 'flex';
   document.getElementById('sbUser').textContent = 'Eltern-Ansicht';
@@ -710,8 +717,7 @@ function openParent() {
   var bk = document.getElementById('bnav-kalender'); if(bk) bk.style.display='none';
   var bau = document.getElementById('bnav-auswertung'); if(bau) bau.style.display='none';
   // NO trainer button in eltern header – read only
-  var ea = document.getElementById('elternHeaderActions');
-  if (ea) ea.innerHTML = '<span style="font-size:12px;color:var(--gy);font-style:italic;">Nur Lesezugriff</span>';
+  setTrainerButton(false);
   loadData().then(function() { showPage('eltern'); });
 }
 
@@ -719,18 +725,31 @@ function startApp() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appShell').style.display = 'flex';
   document.getElementById('sbUser').textContent = authUser.email.split('@')[0];
-  // Show mobile elements only on mobile screen width
   if (window.innerWidth <= 700) {
     document.getElementById('bottomNav').style.display = '';
     document.getElementById('mobileTopBar').style.display = '';
   }
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
-  // Show trainer button in eltern header (only for logged-in trainers)
-  var ea = document.getElementById('elternHeaderActions');
-  if (ea) ea.innerHTML = '<button class="btn btn-ghost btn-sm" onclick="showPage('admin')">&#8592; Trainer-Bereich</button>';
+  setTrainerButton(true);
   loadData().then(function() { showPage('admin'); });
 }
+
+function setTrainerButton(isTrainer) {
+  var ea = document.getElementById('elternHeaderActions');
+  if (!ea) return;
+  if (isTrainer) {
+    var b = document.createElement('button');
+    b.className = 'btn btn-ghost btn-sm';
+    b.textContent = '← Trainer-Bereich';
+    b.onclick = function() { showPage('admin'); };
+    ea.innerHTML = '';
+    ea.appendChild(b);
+  } else {
+    ea.innerHTML = '<span style="font-size:12px;color:var(--gy);font-style:italic;">Nur Lesezugriff</span>';
+  }
+}
+
 
 // DATA
 async function loadData() {
