@@ -260,7 +260,7 @@ td { padding: 10px 12px; vertical-align: middle; }
 <body>
 
 <!-- CONFIG BANNER -->
-<div id="configBanner">
+<div id="configBanner" style="display:none;">
   <strong>⚙️ Supabase verbinden:</strong>
   <div style="display:flex;flex-direction:column;gap:4px;">
     <label style="font-size:11px;font-weight:600;">Project URL</label>
@@ -393,7 +393,6 @@ function saveConfig() {
 function initSupabase(url, key) {
   try {
     sb = window.supabase.createClient(url, key);
-    document.getElementById('configBanner').style.display = 'none';
     checkSession();
   } catch(e) {
     document.getElementById('cfgStatus').textContent = '✗ Fehler: ' + e.message;
@@ -402,15 +401,12 @@ function initSupabase(url, key) {
   }
 }
 
-// Auto-load config after DOM ready
+// Pre-configured – kein Setup nötig
+const SUPABASE_URL = 'https://niorgrizesaoeclvdtiy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
+
 document.addEventListener('DOMContentLoaded', function() {
-  const savedUrl = localStorage.getItem('sb_url');
-  const savedKey = localStorage.getItem('sb_key');
-  if (savedUrl && savedKey) {
-    document.getElementById('cfgUrl').value = savedUrl;
-    document.getElementById('cfgKey').value = savedKey;
-    initSupabase(savedUrl, savedKey);
-  }
+  initSupabase(SUPABASE_URL, SUPABASE_KEY);
 });
 
 // ═══════════════════════════════════════════════════════
