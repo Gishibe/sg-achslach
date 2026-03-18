@@ -281,6 +281,19 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
   .stat-grid{grid-template-columns:1fr 1fr;}
   .page-body{padding:14px;}
 }
+
+.next-game-info { flex: 1; min-width: 0; }
+.next-game-loc { font-size: 11px; color: var(--gy); margin-top: 2px; }
+.next-game-note { font-size: 11px; color: var(--gy); font-style: italic; margin-top: 1px; }
+.result-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--gyb); }
+.result-row:last-child { border-bottom: none; }
+.result-date { font-size: 11px; font-weight: 600; color: var(--gy); min-width: 58px; }
+.result-info { flex: 1; min-width: 0; }
+.result-opp { font-size: 13px; font-weight: 500; }
+.result-ha { font-size: 11px; color: var(--gy); font-weight: 400; }
+.result-score { font-family: 'Inter Tight', sans-serif; font-size: 18px; font-weight: 800; color: var(--blm); min-width: 48px; text-align: right; }
+.result-score-na { font-size: 14px; color: var(--gybl); min-width: 48px; text-align: right; }
+.result-scorers { font-size: 11px; color: var(--gy); margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -366,7 +379,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openEventModal('Spiel')">+ Spiel anlegen</button>
           </div>
-          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Zeit</th><th>Typ</th><th>Gegner</th><th>Heim/Ausw.</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="spieleBody"></tbody></table></div>
+          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Zeit</th><th>Typ</th><th>Gegner</th><th>Heim/Ausw.</th><th>Ergebnis</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="spieleBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-saisons">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
@@ -740,7 +753,8 @@ function renderSpieleTab() {
       '<td>' + badge(evBadgeClass(e.type), e.type) + '</td>' +
       '<td style="font-weight:500;">' + (e.opponent || '–') + '</td>' +
       '<td>' + haBadge + '</td>' +
-      '<td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
+      '<td>' + (e.score ? '<b>' + e.score + '</b>' : '–') + '</td>' +
+      '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
       '<td>' + attCell + '</td>' +
       '<td><div class="tbl-actions">' +
         btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", '📋') +
@@ -1016,10 +1030,16 @@ function renderEltern() {
   for (var i=0; i<upcoming.length; i++) {
     var e = upcoming[i];
     var name = e.type === 'Training' ? 'Training' : (e.opponent || '–');
+    var haStr = e.home_away ? ' (' + e.home_away + ')' : '';
+    var locStr = e.location ? '<div class="next-game-loc">📍 ' + e.location + '</div>' : '';
+    var noteStr = e.notes ? '<div class="next-game-note">📝 ' + e.notes + '</div>' : '';
     gameRows += '<div class="next-game-row">' +
       '<div class="next-game-date">' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit'}) + (e.time ? '<br>' + fmtTime(e.time) : '') + '</div>' +
       badge(evBadgeClass(e.type), e.type) +
-      '<div class="next-game-name">' + name + (e.home_away ? ' (' + e.home_away + ')' : '') + '</div>' +
+      '<div class="next-game-info">' +
+        '<div class="next-game-name">' + name + haStr + '</div>' +
+        locStr + noteStr +
+      '</div>' +
     '</div>';
   }
   var allRows = '';
@@ -1035,6 +1055,39 @@ function renderEltern() {
       '<td>' + (p.assists > 0 ? badge('b-blue', p.assists + '🅰️') : '–') + '</td>' +
     '</tr>';
   }
+  // Letzte 10 Spiele mit Ergebnis
+  var pastGames = events
+    .filter(function(e){ return e.type !== 'Training' && new Date(e.date) < today; })
+    .sort(function(a,b){ return b.date.localeCompare(a.date); })
+    .slice(0, 10);
+  var resultRows = '';
+  for (var i=0; i<pastGames.length; i++) {
+    var g = pastGames[i];
+    var scorers = [];
+    for (var j=0; j<players.length; j++) {
+      var pg = goals.find(function(x){ return x.player_id===players[j].id && x.event_id===g.id; });
+      if (pg && pg.goals > 0) {
+        scorers.push(players[j].name.split(' ')[0] + ' ' + pg.goals + 'x');
+      }
+    }
+    var scoreStr = g.score ? '<span class="result-score">' + g.score + '</span>' : '<span class="result-score-na">–:–</span>';
+    var scorerStr = scorers.length ? '<div class="result-scorers">⚽ ' + scorers.join(', ') + '</div>' : '';
+    var haStr = g.home_away ? ' <span class="result-ha">' + g.home_away + '</span>' : '';
+    resultRows +=
+      '<div class="result-row">' +
+        '<div class="result-date">' + fmtDate(g.date,{day:'2-digit',month:'2-digit',year:'2-digit'}) + '</div>' +
+        badge(evBadgeClass(g.type), g.type) +
+        '<div class="result-info">' +
+          '<div class="result-opp">' + (g.opponent || '–') + haStr + '</div>' +
+          scorerStr +
+        '</div>' +
+        scoreStr +
+      '</div>';
+  }
+  var resultSection = pastGames.length ?
+    '<div class="next-games" style="margin-bottom:16px;"><div class="card-head"><div class="card-head-title">📋 Letzte Spiele & Ergebnisse</div></div>' +
+    resultRows + '</div>' : '';
+
   document.getElementById('elternBody').innerHTML =
     '<div class="eltern-header"><h2>⚽ ' + (curSeason ? curSeason.team : 'SG') + ' – Saison ' + (curSeason ? curSeason.saison : '–') + '</h2>' +
     '<p>SG Achslach-Gotteszell · ' + players.length + ' Spieler · ' + trs.length + ' Trainings · ' + sps.length + ' Spiele</p></div>' +
@@ -1046,6 +1099,7 @@ function renderEltern() {
     '<div class="next-games"><div class="card-head"><div class="card-head-title">📅 Nächste Termine</div></div>' +
       (gameRows || '<div style="padding:14px;font-size:13px;color:var(--gy);">Keine bevorstehenden Termine</div>') +
     '</div>' +
+    resultSection +
     '<div class="eltern-rank-grid">' +
       '<div class="rank-card"><div class="rank-head">⚽ Torschützen</div>' + rk(sortBy('goals'),'goals','⚽') + '</div>' +
       '<div class="rank-card"><div class="rank-head">🏃 Fleiß-Ranking</div>' + rk(sortBy('tC'),'tC','×') + '</div>' +
@@ -1141,6 +1195,7 @@ function openEventModal(type, editId, prefillDate) {
           '<div class="fg"><label class="fl">Gegner</label><input class="fi" id="evOpp" value="' + ((e && e.opponent) || '') + '" placeholder="z.B. SV Musterbach"></div>' +
           '<div class="fg"><label class="fl">Heim / Auswärts</label><select class="fs" id="evHA">' + haOpts + '</select></div>' +
         '</div>' +
+        '<div class="fg"><label class="fl">Ergebnis (z.B. 3:1)</label><input class="fi" id="evScore" value="' + ((e && e.score) || '') + '" placeholder="3:1"></div>' +
       '</div>' +
       '<div class="fg"><label class="fl">Notiz</label><textarea class="fta" id="evNotes">' + ((e && e.notes) || '') + '</textarea></div>' +
     '</div>' +
@@ -1168,6 +1223,7 @@ async function saveEvent(editId) {
     location: document.getElementById('evLoc').value.trim() || null,
     opponent: (document.getElementById('evOpp') && document.getElementById('evOpp').value.trim()) || null,
     home_away: (document.getElementById('evHA') && document.getElementById('evHA').value) || null,
+    score: (document.getElementById('evScore') && document.getElementById('evScore').value.trim()) || null,
     notes: document.getElementById('evNotes').value.trim() || null
   };
   var savedId;
