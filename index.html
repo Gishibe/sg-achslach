@@ -614,7 +614,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
     <div id="page-eltern" style="display:none;flex-direction:column;">
       <div class="page-header">
         <div class="page-title">Eltern-Ansicht</div>
-        <div class="page-actions"><button class="btn btn-ghost btn-sm" onclick="showPage('admin')">&#8592; Trainer-Bereich</button></div>
+        <div class="page-actions" id="elternHeaderActions"></div>
       </div>
       <div class="page-body" id="elternBody"></div>
     </div>
@@ -679,16 +679,21 @@ async function doLogin() {
 
 async function doLogout() {
   await sb.auth.signOut();
+  authUser = null;
   document.getElementById('appShell').style.display = 'none';
   document.getElementById('loginWrap').style.display = 'flex';
   document.getElementById('bottomNav').style.display = 'none';
   document.getElementById('mobileTopBar').style.display = 'none';
+  // Clear trainer button in eltern header
+  var ea = document.getElementById('elternHeaderActions');
+  if (ea) ea.innerHTML = '';
 }
 
 function openParent() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('appShell').style.display = 'flex';
   document.getElementById('sbUser').textContent = 'Eltern-Ansicht';
+  // Hide all trainer sidebar nav items
   document.getElementById('nav-admin').style.display = 'none';
   document.getElementById('nav-kalender').style.display = 'none';
   document.getElementById('nav-auswertung').style.display = 'none';
@@ -699,6 +704,9 @@ function openParent() {
   var ba = document.getElementById('bnav-admin'); if(ba) ba.style.display='none';
   var bk = document.getElementById('bnav-kalender'); if(bk) bk.style.display='none';
   var bau = document.getElementById('bnav-auswertung'); if(bau) bau.style.display='none';
+  // NO trainer button in eltern header – read only
+  var ea = document.getElementById('elternHeaderActions');
+  if (ea) ea.innerHTML = '<span style="font-size:12px;color:var(--gy);font-style:italic;">Nur Lesezugriff</span>';
   loadData().then(function() { showPage('eltern'); });
 }
 
@@ -711,6 +719,9 @@ function startApp() {
   document.getElementById('mobileTopBar').style.display = '';
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
+  // Show trainer button in eltern header (only for logged-in trainers)
+  var ea = document.getElementById('elternHeaderActions');
+  if (ea) ea.innerHTML = '<button class="btn btn-ghost btn-sm" onclick="showPage('admin')">&#8592; Trainer-Bereich</button>';
   loadData().then(function() { showPage('admin'); });
 }
 
