@@ -781,12 +781,19 @@ function showModal(type,extra){
   else if(type==='addEvent'){
     // extra can be a pre-filled date string
     const prefillDate = (extra && extra.includes('-')) ? extra : new Date().toISOString().split('T')[0];
+    const isSpielType = ()=>['Spiel','Test - Spiel','Trainingsspiel','Hallentunier'].includes(document.getElementById('mET')?.value);
     box.innerHTML=`<div class="m-title">Training / Spiel <button class="m-close" onclick="closeModal()">×</button></div>
       <div class="row2">
-        <div class="field"><label>Typ</label><select id="mET"><option>Training</option><option>Spiel</option><option>Test - Spiel</option><option>Trainingsspiel</option><option>Hallentunier</option></select></div>
+        <div class="field"><label>Typ</label><select id="mET" onchange="toggleOpponent()"><option>Training</option><option>Spiel</option><option>Test - Spiel</option><option>Trainingsspiel</option><option>Hallentunier</option></select></div>
         <div class="field"><label>Datum</label><input id="mED" type="date" value="${prefillDate}"></div>
       </div>
+      <div class="field" id="opponentField" style="display:none;">
+        <label>Gegner</label>
+        <input id="mEOpp" placeholder="z.B. SV Musterbach" style="border:2px solid var(--g-border);border-radius:8px;padding:10px 12px;font-family:Barlow,sans-serif;font-size:13px;width:100%;outline:none;">
+      </div>
       <div class="save-bar"><button class="btn-cl" onclick="closeModal()">Abbrechen</button><button class="btn-sv" onclick="saveEvent()">Anlegen & Erfassen</button></div>`;
+    // Pre-select type if from calendar click on existing event type
+    `;
   }
   else if(type==='attendance'){
     const ev=currentSeason._events.find(e=>e.id===extra);
@@ -914,9 +921,18 @@ async function savePlayer(editId){
   photoDataUrl=null;closeModal();closePlayer();renderTable();renderEingabe();
   showToast('Spieler gespeichert ✓','success');
 }
+
+function toggleOpponent(){
+  const t=document.getElementById('mET')?.value;
+  const f=document.getElementById('opponentField');
+  if(f)f.style.display=(t&&t!=='Training')?'block':'none';
+}
 async function saveEvent(){
   const type=document.getElementById('mET').value;const date=document.getElementById('mED').value;if(!date)return;
-  const{data,error}=await sb.from('events').insert({type,date,season_id:currentSeason.id}).select().single();
+  const opponent=document.getElementById('mEOpp')?.value?.trim()||null;
+  const evData={type,date,season_id:currentSeason.id};
+  if(opponent)evData.opponent=opponent;
+  const{data,error}=await sb.from('events').insert(evData).select().single();
   if(error){showToast('Fehler','error');return;}
   currentSeason._events.push(data);closeModal();
   renderStats();renderTable();renderEingabe();
@@ -926,6 +942,8 @@ async function saveEvent(){
 
 // ── FULL IMPORT ──
 async function doImport(){
+  // Safety timeout: if stuck for 60s, reload anyway
+  const safetyTimer = setTimeout(()=>{ window.location.reload(); }, 60000);
   const btn=document.getElementById('impBtn');
   btn.disabled=true;btn.textContent='Importiere…';
   const st=document.getElementById('impSt');
@@ -948,7 +966,7 @@ async function doImport(){
 
   st.textContent='Saison wird angelegt…';
   const{data:season,error:se}=await sb.from('seasons').insert({team:SD.team,saison:SD.saison}).select().single();
-  if(se){showToast('Fehler: '+se.message,'error');btn.disabled=false;btn.textContent='Import starten';return;}
+  if(se){clearTimeout(safetyTimer);showToast('Fehler: '+se.message,'error');btn.disabled=false;btn.textContent='Import starten';return;}
 
   st.textContent='Events werden eingetragen…';
   const{data:insEvs}=await sb.from('events').insert(SD.events.map(e=>({season_id:season.id,type:e.type,date:e.date}))).select();
@@ -969,11 +987,11 @@ async function doImport(){
   }
   for(let i=0;i<attIns.length;i+=500)await sb.from('attendance').insert(attIns.slice(i,i+500));
 
-  st.textContent=`✓ ${SD.players.length} Spieler, ${SD.events.length} Events importiert!`;
-  await loadSeasons();
-  const ns=seasons.find(s=>s.saison==='2025/26'&&s.team==='E-Jugend');
-  if(ns){currentSeason=ns;document.getElementById('seasonSelect').value=ns.id;await loadSeasonData();}
-  closeModal();showToast('E-Jugend 2025/26 importiert ✓','success');
+  st.textContent='✓ Import abgeschlossen! Seite wird neu geladen…';
+  showToast('E-Jugend 2025/26 importiert ✓','success');
+  // Short delay then reload so user sees success message
+  clearTimeout(safetyTimer);
+  setTimeout(()=>{ window.location.reload(); }, 1500);
 }
 
 
