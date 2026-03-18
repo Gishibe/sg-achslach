@@ -6,7 +6,7 @@
 <title>SG Achslach-Gotteszell</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
+:root{
   --green:#2D6A4F;--green-l:#52B788;--green-pale:#D8F3DC;
   --amber:#E07A00;--amber-pale:#FFF3CD;
   --red:#C62828;--red-pale:#FFEBEE;
@@ -18,25 +18,24 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--g1);color:var(--g9);min-height:100vh;}
 
-/* HEADER */
-.header{background:var(--green);color:white;padding:0 20px;display:flex;align-items:center;gap:12px;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
-.header-title{font-size:15px;font-weight:600;}
-.header-sub{font-size:11px;opacity:.7;}
-.header-nav{margin-left:auto;display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
-.nav-btn{padding:6px 12px;border-radius:20px;border:none;background:rgba(255,255,255,.15);color:white;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s;white-space:nowrap;}
+.header{background:var(--green);color:white;padding:0 16px;display:flex;align-items:center;gap:10px;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.header-logo{width:40px;height:40px;border-radius:50%;object-fit:cover;background:white;flex-shrink:0;border:2px solid rgba(255,255,255,.4);}
+.header-title{font-size:14px;font-weight:600;line-height:1.2;}
+.header-sub{font-size:10px;opacity:.7;}
+.header-nav{margin-left:auto;display:flex;align-items:center;gap:3px;flex-wrap:wrap;}
+.nav-btn{padding:5px 10px;border-radius:20px;border:none;background:rgba(255,255,255,.15);color:white;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s;white-space:nowrap;}
 .nav-btn:hover,.nav-btn.active{background:rgba(255,255,255,.3);}
-.trainer-info{font-size:11px;opacity:.7;margin-left:4px;}
+.trainer-info{font-size:11px;opacity:.65;margin-left:2px;}
 
-/* SEASON DROPDOWN BAR */
 .season-bar{background:white;border-bottom:1px solid var(--g2);padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .season-select{padding:7px 12px;border-radius:8px;border:1px solid var(--g3);font-family:inherit;font-size:13px;font-weight:500;background:white;color:var(--g9);cursor:pointer;outline:none;min-width:180px;}
 .season-select:focus{border-color:var(--green);}
-.season-label{font-size:12px;color:var(--g5);}
+.season-meta{font-size:12px;color:var(--g5);}
 
-/* LOGIN */
 #loginScreen{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:20px;}
 .login-card{background:white;border-radius:16px;padding:36px;box-shadow:var(--sh2);width:100%;max-width:380px;}
-.login-logo{text-align:center;font-size:40px;margin-bottom:8px;}
+.login-logo{text-align:center;margin-bottom:12px;}
+.login-logo img{width:80px;height:80px;object-fit:contain;}
 .login-title{text-align:center;font-size:20px;font-weight:600;margin-bottom:4px;}
 .login-sub{text-align:center;font-size:13px;color:var(--g5);margin-bottom:28px;}
 .form-group{margin-bottom:16px;}
@@ -46,52 +45,43 @@ body{font-family:'DM Sans',sans-serif;background:var(--g1);color:var(--g9);min-h
 .btn-primary{width:100%;padding:11px;border-radius:8px;border:none;background:var(--green);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
 .err-msg{color:var(--red);font-size:12px;margin-top:8px;text-align:center;}
+.parent-link{text-align:center;margin-top:16px;}
+.parent-link button{background:none;border:none;font-size:13px;color:var(--g5);cursor:pointer;font-family:inherit;text-decoration:underline;}
 
-/* CONTENT */
 .content{padding:20px;max-width:1100px;margin:0 auto;}
 .view{display:none;}.view.active{display:block;}
 
-/* STATS */
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .stat-card{background:white;border-radius:var(--r);padding:16px 18px;box-shadow:var(--sh);}
 .stat-label{font-size:11px;color:var(--g5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;}
 .stat-value{font-size:26px;font-weight:600;font-family:'DM Mono',monospace;}
 .stat-sub{font-size:11px;color:var(--g5);margin-top:2px;}
 
-/* TOOLBAR */
 .toolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
 .search-input{flex:1;min-width:150px;padding:8px 12px;border-radius:8px;border:1px solid var(--g2);font-family:inherit;font-size:13px;outline:none;}
 .search-input:focus{border-color:var(--green);}
 .filt-btn{padding:7px 12px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;color:var(--g7);white-space:nowrap;}
 .filt-btn.active{background:var(--green-pale);border-color:var(--green);color:var(--green);font-weight:500;}
 .add-btn{padding:7px 14px;border-radius:8px;border:none;background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;}
-.add-btn.amber{background:var(--amber);}
-.add-btn.gray{background:var(--g7);}
+.add-btn.amber{background:var(--amber);}.add-btn.gray{background:var(--g7);}
 
-/* TABLE */
 .table-wrap{background:white;border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:20px;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
 thead tr{background:var(--g0);border-bottom:1px solid var(--g2);}
-th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;letter-spacing:.05em;cursor:pointer;}
-th:hover{color:var(--g7);}
+th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;letter-spacing:.05em;}
 tbody tr{border-bottom:1px solid var(--g1);cursor:pointer;transition:background .1s;}
 tbody tr:last-child{border-bottom:none;}
 tbody tr:hover{background:var(--g0);}
-td{padding:10px 12px;vertical-align:middle;}
+td{padding:9px 12px;vertical-align:middle;}
 .pname{font-weight:500;}
+.player-thumb{width:32px;height:32px;border-radius:50%;object-fit:cover;background:var(--green-pale);border:2px solid var(--g2);flex-shrink:0;}
+.player-thumb-placeholder{width:32px;height:32px;border-radius:50%;background:var(--green-pale);color:var(--green);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;border:2px solid var(--g2);}
 .pct-bar{display:flex;align-items:center;gap:6px;}
 .bar-track{flex:1;height:5px;background:var(--g2);border-radius:3px;overflow:hidden;max-width:70px;}
 .bar-fill{height:100%;border-radius:3px;}
 .bg{background:var(--green-l);}.ba{background:var(--amber);}.br{background:var(--red);}
 .pct-val{font-family:'DM Mono',monospace;font-size:12px;color:var(--g7);min-width:34px;}
 
-/* BADGES */
-.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;}
-.badge-green{background:var(--green-pale);color:var(--green);}
-.badge-amber{background:var(--amber-pale);color:var(--amber);}
-.badge-red{background:var(--red-pale);color:var(--red);}
-
-/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px;}
 .modal-overlay.hidden{display:none;}
 .modal{background:white;border-radius:14px;padding:28px;width:100%;max-width:560px;box-shadow:var(--sh2);max-height:92vh;overflow-y:auto;}
@@ -103,38 +93,42 @@ td{padding:10px 12px;vertical-align:middle;}
 .field input,.field select{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--g3);font-family:inherit;font-size:13px;outline:none;}
 .field input:focus,.field select:focus{border-color:var(--green);}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 .save-bar{display:flex;gap:10px;margin-top:20px;}
 .btn-save{flex:1;padding:11px;border-radius:8px;border:none;background:var(--green);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;}
 .btn-cancel{padding:11px 20px;border-radius:8px;border:1px solid var(--g3);background:white;font-family:inherit;font-size:14px;cursor:pointer;color:var(--g7);}
 
-/* ATTENDANCE INPUT */
-.att-header{display:flex;gap:8px;margin-bottom:8px;padding:0 10px;}
-.att-header-name{flex:1;font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;}
-.att-header-col{font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;width:90px;text-align:center;}
-.att-grid{display:flex;flex-direction:column;gap:5px;max-height:400px;overflow-y:auto;padding:2px;}
-.att-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--g0);border-radius:8px;}
+/* Attendance modal */
+.att-filter-bar{display:flex;gap:8px;margin-bottom:12px;}
+.att-filt{padding:5px 12px;border-radius:20px;border:1px solid var(--g2);background:white;font-size:12px;cursor:pointer;font-family:inherit;color:var(--g7);}
+.att-filt.active{background:var(--green-pale);border-color:var(--green);color:var(--green);font-weight:500;}
+.att-grid{display:flex;flex-direction:column;gap:5px;max-height:380px;overflow-y:auto;padding:2px;}
+.att-row{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--g0);border-radius:8px;}
 .att-name{flex:1;font-size:13px;font-weight:500;}
-.att-stat-inputs{display:flex;gap:6px;align-items:center;}
-.att-stat-input{width:46px;padding:4px 6px;border-radius:6px;border:1px solid var(--g3);font-size:12px;text-align:center;font-family:'DM Mono',monospace;}
-.att-stat-label{font-size:10px;color:var(--g5);text-align:center;}
-.att-btns{display:flex;gap:5px;}
-.att-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--g3);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;background:white;color:var(--g7);transition:all .12s;white-space:nowrap;}
+.stat-inputs{display:flex;gap:6px;align-items:center;}
+.stat-inp{width:44px;padding:4px 6px;border-radius:6px;border:1px solid var(--g3);font-size:12px;text-align:center;font-family:'DM Mono',monospace;}
+.stat-lbl{font-size:9px;color:var(--g5);text-align:center;margin-top:1px;}
+.att-btns{display:flex;gap:4px;}
+.att-btn{padding:4px 9px;border-radius:6px;border:1px solid var(--g3);font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;background:white;color:var(--g7);transition:all .1s;white-space:nowrap;}
 .att-btn.anwesend{background:var(--green-pale);border-color:var(--green);color:var(--green);}
 .att-btn.abwesend{background:var(--red-pale);border-color:#FFCDD2;color:var(--red);}
 .att-btn.na{background:var(--g2);border-color:var(--g3);color:var(--g5);}
 
-/* PLAYER DETAIL */
+/* Photo upload */
+.photo-upload-area{border:2px dashed var(--g3);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s;margin-bottom:12px;}
+.photo-upload-area:hover{border-color:var(--green);}
+.photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 8px;display:block;}
+
+/* Player detail */
 .back-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:13px;cursor:pointer;margin-bottom:18px;color:var(--g7);}
 .back-btn:hover{background:var(--g0);}
 .player-header{background:white;border-radius:var(--r);padding:22px;margin-bottom:14px;display:flex;align-items:center;gap:16px;box-shadow:var(--sh);}
-.player-avatar{width:50px;height:50px;border-radius:50%;background:var(--green-pale);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;flex-shrink:0;}
+.player-avatar-lg{width:64px;height:64px;border-radius:50%;object-fit:cover;background:var(--green-pale);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;flex-shrink:0;border:3px solid var(--g2);}
 .season-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
 .sc{background:white;border-radius:var(--r);padding:16px;box-shadow:var(--sh);}
 .sc-title{font-size:11px;font-weight:600;color:var(--g5);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;}
 .big-num{font-size:28px;font-weight:600;font-family:'DM Mono',monospace;}
 
-/* DASHBOARD */
+/* Dashboard */
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
 .dash-card{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);}
 .dash-title{font-size:13px;font-weight:600;color:var(--g7);margin-bottom:14px;}
@@ -144,41 +138,36 @@ td{padding:10px 12px;vertical-align:middle;}
 .rname{flex:1;font-size:13px;font-weight:500;}
 .rval{font-size:13px;font-family:'DM Mono',monospace;font-weight:600;color:var(--green);}
 
-/* PARENT VIEW */
-.parent-hero{background:var(--green);color:white;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--sh2);}
+/* Eltern */
+.parent-hero{background:linear-gradient(135deg,var(--green) 0%,#1a4a37 100%);color:white;border-radius:var(--r);padding:28px;margin-bottom:20px;box-shadow:var(--sh2);}
 .parent-hero h2{font-size:22px;font-weight:600;margin-bottom:4px;}
 .parent-hero p{font-size:13px;opacity:.8;}
-.parent-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;}
-.parent-card{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);text-align:center;}
-.parent-card .big{font-size:32px;font-weight:600;font-family:'DM Mono',monospace;}
-.parent-card .lbl{font-size:12px;color:var(--g5);margin-top:4px;}
+.parent-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+.parent-stat{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);text-align:center;}
+.parent-stat .big{font-size:32px;font-weight:600;font-family:'DM Mono',monospace;}
+.parent-stat .lbl{font-size:12px;color:var(--g5);margin-top:4px;}
 .top-list{background:white;border-radius:var(--r);padding:18px;box-shadow:var(--sh);margin-bottom:14px;}
-.top-list-title{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.medal{font-size:16px;}
+.top-list-title{font-size:14px;font-weight:600;margin-bottom:14px;}
 
-/* LOADING */
-.spinner{text-align:center;padding:40px;color:var(--g5);font-size:13px;}
 .toast{position:fixed;bottom:24px;right:24px;z-index:300;background:var(--g9);color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:500;animation:fadeIn .2s;box-shadow:var(--sh2);}
-.toast.success{background:var(--green);}
-.toast.error{background:var(--red);}
+.toast.success{background:var(--green);}.toast.error{background:var(--red);}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}}
 
-/* RESPONSIVE */
 @media(max-width:700px){
   .stats-grid{grid-template-columns:1fr 1fr;}
   .season-cards{grid-template-columns:1fr;}
   .dash-grid{grid-template-columns:1fr;}
-  .parent-grid{grid-template-columns:1fr 1fr;}
+  .parent-stats{grid-template-columns:1fr 1fr;}
   .content{padding:12px;}
-  .row2,.row3{grid-template-columns:1fr;}
+  .row2{grid-template-columns:1fr;}
+  .header-nav .nav-btn:not(.active):not(:last-child){display:none;}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <div>⚽</div>
+  <img class="header-logo" src="data:image/png;base64,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" alt="SG Logo">
   <div>
     <div class="header-title">SG Achslach-Gotteszell</div>
     <div class="header-sub">Jugendabteilung</div>
@@ -187,83 +176,64 @@ td{padding:10px 12px;vertical-align:middle;}
     <button class="nav-btn active" onclick="showView('saison')">Übersicht</button>
     <button class="nav-btn" onclick="showView('eingabe')">Eingabe</button>
     <button class="nav-btn" onclick="showView('auswertung')">Auswertung</button>
-    <button class="nav-btn" onclick="showView('eltern')" style="background:rgba(255,255,255,.1);">👨‍👩‍👦 Eltern</button>
+    <button class="nav-btn" onclick="showView('eltern')">👨‍👩‍👦 Eltern</button>
     <span class="trainer-info" id="trainerName"></span>
-    <button class="nav-btn" onclick="logout()" style="background:rgba(255,255,255,.08);">Abmelden</button>
+    <button class="nav-btn" onclick="logout()">Abmelden</button>
   </nav>
   <nav class="header-nav" id="parentNav" style="display:none;">
-    <button class="nav-btn active" onclick="showParentView()">Übersicht</button>
-    <button class="nav-btn" onclick="showView('login'); document.getElementById('parentNav').style.display='none';">← Trainer-Login</button>
+    <span style="font-size:12px;opacity:.8;">Eltern-Ansicht</span>
+    <button class="nav-btn" onclick="switchToLogin()">Trainer-Login</button>
   </nav>
 </div>
 
-<!-- SEASON BAR -->
 <div class="season-bar" id="seasonBar" style="display:none;">
-  <span class="season-label">Saison:</span>
+  <span style="font-size:12px;color:var(--g5);">Saison:</span>
   <select class="season-select" id="seasonSelect" onchange="selectSeasonByDropdown()"></select>
-  <span id="seasonMeta" style="font-size:12px;color:var(--g5);"></span>
+  <span class="season-meta" id="seasonMeta"></span>
 </div>
 
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-card">
-    <div class="login-logo">⚽</div>
-    <div class="login-title">Trainer-Login</div>
-    <div class="login-sub">SG Achslach-Gotteszell</div>
+    <div class="login-logo"><img src="data:image/png;base64,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" alt="SG Logo"></div>
+    <div class="login-title">SG Achslach-Gotteszell</div>
+    <div class="login-sub">Trainer-Login</div>
     <div class="form-group">
       <label class="form-label">E-Mail</label>
       <input class="form-input" type="email" id="loginEmail" placeholder="trainer@example.com" autocomplete="email">
     </div>
     <div class="form-group">
       <label class="form-label">Passwort</label>
-      <input class="form-input" type="password" id="loginPw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      <input class="form-input" type="password" id="loginPw" placeholder="••••••••" onkeydown="if(event.key===\'Enter\')doLogin()">
     </div>
     <button class="btn-primary" id="loginBtn" onclick="doLogin()">Einloggen</button>
     <div class="err-msg" id="loginErr"></div>
-    <div style="text-align:center;margin-top:16px;">
-      <button onclick="showParentView()" style="background:none;border:none;font-size:13px;color:var(--g5);cursor:pointer;font-family:inherit;">👨‍👩‍👦 Eltern-Ansicht öffnen</button>
+    <div class="parent-link">
+      <button onclick="showParentView()">👨‍👩‍👦 Eltern-Ansicht öffnen</button>
     </div>
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="appScreen" style="display:none;">
 <div class="content">
-
-  <!-- SAISON VIEW -->
   <div class="view active" id="view-saison">
-    <div id="saisonPlayerList">
+    <div id="saisonList">
       <div id="statsGrid" class="stats-grid"></div>
       <div class="toolbar">
         <input class="search-input" type="text" placeholder="Spieler suchen…" oninput="renderPlayerTable()">
-        <button class="filt-btn active" id="fa" onclick="setFilt('all')">Alle</button>
-        <button class="filt-btn" id="ft" onclick="setFilt('training')">Training</button>
-        <button class="filt-btn" id="fs" onclick="setFilt('spiel')">Spiele</button>
+        <button class="filt-btn active" id="fa" onclick="setFilt(\'all\')">Alle</button>
+        <button class="filt-btn" id="ft" onclick="setFilt(\'training\')">Training</button>
+        <button class="filt-btn" id="fs" onclick="setFilt(\'spiel\')">Spiele</button>
       </div>
       <div id="playerTableArea"></div>
     </div>
     <div id="playerDetailArea" style="display:none;"></div>
   </div>
-
-  <!-- EINGABE VIEW -->
-  <div class="view" id="view-eingabe">
-    <div id="eingabeContent"></div>
-  </div>
-
-  <!-- AUSWERTUNG VIEW -->
-  <div class="view" id="view-auswertung">
-    <div id="auswertungContent"></div>
-  </div>
-
-  <!-- ELTERN VIEW -->
-  <div class="view" id="view-eltern">
-    <div id="elternContent"></div>
-  </div>
-
+  <div class="view" id="view-eingabe"><div id="eingabeContent"></div></div>
+  <div class="view" id="view-auswertung"><div id="auswertungContent"></div></div>
+  <div class="view" id="view-eltern"><div id="elternContent"></div></div>
 </div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal" id="modalBox"></div>
 </div>
@@ -271,214 +241,200 @@ td{padding:10px 12px;vertical-align:middle;}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ═══════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════
-const SUPABASE_URL = 'https://niorgrizesaoeclvdtiy.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
+const SB_URL='https://niorgrizesaoeclvdtiy.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
 
-// ═══════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════
-let sb = null;
-let currentUser = null;
-let seasons = [];
-let currentSeason = null;
-let filt = 'all';
-const pendingAtt = {};
+let sb,currentUser,seasons=[],currentSeason=null,filt='all';
+const pendingAtt={};
 
-// ═══════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+document.addEventListener('DOMContentLoaded',()=>{
+  sb=window.supabase.createClient(SB_URL,SB_KEY);
   checkSession();
 });
 
-async function checkSession() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) { currentUser = session.user; showApp(); }
+async function checkSession(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(session){currentUser=session.user;showApp();}
 }
 
-// ═══════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════
-async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pw = document.getElementById('loginPw').value;
-  const btn = document.getElementById('loginBtn');
-  const err = document.getElementById('loginErr');
-  err.textContent = '';
-  btn.disabled = true; btn.textContent = 'Einloggen…';
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-  btn.disabled = false; btn.textContent = 'Einloggen';
-  if (error) { err.textContent = 'Falsche E-Mail oder Passwort'; return; }
-  currentUser = data.user;
+async function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pw=document.getElementById('loginPw').value;
+  const btn=document.getElementById('loginBtn');
+  const err=document.getElementById('loginErr');
+  err.textContent='';
+  btn.disabled=true;btn.textContent='Einloggen…';
+  const {data,error}=await sb.auth.signInWithPassword({email,password:pw});
+  btn.disabled=false;btn.textContent='Einloggen';
+  if(error){err.textContent='Falsche E-Mail oder Passwort';return;}
+  currentUser=data.user;
   showApp();
 }
 
-async function logout() {
+async function logout(){
   await sb.auth.signOut();
-  currentUser = null;
-  document.getElementById('appScreen').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('trainerNav').style.display = 'none';
-  document.getElementById('seasonBar').style.display = 'none';
+  currentUser=null;
+  document.getElementById('appScreen').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('trainerNav').style.display='none';
+  document.getElementById('parentNav').style.display='none';
+  document.getElementById('seasonBar').style.display='none';
+  seasons=[];currentSeason=null;
 }
 
-function showApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appScreen').style.display = 'block';
-  document.getElementById('trainerNav').style.display = 'flex';
-  document.getElementById('trainerName').textContent = currentUser.email.split('@')[0];
+function switchToLogin(){
+  document.getElementById('appScreen').style.display='none';
+  document.getElementById('parentNav').style.display='none';
+  document.getElementById('seasonBar').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+}
+
+function showApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appScreen').style.display='block';
+  document.getElementById('trainerNav').style.display='flex';
+  document.getElementById('trainerName').textContent=currentUser.email.split('@')[0];
   loadSeasons();
 }
 
-// ═══════════════════════════════════════
-// SEASONS
-// ═══════════════════════════════════════
-async function loadSeasons() {
-  const { data, error } = await sb.from('seasons').select('*').order('saison');
-  if (error) { showToast('Ladefehler: ' + error.message, 'error'); return; }
-  seasons = data || [];
-  if (seasons.length === 0) { showEmptyState(); return; }
-  currentSeason = seasons[seasons.length - 1];
+// ── SEASONS ──
+async function loadSeasons(){
+  const {data,error}=await sb.from('seasons').select('*').order('saison');
+  if(error){showToast('Ladefehler','error');return;}
+  seasons=data||[];
+  if(seasons.length===0){showEmptyState();return;}
+  currentSeason=seasons[seasons.length-1];
   buildSeasonDropdown();
   await loadSeasonData();
 }
 
-function buildSeasonDropdown() {
-  const sel = document.getElementById('seasonSelect');
-  sel.innerHTML = seasons.map(s =>
-    `<option value="${s.id}" ${s.id === currentSeason?.id ? 'selected' : ''}>${s.team} ${s.saison}</option>`
-  ).join('');
-  document.getElementById('seasonBar').style.display = 'flex';
+function buildSeasonDropdown(){
+  const sel=document.getElementById('seasonSelect');
+  sel.innerHTML=seasons.map(s=>`<option value="${s.id}"${s.id===currentSeason?.id?' selected':''}>${s.team} ${s.saison}</option>`).join('');
+  document.getElementById('seasonBar').style.display='flex';
 }
 
-async function selectSeasonByDropdown() {
-  const id = document.getElementById('seasonSelect').value;
-  currentSeason = seasons.find(s => s.id === id);
+async function selectSeasonByDropdown(){
+  const id=document.getElementById('seasonSelect').value;
+  currentSeason=seasons.find(s=>s.id===id);
   await loadSeasonData();
 }
 
-async function loadSeasonData() {
-  if (!currentSeason) return;
-  document.getElementById('playerTableArea').innerHTML = '<div class="spinner"></div>';
-
-  const [plRes, evRes] = await Promise.all([
-    sb.from('players').select('*').eq('season_id', currentSeason.id).order('name'),
-    sb.from('events').select('*').eq('season_id', currentSeason.id).order('date')
+async function loadSeasonData(){
+  if(!currentSeason)return;
+  document.getElementById('playerTableArea').innerHTML='<div style="padding:40px;text-align:center;color:var(--g5);">Lade…</div>';
+  const [plRes,evRes]=await Promise.all([
+    sb.from('players').select('*').eq('season_id',currentSeason.id).order('name'),
+    sb.from('events').select('*').eq('season_id',currentSeason.id).order('date')
   ]);
-  currentSeason._players = plRes.data || [];
-  currentSeason._events = evRes.data || [];
-
-  if (currentSeason._players.length > 0 && currentSeason._events.length > 0) {
-    const [attRes, goalsRes] = await Promise.all([
-      sb.from('attendance').select('*').in('player_id', currentSeason._players.map(p => p.id)),
-      sb.from('goals').select('*').in('player_id', currentSeason._players.map(p => p.id))
+  currentSeason._players=plRes.data||[];
+  currentSeason._events=evRes.data||[];
+  if(currentSeason._players.length>0&&currentSeason._events.length>0){
+    const pids=currentSeason._players.map(p=>p.id);
+    const eids=currentSeason._events.map(e=>e.id);
+    const [attRes,goalsRes]=await Promise.all([
+      sb.from('attendance').select('*').in('player_id',pids),
+      sb.from('goals').select('*').in('event_id',eids)
     ]);
-    currentSeason._attendance = attRes.data || [];
-    currentSeason._goals = goalsRes.data || [];
+    currentSeason._attendance=attRes.data||[];
+    currentSeason._goals=goalsRes.data||[];
   } else {
-    currentSeason._attendance = [];
-    currentSeason._goals = [];
+    currentSeason._attendance=[];
+    currentSeason._goals=[];
   }
-
   updateSeasonMeta();
   renderStats();
   renderPlayerTable();
-  renderEingabe();
-  renderAuswertung();
-  renderEltern();
+  if(document.getElementById('view-eingabe').classList.contains('active'))renderEingabe();
+  if(document.getElementById('view-auswertung').classList.contains('active'))renderAuswertung();
+  if(document.getElementById('view-eltern').classList.contains('active'))renderEltern();
 }
 
-function updateSeasonMeta() {
-  const s = currentSeason;
-  const tr = (s._events||[]).filter(e=>e.type==='Training').length;
-  const sp = (s._events||[]).filter(e=>e.type!=='Training').length;
-  document.getElementById('seasonMeta').textContent = `${tr} Trainings · ${sp} Spiele · ${s._players?.length||0} Spieler`;
+function updateSeasonMeta(){
+  const s=currentSeason;
+  const tr=(s._events||[]).filter(e=>e.type==='Training').length;
+  const sp=(s._events||[]).filter(e=>e.type!=='Training').length;
+  document.getElementById('seasonMeta').textContent=`${tr} Trainings · ${sp} Spiele · ${(s._players||[]).length} Spieler`;
 }
 
-function showEmptyState() {
-  document.getElementById('seasonBar').style.display = 'none';
-  document.getElementById('statsGrid').innerHTML = '';
-  document.getElementById('playerTableArea').innerHTML = `
+function showEmptyState(){
+  document.getElementById('seasonBar').style.display='none';
+  document.getElementById('statsGrid').innerHTML='';
+  document.getElementById('playerTableArea').innerHTML=`
     <div style="background:white;border-radius:12px;padding:32px;text-align:center;box-shadow:var(--sh);">
       <div style="font-size:32px;margin-bottom:12px;">📁</div>
       <div style="font-size:16px;font-weight:600;margin-bottom:8px;">Noch keine Daten</div>
       <div style="font-size:13px;color:var(--g5);margin-bottom:20px;">Lege eine neue Saison an oder importiere die historischen Daten.</div>
-      <button onclick="showModal('newSeason')" class="add-btn" style="margin-right:8px;padding:10px 20px;font-size:13px;">+ Neue Saison</button>
-      <button onclick="showModal('import')" class="add-btn gray" style="padding:10px 20px;font-size:13px;">📥 Historische Daten</button>
+      <button onclick="showModal(\'newSeason\')" class="add-btn" style="margin-right:8px;padding:10px 20px;font-size:13px;">+ Neue Saison</button>
+      <button onclick="showModal(\'import\')" class="add-btn gray" style="padding:10px 20px;font-size:13px;">📥 Historische Daten</button>
     </div>`;
 }
 
-// ═══════════════════════════════════════
-// STATS BAR
-// ═══════════════════════════════════════
-function renderStats() {
-  const s = currentSeason;
-  const tr = (s._events||[]).filter(e=>e.type==='Training').length;
-  const sp = (s._events||[]).filter(e=>e.type!=='Training').length;
-  const pl = s._players||[];
-  const att = s._attendance||[];
-  const tIds = (s._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
-  const avg = tr>0 && pl.length>0
-    ? Math.round(pl.reduce((a,p)=>a+att.filter(x=>x.player_id===p.id&&tIds.includes(x.event_id)&&x.status==='anwesend').length,0)/pl.length/tr*100)
-    : 0;
-  const goals = (s._goals||[]).reduce((a,g)=>a+g.goals,0);
-
-  document.getElementById('statsGrid').innerHTML = `
+// ── STATS ──
+function renderStats(){
+  const s=currentSeason;
+  const tr=(s._events||[]).filter(e=>e.type==='Training').length;
+  const sp=(s._events||[]).filter(e=>e.type!=='Training').length;
+  const pl=s._players||[];
+  const att=s._attendance||[];
+  const tIds=(s._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
+  const avg=tr>0&&pl.length>0?Math.round(pl.reduce((a,p)=>a+att.filter(x=>x.player_id===p.id&&tIds.includes(x.event_id)&&x.status==='anwesend').length,0)/pl.length/tr*100):0;
+  const goals=(s._goals||[]).reduce((a,g)=>a+(g.goals||0),0);
+  document.getElementById('statsGrid').innerHTML=`
     <div class="stat-card"><div class="stat-label">Spieler</div><div class="stat-value">${pl.length}</div><div class="stat-sub">${s.team} ${s.saison}</div></div>
     <div class="stat-card"><div class="stat-label">Trainings</div><div class="stat-value">${tr}</div><div class="stat-sub">Einheiten</div></div>
     <div class="stat-card"><div class="stat-label">Spiele</div><div class="stat-value">${sp}</div><div class="stat-sub">inkl. Testspiele</div></div>
-    <div class="stat-card"><div class="stat-label">Ø Anwesenheit</div><div class="stat-value">${avg||'–'}${avg?'%':''}</div><div class="stat-sub">Training · ${goals} Tore gesamt</div></div>`;
+    <div class="stat-card"><div class="stat-label">Ø Anwesenheit</div><div class="stat-value">${avg||'–'}${avg?'%':''}</div><div class="stat-sub">Training · ${goals} Tore</div></div>`;
 }
 
-// ═══════════════════════════════════════
-// PLAYER TABLE
-// ═══════════════════════════════════════
-function setFilt(f) {
-  filt = f;
+// ── PLAYER TABLE ──
+function setFilt(f){
+  filt=f;
   ['fa','ft','fs'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById(f==='all'?'fa':f==='training'?'ft':'fs').classList.add('active');
   renderPlayerTable();
 }
 
-function renderPlayerTable() {
-  const s = currentSeason;
-  if (!s) return;
-  const q = document.querySelector('#view-saison .search-input')?.value?.toLowerCase()||'';
-  const players = (s._players||[]).filter(p=>p.name.toLowerCase().includes(q));
-  const att = s._attendance||[];
-  const goals = s._goals||[];
-  const trainings = (s._events||[]).filter(e=>e.type==='Training');
-  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
-  const tIds = trainings.map(e=>e.id);
-  const sIds = spiele.map(e=>e.id);
+function getThumb(p){
+  if(p.photo_url) return `<img class="player-thumb" src="${p.photo_url}" alt="">`;
+  const ini=(p.name||'?').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  return `<span class="player-thumb-placeholder">${ini}</span>`;
+}
 
-  const enriched = players.map(p => {
-    const tCount = att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length;
-    const sCount = att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length;
-    const g = goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.goals,0);
-    const as = goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.assists,0);
-    return {...p, tCount, sCount, goals:g, assists:as};
-  }).sort((a,b)=>b.tCount-a.tCount);
+function renderPlayerTable(){
+  const s=currentSeason;if(!s)return;
+  const q=document.querySelector('#view-saison .search-input')?.value?.toLowerCase()||'';
+  const players=(s._players||[]).filter(p=>p.name.toLowerCase().includes(q));
+  const att=s._attendance||[];
+  const goals=s._goals||[];
+  const trainings=(s._events||[]).filter(e=>e.type==='Training');
+  const spiele=(s._events||[]).filter(e=>e.type!=='Training');
+  const tIds=trainings.map(e=>e.id);
+  const sIds=spiele.map(e=>e.id);
 
-  const showT = filt!=='spiel';
-  const showS = filt!=='training';
+  const enriched=players.map(p=>({
+    ...p,
+    tCount:att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
+    sCount:att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
+    goals:goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+(x.goals||0),0),
+    assists:goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+(x.assists||0),0),
+  })).sort((a,b)=>b.tCount-a.tCount);
 
-  let html = `<div class="table-wrap"><table><thead><tr>
-    <th>Name</th>
-    ${showT?`<th>Training</th><th>Quote</th>`:''}
-    ${showS?`<th>Spiele</th><th>Tore</th><th>Assists</th>`:''}
+  const showT=filt!=='spiel';
+  const showS=filt!=='training';
+
+  let html=`<div class="table-wrap"><table><thead><tr>
+    <th colspan="2">Name</th>
+    ${showT?'<th>Training</th><th>Quote</th>':''}
+    ${showS?'<th>Spiele</th><th>Tore</th><th>Assists</th>':''}
     <th></th>
   </tr></thead><tbody>`;
 
-  for (const p of enriched) {
-    const tp = trainings.length>0?Math.round(p.tCount/trainings.length*100):0;
-    const sp = spiele.length>0?Math.round(p.sCount/spiele.length*100):0;
-    const tc = tp>=75?'bg':tp>=50?'ba':'br';
-    html += `<tr onclick="openPlayer('${p.id}')">
+  for(const p of enriched){
+    const tp=trainings.length>0?Math.round(p.tCount/trainings.length*100):0;
+    const tc=tp>=75?'bg':tp>=50?'ba':'br';
+    html+=`<tr onclick="openPlayer('${p.id}')">
+      <td style="width:44px;padding-right:0;">${getThumb(p)}</td>
       <td class="pname">${p.name}</td>
       ${showT?`<td><b>${p.tCount}</b><span style="color:var(--g5)"> /${trainings.length}</span></td>
         <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${tc}" style="width:${tp}%"></div></div><span class="pct-val">${tp}%</span></div></td>`:''}
@@ -488,59 +444,53 @@ function renderPlayerTable() {
       <td style="text-align:right;color:var(--g5);">›</td>
     </tr>`;
   }
-  html += '</tbody></table></div>';
-  html += `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-    <button onclick="showModal('addPlayer')" class="add-btn">+ Spieler</button>
-    <button onclick="showModal('addEvent')" class="add-btn amber">+ Training / Spiel</button>
-    <button onclick="showModal('newSeason')" class="add-btn gray">+ Neue Saison</button>
+  html+='</tbody></table></div>';
+  html+=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    <button onclick="showModal(\'addPlayer\')" class="add-btn">+ Spieler</button>
+    <button onclick="showModal(\'addEvent\')" class="add-btn amber">+ Training / Spiel</button>
+    <button onclick="showModal(\'newSeason\')" class="add-btn gray">+ Neue Saison</button>
   </div>`;
-
-  document.getElementById('playerTableArea').innerHTML = html;
+  document.getElementById('playerTableArea').innerHTML=html;
 }
 
-// ═══════════════════════════════════════
-// PLAYER DETAIL
-// ═══════════════════════════════════════
-function openPlayer(pid) {
-  const s = currentSeason;
-  const player = s._players.find(p=>p.id===pid);
-  if (!player) return;
-  document.getElementById('saisonPlayerList').style.display='none';
-  const det = document.getElementById('playerDetailArea');
-  det.style.display='';
-
-  const att = s._attendance||[];
-  const goals = s._goals||[];
-  const trainings = (s._events||[]).filter(e=>e.type==='Training');
-  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
-  const tCount = att.filter(a=>a.player_id===pid&&trainings.map(e=>e.id).includes(a.event_id)&&a.status==='anwesend').length;
-  const sCount = att.filter(a=>a.player_id===pid&&spiele.map(e=>e.id).includes(a.event_id)&&a.status==='anwesend').length;
-  const totalGoals = goals.filter(x=>x.player_id===pid).reduce((a,x)=>a+x.goals,0);
-  const totalAssists = goals.filter(x=>x.player_id===pid).reduce((a,x)=>a+x.assists,0);
-  const tp = trainings.length>0?Math.round(tCount/trainings.length*100):0;
-  const sp = spiele.length>0?Math.round(sCount/spiele.length*100):0;
-  const initials = player.name.split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
-
-  // Heatmap
-  const events = s._events||[];
-  const heatmap = events.map(e=>{
-    const a = att.find(a=>a.player_id===pid&&a.event_id===e.id);
-    const v = a?a.status:'na';
-    const col = v==='anwesend'?'#52B788':v==='abwesend'?'#FFCDD2':'#E9ECEF';
-    const border = e.type!=='Training'?'2px solid #E07A00':'2px solid transparent';
-    const d = new Date(e.date).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+// ── PLAYER DETAIL ──
+function openPlayer(pid){
+  const s=currentSeason;
+  const player=s._players.find(p=>p.id===pid);if(!player)return;
+  document.getElementById('saisonList').style.display='none';
+  const det=document.getElementById('playerDetailArea');det.style.display='';
+  const att=s._attendance||[];
+  const goals=s._goals||[];
+  const trainings=(s._events||[]).filter(e=>e.type==='Training');
+  const spiele=(s._events||[]).filter(e=>e.type!=='Training');
+  const tCount=att.filter(a=>a.player_id===pid&&trainings.map(e=>e.id).includes(a.event_id)&&a.status==='anwesend').length;
+  const sCount=att.filter(a=>a.player_id===pid&&spiele.map(e=>e.id).includes(a.event_id)&&a.status==='anwesend').length;
+  const totalGoals=goals.filter(x=>x.player_id===pid).reduce((a,x)=>a+(x.goals||0),0);
+  const totalAssists=goals.filter(x=>x.player_id===pid).reduce((a,x)=>a+(x.assists||0),0);
+  const tp=trainings.length>0?Math.round(tCount/trainings.length*100):0;
+  const sp=spiele.length>0?Math.round(sCount/spiele.length*100):0;
+  const ini=(player.name||'').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase();
+  const avatarHtml=player.photo_url
+    ?`<img class="player-avatar-lg" src="${player.photo_url}" alt="">`
+    :`<div class="player-avatar-lg" style="display:flex;align-items:center;justify-content:center;">${ini}</div>`;
+  const heatmap=(s._events||[]).map(e=>{
+    const a=att.find(a=>a.player_id===pid&&a.event_id===e.id);
+    const v=a?a.status:'na';
+    const col=v==='anwesend'?'#52B788':v==='abwesend'?'#FFCDD2':'#E9ECEF';
+    const border=e.type!=='Training'?'2px solid #E07A00':'2px solid transparent';
+    const d=new Date(e.date).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
     return `<div title="${e.type} ${d}: ${v}" style="width:22px;height:22px;border-radius:4px;background:${col};border:${border};"></div>`;
   }).join('');
 
-  det.innerHTML = `
+  det.innerHTML=`
     <button class="back-btn" onclick="closePlayer()">← Übersicht</button>
     <div class="player-header">
-      <div class="player-avatar">${initials}</div>
+      ${avatarHtml}
       <div style="flex:1;">
         <div style="font-size:18px;font-weight:600;">${player.name}</div>
         <div style="font-size:12px;color:var(--g5);">${s.team} ${s.saison}</div>
       </div>
-      <button onclick="showModal('editPlayer','${pid}')" style="padding:7px 14px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;">Bearbeiten</button>
+      <button onclick="showModal(\'editPlayer\',\'${pid}\')" style="padding:7px 14px;border-radius:8px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;">Bearbeiten</button>
     </div>
     <div class="season-cards">
       <div class="sc"><div class="sc-title">Training</div>
@@ -552,7 +502,7 @@ function openPlayer(pid) {
         <div class="pct-bar" style="margin-top:8px;"><div class="bar-track" style="max-width:100px;"><div class="bar-fill ${sp>=75?'bg':sp>=50?'ba':'br'}" style="width:${sp}%"></div></div><span class="pct-val">${sp}%</span></div>
       </div>
       <div class="sc"><div class="sc-title">Tore & Assists</div>
-        <div style="display:flex;gap:16px;">
+        <div style="display:flex;gap:20px;">
           <div><div class="big-num" style="color:var(--green)">${totalGoals}</div><div style="font-size:11px;color:var(--g5);">Tore ⚽</div></div>
           <div><div class="big-num" style="color:var(--blue)">${totalAssists}</div><div style="font-size:11px;color:var(--g5);">Assists 🅰️</div></div>
         </div>
@@ -562,150 +512,117 @@ function openPlayer(pid) {
       <div style="font-size:13px;font-weight:600;color:var(--g7);margin-bottom:12px;">Anwesenheits-Raster ${s.saison}</div>
       <div style="display:flex;flex-wrap:wrap;gap:3px;">${heatmap}</div>
       <div style="display:flex;gap:14px;margin-top:10px;font-size:11px;color:var(--g5);">
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#52B788;display:inline-block;"></span>Anwesend</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#FFCDD2;display:inline-block;"></span>Abwesend</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#E9ECEF;display:inline-block;"></span>Keine Info</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;border:2px solid #E07A00;display:inline-block;"></span>Spiel</span>
+        <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#52B788;margin-right:3px;"></span>Anwesend</span>
+        <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFCDD2;margin-right:3px;"></span>Abwesend</span>
+        <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#E9ECEF;margin-right:3px;"></span>Keine Info</span>
+        <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;border:2px solid #E07A00;margin-right:3px;"></span>Spiel</span>
       </div>
     </div>`;
 }
-
-function closePlayer() {
-  document.getElementById('saisonPlayerList').style.display='';
+function closePlayer(){
+  document.getElementById('saisonList').style.display='';
   document.getElementById('playerDetailArea').style.display='none';
 }
 
-// ═══════════════════════════════════════
-// EINGABE VIEW
-// ═══════════════════════════════════════
-function renderEingabe() {
-  const s = currentSeason;
-  if (!s) return;
-  const events = [...(s._events||[])].reverse().slice(0,15);
-
-  let html = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
-    <button onclick="showModal('addEvent')" class="add-btn" style="font-size:13px;padding:10px 18px;">+ Training / Spiel anlegen</button>
-    <button onclick="showModal('addPlayer')" class="add-btn" style="font-size:13px;padding:10px 18px;background:var(--blue);">+ Spieler hinzufügen</button>
-    <button onclick="showModal('newSeason')" class="add-btn gray" style="font-size:13px;padding:10px 18px;">+ Neue Saison</button>
+// ── EINGABE ──
+function renderEingabe(){
+  const s=currentSeason;if(!s)return;
+  const events=[...(s._events||[])].reverse().slice(0,20);
+  let html=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    <button onclick="showModal(\'addEvent\')" class="add-btn" style="font-size:13px;padding:10px 18px;">+ Training / Spiel</button>
+    <button onclick="showModal(\'addPlayer\')" class="add-btn" style="font-size:13px;padding:10px 18px;background:var(--blue);">+ Spieler</button>
+    <button onclick="showModal(\'newSeason\')" class="add-btn gray" style="font-size:13px;padding:10px 18px;">+ Neue Saison</button>
   </div>
-  <div style="font-size:13px;font-weight:600;color:var(--g7);margin-bottom:10px;">Einträge – ${s.team} ${s.saison}</div>
   <div class="table-wrap"><table><thead><tr>
-    <th>Datum</th><th>Typ</th><th>Anwesenheit</th><th>Tore / Assists</th><th></th>
+    <th>Datum</th><th>Typ</th><th>Anwesend</th><th>Tore / Assists</th><th></th>
   </tr></thead><tbody>`;
-
-  if (events.length===0) {
-    html += `<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--g5);">Noch keine Einträge.</td></tr>`;
-  }
-  for (const e of events) {
-    const attCount = (s._attendance||[]).filter(a=>a.event_id===e.id&&a.status==='anwesend').length;
-    const goalsCount = (s._goals||[]).filter(g=>g.event_id===e.id).reduce((a,g)=>a+g.goals,0);
-    const assistsCount = (s._goals||[]).filter(g=>g.event_id===e.id).reduce((a,g)=>a+g.assists,0);
-    const date = new Date(e.date).toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'});
-    const isSpiel = e.type!=='Training';
-    html += `<tr>
+  if(!events.length)html+=`<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--g5);">Noch keine Einträge.</td></tr>`;
+  for(const e of events){
+    const attCnt=(s._attendance||[]).filter(a=>a.event_id===e.id&&a.status==='anwesend').length;
+    const gc=(s._goals||[]).filter(g=>g.event_id===e.id).reduce((a,g)=>a+(g.goals||0),0);
+    const ac=(s._goals||[]).filter(g=>g.event_id===e.id).reduce((a,g)=>a+(g.assists||0),0);
+    const date=new Date(e.date).toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'});
+    const isS=e.type!=='Training';
+    html+=`<tr>
       <td><b>${date}</b></td>
-      <td><span style="font-weight:500;color:${isSpiel?'var(--amber)':'var(--green)'}">${e.type}</span></td>
-      <td>${attCount>0?`<span style="color:var(--green);font-weight:500;">${attCount} anwesend</span>`:'<span style="color:var(--g5);">Nicht erfasst</span>'}</td>
-      <td>${isSpiel?(goalsCount>0||assistsCount>0?`${goalsCount} ⚽ · ${assistsCount} 🅰️`:'<span style="color:var(--g5);">–</span>'):'<span style="color:var(--g5);">–</span>'}</td>
-      <td><button onclick="showModal('attendance','${e.id}')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;white-space:nowrap;">
-        ${attCount>0?'Bearbeiten':'Erfassen'}
-      </button></td>
+      <td><span style="font-weight:500;color:${isS?'var(--amber)':'var(--green)'}">${e.type}</span></td>
+      <td>${attCnt>0?`<span style="color:var(--green);font-weight:500;">${attCnt} anwesend</span>`:'<span style="color:var(--g5);">Nicht erfasst</span>'}</td>
+      <td>${isS?(gc||ac?`${gc} ⚽ · ${ac} 🅰️`:'<span style="color:var(--g5);">–</span>'):'<span style="color:var(--g5);">–</span>'}</td>
+      <td><button onclick="showModal(\'attendance\',\'${e.id}\')" style="padding:5px 12px;border-radius:6px;border:1px solid var(--g2);background:white;font-family:inherit;font-size:12px;cursor:pointer;">${attCnt>0?'Bearbeiten':'Erfassen'}</button></td>
     </tr>`;
   }
-  html += '</tbody></table></div>';
-  document.getElementById('eingabeContent').innerHTML = html;
+  html+='</tbody></table></div>';
+  document.getElementById('eingabeContent').innerHTML=html;
 }
 
-// ═══════════════════════════════════════
-// AUSWERTUNG VIEW
-// ═══════════════════════════════════════
-function renderAuswertung() {
-  const s = currentSeason;
-  if (!s) return;
-  const att = s._attendance||[];
-  const goals = s._goals||[];
-  const trainings = (s._events||[]).filter(e=>e.type==='Training');
-  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
-  const tIds = trainings.map(e=>e.id);
-  const sIds = spiele.map(e=>e.id);
-
-  const enriched = (s._players||[]).map(p=>({
-    name: p.name,
-    tCount: att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
-    sCount: att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
-    goals: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.goals,0),
-    assists: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.assists,0),
+// ── AUSWERTUNG ──
+function renderAuswertung(){
+  const s=currentSeason;if(!s)return;
+  const att=s._attendance||[];const goals=s._goals||[];
+  const trainings=(s._events||[]).filter(e=>e.type==='Training');
+  const spiele=(s._events||[]).filter(e=>e.type!=='Training');
+  const tIds=trainings.map(e=>e.id);const sIds=spiele.map(e=>e.id);
+  const enriched=(s._players||[]).map(p=>({
+    name:p.name,
+    tCount:att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
+    sCount:att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
+    goals:goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+(x.goals||0),0),
+    assists:goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+(x.assists||0),0),
   }));
-
-  const topT = [...enriched].sort((a,b)=>b.tCount-a.tCount).slice(0,8);
-  const topS = [...enriched].sort((a,b)=>b.sCount-a.sCount).slice(0,8);
-  const topG = [...enriched].sort((a,b)=>b.goals-a.goals).slice(0,8);
-  const topA = [...enriched].sort((a,b)=>b.assists-a.assists).slice(0,8);
-
-  const rankHtml = (list, valKey, icon) => list.map((p,i)=>
-    `<div class="rank-item"><span class="rn">${i+1}.</span><span class="rname">${p.name}</span><span class="rval">${p[valKey]} ${icon}</span></div>`
-  ).join('');
-
-  // Season overview across all seasons
-  const allRows = seasons.map(s=>{
+  const rank=(list,key,icon)=>list.map((p,i)=>`<div class="rank-item"><span class="rn">${i+1}.</span><span class="rname">${p.name}</span><span class="rval">${p[key]} ${icon}</span></div>`).join('');
+  const topT=[...enriched].sort((a,b)=>b.tCount-a.tCount).slice(0,8);
+  const topS=[...enriched].sort((a,b)=>b.sCount-a.sCount).slice(0,8);
+  const topG=[...enriched].sort((a,b)=>b.goals-a.goals).slice(0,8);
+  const topA=[...enriched].sort((a,b)=>b.assists-a.assists).slice(0,8);
+  const allRows=seasons.map(s=>{
     const tr2=(s._events||[]).filter(e=>e.type==='Training').length;
     const sp2=(s._events||[]).filter(e=>e.type!=='Training').length;
-    const pl2=s._players||[];
-    const att2=s._attendance||[];
+    const pl2=s._players||[];const att2=s._attendance||[];
     const tIds2=(s._events||[]).filter(e=>e.type==='Training').map(e=>e.id);
     const avg2=tr2>0&&pl2.length>0?Math.round(pl2.reduce((a,p)=>a+att2.filter(x=>x.player_id===p.id&&tIds2.includes(x.event_id)&&x.status==='anwesend').length,0)/pl2.length/tr2*100):null;
-    const g2=(s._goals||[]).reduce((a,g)=>a+g.goals,0);
+    const g2=(s._goals||[]).reduce((a,g)=>a+(g.goals||0),0);
     return `<tr style="border-bottom:1px solid var(--g1);">
       <td style="padding:9px 12px;font-weight:500;">${s.team} ${s.saison}</td>
-      <td style="padding:9px 12px;">${pl2.length}</td>
-      <td style="padding:9px 12px;">${tr2}</td>
-      <td style="padding:9px 12px;">${sp2}</td>
-      <td style="padding:9px 12px;">${g2}</td>
+      <td style="padding:9px 12px;">${pl2.length}</td><td style="padding:9px 12px;">${tr2}</td>
+      <td style="padding:9px 12px;">${sp2}</td><td style="padding:9px 12px;">${g2}</td>
       <td style="padding:9px 12px;">${avg2!=null?`<div class="pct-bar"><div class="bar-track"><div class="bar-fill ${avg2>=75?'bg':avg2>=50?'ba':'br'}" style="width:${avg2}%"></div></div><span class="pct-val">${avg2}%</span></div>`:'–'}</td>
     </tr>`;
   }).join('');
-
-  document.getElementById('auswertungContent').innerHTML = `
+  document.getElementById('auswertungContent').innerHTML=`
     <div class="dash-grid">
-      <div class="dash-card"><div class="dash-title">🏃 Top Training – ${s.team} ${s.saison}</div>${rankHtml(topT,'tCount','')}</div>
-      <div class="dash-card"><div class="dash-title">🏅 Top Spieleinsätze – ${s.team} ${s.saison}</div>${rankHtml(topS,'sCount','')}</div>
-      <div class="dash-card"><div class="dash-title">⚽ Torschützen – ${s.team} ${s.saison}</div>${rankHtml(topG,'goals','⚽')}</div>
-      <div class="dash-card"><div class="dash-title">🅰️ Vorlagen – ${s.team} ${s.saison}</div>${rankHtml(topA,'assists','🅰️')}</div>
+      <div class="dash-card"><div class="dash-title">🏃 Top Training</div>${rank(topT,'tCount','')}</div>
+      <div class="dash-card"><div class="dash-title">🏅 Top Spieleinsätze</div>${rank(topS,'sCount','')}</div>
+      <div class="dash-card"><div class="dash-title">⚽ Torschützen</div>${rank(topG,'goals','⚽')}</div>
+      <div class="dash-card"><div class="dash-title">🅰️ Vorlagen</div>${rank(topA,'assists','🅰️')}</div>
       <div class="dash-card" style="grid-column:span 2;">
-        <div class="dash-title">Alle Saisons im Überblick</div>
-        <table style="width:100%;border-collapse:collapse;font-size:13px;">
-          <thead><tr>
-            ${['Saison','Spieler','Trainings','Spiele','Tore','Ø Anwesenheit'].map(h=>`<th style="text-align:left;padding:8px 12px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">${h}</th>`).join('')}
-          </tr></thead>
-          <tbody>${allRows}</tbody>
-        </table>
+        <div class="dash-title">Alle Saisons</div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>
+          ${['Saison','Spieler','Trainings','Spiele','Tore','Ø Anwesenheit'].map(h=>`<th style="text-align:left;padding:8px 12px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">${h}</th>`).join('')}
+        </tr></thead><tbody>${allRows}</tbody></table>
       </div>
     </div>`;
 }
 
-// ═══════════════════════════════════════
-// ELTERN VIEW (public)
-// ═══════════════════════════════════════
-function showParentView() {
+// ── ELTERN ──
+function showParentView(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appScreen').style.display='block';
   document.getElementById('trainerNav').style.display='none';
   document.getElementById('parentNav').style.display='flex';
-  document.getElementById('seasonBar').style.display='flex';
-  // Load data if not yet loaded
-  if (seasons.length===0) {
+  if(seasons.length===0){
     loadSeasonsPublic();
   } else {
+    document.getElementById('seasonBar').style.display='flex';
     showView('eltern');
     renderEltern();
   }
 }
 
-async function loadSeasonsPublic() {
-  const { data } = await sb.from('seasons').select('*').order('saison');
-  seasons = data||[];
-  if (seasons.length>0) {
-    currentSeason = seasons[seasons.length-1];
+async function loadSeasonsPublic(){
+  const {data}=await sb.from('seasons').select('*').order('saison');
+  seasons=data||[];
+  if(seasons.length>0){
+    currentSeason=seasons[seasons.length-1];
     buildSeasonDropdown();
     await loadSeasonData();
   }
@@ -713,266 +630,237 @@ async function loadSeasonsPublic() {
   renderEltern();
 }
 
-function renderEltern() {
-  const s = currentSeason;
-  if (!s) return;
-
-  const att = s._attendance||[];
-  const goals = s._goals||[];
-  const trainings = (s._events||[]).filter(e=>e.type==='Training');
-  const spiele = (s._events||[]).filter(e=>e.type!=='Training');
-  const tIds = trainings.map(e=>e.id);
-  const sIds = spiele.map(e=>e.id);
-  const players = s._players||[];
-
-  const enriched = players.map(p=>({
-    name: p.name,
-    tCount: att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
-    sCount: att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
-    goals: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.goals,0),
-    assists: goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+x.assists,0),
+function renderEltern(){
+  const s=currentSeason;if(!s){document.getElementById('elternContent').innerHTML='<div style="padding:40px;text-align:center;color:var(--g5);">Keine Daten verfügbar.</div>';return;}
+  const att=s._attendance||[];const goals=s._goals||[];
+  const players=s._players||[];
+  const trainings=(s._events||[]).filter(e=>e.type==='Training');
+  const spiele=(s._events||[]).filter(e=>e.type!=='Training');
+  const tIds=trainings.map(e=>e.id);const sIds=spiele.map(e=>e.id);
+  const enriched=players.map(p=>({
+    ...p,
+    tCount:att.filter(a=>a.player_id===p.id&&tIds.includes(a.event_id)&&a.status==='anwesend').length,
+    sCount:att.filter(a=>a.player_id===p.id&&sIds.includes(a.event_id)&&a.status==='anwesend').length,
+    goals:goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+(x.goals||0),0),
+    assists:goals.filter(x=>x.player_id===p.id).reduce((a,x)=>a+(x.assists||0),0),
   }));
+  const totalGoals=enriched.reduce((a,p)=>a+p.goals,0);
+  const avgAtt=trainings.length>0&&players.length>0?Math.round(enriched.reduce((a,p)=>a+p.tCount,0)/players.length/trainings.length*100):0;
+  const medal=i=>i===0?'🥇':i===1?'🥈':i===2?'🥉':'  ';
+  const topG=[...enriched].sort((a,b)=>b.goals-a.goals).filter(p=>p.goals>0).slice(0,5);
+  const topT=[...enriched].sort((a,b)=>b.tCount-a.tCount).slice(0,5);
+  const topA=[...enriched].sort((a,b)=>b.assists-a.assists).filter(p=>p.assists>0).slice(0,5);
+  const allP=[...enriched].sort((a,b)=>b.tCount-a.tCount);
 
-  const totalGoals = enriched.reduce((a,p)=>a+p.goals,0);
-  const avgAtt = trainings.length>0&&players.length>0
-    ? Math.round(enriched.reduce((a,p)=>a+p.tCount,0)/players.length/trainings.length*100) : 0;
-  const topScorer = [...enriched].sort((a,b)=>b.goals-a.goals)[0];
-  const topTrainer = [...enriched].sort((a,b)=>b.tCount-a.tCount)[0];
-
-  const medal = (i) => i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-
-  const topGoals = [...enriched].sort((a,b)=>b.goals-a.goals).filter(p=>p.goals>0).slice(0,5);
-  const topAtt = [...enriched].sort((a,b)=>b.tCount-a.tCount).slice(0,5);
-  const topSpiele = [...enriched].sort((a,b)=>b.sCount-a.sCount).slice(0,5);
-
-  // Full player table for parents
-  const allPlayers = [...enriched].sort((a,b)=>b.tCount-a.tCount);
-
-  document.getElementById('elternContent').innerHTML = `
+  document.getElementById('elternContent').innerHTML=`
     <div class="parent-hero">
       <h2>⚽ ${s.team} – Saison ${s.saison}</h2>
       <p>SG Achslach-Gotteszell · ${players.length} Spieler · ${trainings.length} Trainings · ${spiele.length} Spiele</p>
     </div>
-
-    <div class="parent-grid">
-      <div class="parent-card">
-        <div class="big" style="color:var(--green)">${avgAtt}%</div>
-        <div class="lbl">Ø Trainings-Anwesenheit</div>
-      </div>
-      <div class="parent-card">
-        <div class="big" style="color:var(--amber)">${totalGoals}</div>
-        <div class="lbl">Tore gesamt ⚽</div>
-      </div>
-      <div class="parent-card">
-        <div class="big" style="color:var(--blue)">${spiele.length}</div>
-        <div class="lbl">Spiele absolviert</div>
-      </div>
+    <div class="parent-stats">
+      <div class="parent-stat"><div class="big" style="color:var(--green)">${avgAtt}%</div><div class="lbl">Ø Trainings-Anwesenheit</div></div>
+      <div class="parent-stat"><div class="big" style="color:var(--amber)">${totalGoals}</div><div class="lbl">Tore gesamt ⚽</div></div>
+      <div class="parent-stat"><div class="big" style="color:var(--blue)">${spiele.length}</div><div class="lbl">Spiele absolviert</div></div>
     </div>
-
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px;">
       <div class="top-list">
         <div class="top-list-title">⚽ Torschützen</div>
-        ${topGoals.length>0 ? topGoals.map((p,i)=>`
-          <div class="rank-item"><span style="font-size:16px;width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.goals}</span></div>`).join('')
-          : '<div style="font-size:13px;color:var(--g5);padding:8px 0;">Noch keine Tore erfasst</div>'}
+        ${topG.length>0?topG.map((p,i)=>`<div class="rank-item"><span style="width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.goals}</span></div>`).join(''):'<div style="font-size:13px;color:var(--g5);padding:8px 0;">Noch keine Tore</div>'}
       </div>
       <div class="top-list">
         <div class="top-list-title">🏃 Fleiß-Ranking</div>
-        ${topAtt.map((p,i)=>`
-          <div class="rank-item"><span style="font-size:16px;width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.tCount} ×</span></div>`).join('')}
+        ${topT.map((p,i)=>`<div class="rank-item"><span style="width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.tCount}×</span></div>`).join('')}
       </div>
       <div class="top-list">
         <div class="top-list-title">🅰️ Vorlagen</div>
-        ${enriched.filter(p=>p.assists>0).length>0
-          ? [...enriched].sort((a,b)=>b.assists-a.assists).filter(p=>p.assists>0).slice(0,5).map((p,i)=>`
-              <div class="rank-item"><span style="font-size:16px;width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.assists}</span></div>`).join('')
-          : '<div style="font-size:13px;color:var(--g5);padding:8px 0;">Noch keine Assists erfasst</div>'}
+        ${topA.length>0?topA.map((p,i)=>`<div class="rank-item"><span style="width:24px;">${medal(i)}</span><span class="rname">${p.name}</span><span class="rval">${p.assists}</span></div>`).join(''):'<div style="font-size:13px;color:var(--g5);padding:8px 0;">Noch keine Assists</div>'}
       </div>
     </div>
-
     <div class="top-list">
-      <div class="top-list-title" style="margin-bottom:12px;">Alle Spieler – Übersicht</div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
-        <thead><tr>
-          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Spieler</th>
-          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Training</th>
-          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Spiele</th>
-          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Tore</th>
-          <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">Assists</th>
-        </tr></thead>
-        <tbody>${allPlayers.map(p=>{
-          const tp=trainings.length>0?Math.round(p.tCount/trainings.length*100):0;
-          return `<tr style="border-bottom:1px solid var(--g1);">
-            <td style="padding:9px 10px;font-weight:500;">${p.name}</td>
-            <td style="padding:9px 10px;"><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${tp>=75?'bg':tp>=50?'ba':'br'}" style="width:${tp}%"></div></div><span class="pct-val">${p.tCount}/${trainings.length}</span></div></td>
-            <td style="padding:9px 10px;">${p.sCount}/${spiele.length}</td>
-            <td style="padding:9px 10px;font-weight:600;color:var(--green)">${p.goals>0?p.goals+'  ⚽':'–'}</td>
-            <td style="padding:9px 10px;font-weight:600;color:var(--blue)">${p.assists>0?p.assists+' 🅰️':'–'}</td>
-          </tr>`;
-        }).join('')}</tbody>
-      </table>
+      <div class="top-list-title" style="margin-bottom:12px;">Alle Spieler</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr>
+        ${['Spieler','Training','Spiele','Tore','Assists'].map(h=>`<th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--g5);text-transform:uppercase;border-bottom:1px solid var(--g2);">${h}</th>`).join('')}
+      </tr></thead><tbody>
+      ${allP.map(p=>{
+        const tp=trainings.length>0?Math.round(p.tCount/trainings.length*100):0;
+        const thumb=p.photo_url?`<img style="width:28px;height:28px;border-radius:50%;object-fit:cover;margin-right:8px;vertical-align:middle;" src="${p.photo_url}">`:'';
+        return `<tr style="border-bottom:1px solid var(--g1);">
+          <td style="padding:9px 10px;font-weight:500;">${thumb}${p.name}</td>
+          <td style="padding:9px 10px;"><div class="pct-bar"><div class="bar-track"><div class="bar-fill ${tp>=75?'bg':tp>=50?'ba':'br'}" style="width:${tp}%"></div></div><span class="pct-val">${p.tCount}/${trainings.length}</span></div></td>
+          <td style="padding:9px 10px;">${p.sCount}/${spiele.length}</td>
+          <td style="padding:9px 10px;font-weight:600;color:var(--green)">${p.goals>0?p.goals+' ⚽':'–'}</td>
+          <td style="padding:9px 10px;font-weight:600;color:var(--blue)">${p.assists>0?p.assists+' 🅰️':'–'}</td>
+        </tr>`;
+      }).join('')}
+      </tbody></table>
     </div>`;
 }
 
-// ═══════════════════════════════════════
-// MODALS
-// ═══════════════════════════════════════
-function showModal(type, extra) {
-  const box = document.getElementById('modalBox');
+// ── MODALS ──
+function showModal(type,extra){
+  const box=document.getElementById('modalBox');
   document.getElementById('modalOverlay').classList.remove('hidden');
 
-  if (type==='newSeason') {
+  if(type==='newSeason'){
     box.innerHTML=`<div class="modal-title">Neue Saison <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="row2">
-        <div class="field"><label>Team</label>
-          <select id="mTeam"><option>E-Jugend</option><option>F-Jugend</option><option>D-Jugend</option><option>C-Jugend</option></select></div>
-        <div class="field"><label>Saison (z.B. 2026/27)</label><input id="mSaison" placeholder="2026/27"></div>
+        <div class="field"><label>Team</label><select id="mTeam"><option>E-Jugend</option><option>F-Jugend</option><option>D-Jugend</option><option>C-Jugend</option></select></div>
+        <div class="field"><label>Saison</label><input id="mSaison" placeholder="2026/27"></div>
       </div>
-      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-      <button class="btn-save" onclick="saveSeason()">Anlegen</button></div>`;
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button><button class="btn-save" onclick="saveSeason()">Anlegen</button></div>`;
   }
-  else if (type==='addPlayer') {
+  else if(type==='addPlayer'){
     box.innerHTML=`<div class="modal-title">Spieler hinzufügen <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="field"><label>Name (Nachname Vorname)</label><input id="mPlayerName" placeholder="Mustermann Max"></div>
-      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-      <button class="btn-save" onclick="savePlayer()">Hinzufügen</button></div>`;
+      <div class="field"><label>Foto (optional)</label>
+        <div class="photo-upload-area" onclick="document.getElementById('photoFileAdd').click()">
+          <img id="photoPreviewAdd" class="photo-preview" style="display:none;">
+          <div id="photoHintAdd">📷 Foto auswählen oder hierher ziehen</div>
+        </div>
+        <input type="file" id="photoFileAdd" accept="image/*" style="display:none;" onchange="previewPhoto('Add')">
+      </div>
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button><button class="btn-save" onclick="savePlayer()">Hinzufügen</button></div>`;
   }
-  else if (type==='editPlayer') {
-    const p = currentSeason._players.find(p=>p.id===extra);
+  else if(type==='editPlayer'){
+    const p=currentSeason._players.find(p=>p.id===extra);
     box.innerHTML=`<div class="modal-title">Spieler bearbeiten <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="field"><label>Name</label><input id="mPlayerName" value="${p?.name||''}"></div>
-      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-      <button class="btn-save" onclick="savePlayer('${extra}')">Speichern</button></div>`;
+      <div class="field"><label>Foto</label>
+        <div class="photo-upload-area" onclick="document.getElementById('photoFileEdit').click()">
+          ${p?.photo_url?`<img id="photoPreviewEdit" class="photo-preview" src="${p.photo_url}">`:`<img id="photoPreviewEdit" class="photo-preview" style="display:none;">`}
+          <div id="photoHintEdit">${p?.photo_url?'Foto ändern':'📷 Foto auswählen'}</div>
+        </div>
+        <input type="file" id="photoFileEdit" accept="image/*" style="display:none;" onchange="previewPhoto('Edit')">
+      </div>
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button><button class="btn-save" onclick="savePlayer('${extra}')">Speichern</button></div>`;
   }
-  else if (type==='addEvent') {
-    const today = new Date().toISOString().split('T')[0];
+  else if(type==='addEvent'){
+    const today=new Date().toISOString().split('T')[0];
     box.innerHTML=`<div class="modal-title">Training / Spiel anlegen <button class="modal-close" onclick="closeModal()">×</button></div>
       <div class="row2">
-        <div class="field"><label>Typ</label>
-          <select id="mEvType"><option>Training</option><option>Spiel</option><option>Test - Spiel</option></select></div>
+        <div class="field"><label>Typ</label><select id="mEvType"><option>Training</option><option>Spiel</option><option>Test - Spiel</option></select></div>
         <div class="field"><label>Datum</label><input id="mEvDate" type="date" value="${today}"></div>
       </div>
-      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-      <button class="btn-save" onclick="saveEvent()">Anlegen & Anwesenheit erfassen</button></div>`;
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button><button class="btn-save" onclick="saveEvent()">Anlegen & Erfassen</button></div>`;
   }
-  else if (type==='attendance') {
-    const event = currentSeason._events.find(e=>e.id===extra);
-    const players = currentSeason._players;
-    const att = currentSeason._attendance;
-    const goals = currentSeason._goals||[];
-    const isSpiel = event?.type !== 'Training';
-    const date = new Date(event?.date).toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  else if(type==='attendance'){
+    const event=currentSeason._events.find(e=>e.id===extra);
+    const players=currentSeason._players;
+    const att=currentSeason._attendance;
+    const goals=currentSeason._goals||[];
+    const isSpiel=event?.type!=='Training';
+    const date=new Date(event?.date).toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
 
-    const rows = players.map(p=>{
-      const existing = att.find(a=>a.player_id===p.id&&a.event_id===extra);
-      const status = existing?.status||'na';
-      const g = goals.find(x=>x.player_id===p.id&&x.event_id===extra);
-      const gVal = g?.goals||0;
-      const aVal = g?.assists||0;
-      return `<div class="att-row" id="arow-${p.id}">
+    // Filter state: 'all', 'anwesend', 'abwesend'
+    const rows=players.map(p=>{
+      const existing=att.find(a=>a.player_id===p.id&&a.event_id===extra);
+      const status=existing?.status||'na';
+      const gRec=goals.find(x=>x.player_id===p.id&&x.event_id===extra);
+      const gVal=gRec?.goals||0;const aVal=gRec?.assists||0;
+      return `<div class="att-row" id="arow-${p.id}" data-status="${status}">
         <span class="att-name">${p.name}</span>
-        ${isSpiel?`<div class="att-stat-inputs">
-          <div style="text-align:center;">
-            <input class="att-stat-input" type="number" min="0" max="20" value="${gVal}" id="goal-${p.id}" placeholder="0">
-            <div class="att-stat-label">⚽ Tore</div>
-          </div>
-          <div style="text-align:center;">
-            <input class="att-stat-input" type="number" min="0" max="20" value="${aVal}" id="asst-${p.id}" placeholder="0">
-            <div class="att-stat-label">🅰️ Assists</div>
-          </div>
+        ${isSpiel?`<div class="stat-inputs">
+          <div><input class="stat-inp" type="number" min="0" max="20" value="${gVal}" id="goal-${p.id}"><div class="stat-lbl">⚽</div></div>
+          <div><input class="stat-inp" type="number" min="0" max="20" value="${aVal}" id="asst-${p.id}"><div class="stat-lbl">🅰️</div></div>
         </div>`:''}
         <div class="att-btns">
-          <button class="att-btn ${status==='anwesend'?'anwesend':''}" onclick="setAtt('${p.id}','${extra}','anwesend')">✓ Anwesend</button>
-          <button class="att-btn ${status==='abwesend'?'abwesend':''}" onclick="setAtt('${p.id}','${extra}','abwesend')">✗ Abwesend</button>
-          <button class="att-btn ${status==='na'?'na':''}" onclick="setAtt('${p.id}','${extra}','na')">–</button>
+          <button class="att-btn${status==='anwesend'?' anwesend':''}" onclick="setAtt('${p.id}','${extra}','anwesend')">✓</button>
+          <button class="att-btn${status==='abwesend'?' abwesend':''}" onclick="setAtt('${p.id}','${extra}','abwesend')">✗</button>
+          <button class="att-btn${status==='na'?' na':''}" onclick="setAtt('${p.id}','${extra}','na')">–</button>
         </div>
       </div>`;
     }).join('');
 
     box.innerHTML=`<div class="modal-title">${event?.type} – ${date} <button class="modal-close" onclick="closeModal()">×</button></div>
-      ${isSpiel?`<div style="font-size:12px;color:var(--g5);margin-bottom:12px;">Tore und Assists nur für anwesende Spieler eingeben.</div>`:''}
-      <div class="att-header">
-        <span class="att-header-name">Spieler</span>
-        ${isSpiel?`<span class="att-header-col">Stats</span>`:''}
-        <span class="att-header-col">Anwesenheit</span>
+      <div class="att-filter-bar">
+        <button class="att-filt active" id="af-all" onclick="filterAttRows('all')">Alle (${players.length})</button>
+        <button class="att-filt" id="af-anwesend" onclick="filterAttRows('anwesend')">✓ Anwesend</button>
+        <button class="att-filt" id="af-abwesend" onclick="filterAttRows('abwesend')">✗ Abwesend</button>
+        <button class="att-filt" id="af-na" onclick="filterAttRows('na')">– Offen</button>
       </div>
-      <div class="att-grid">${rows}</div>
+      ${isSpiel?`<div style="font-size:11px;color:var(--g5);margin-bottom:8px;">Tore / Assists pro Spieler eintragen.</div>`:''}
+      <div class="att-grid" id="attGrid">${rows}</div>
       <div class="save-bar">
         <button class="btn-cancel" onclick="closeModal()">Schließen</button>
-        <button class="btn-save" onclick="saveAllAttendance('${extra}',${isSpiel})">Alle speichern</button>
+        <button class="btn-save" onclick="saveAllAttendance('${extra}',${isSpiel})">💾 Alle speichern</button>
       </div>`;
   }
-  else if (type==='import') {
-    box.innerHTML=`<div class="modal-title">Historische Daten <button class="modal-close" onclick="closeModal()">×</button></div>
+  else if(type==='import'){
+    box.innerHTML=`<div class="modal-title">Daten importieren <button class="modal-close" onclick="closeModal()">×</button></div>
       <div style="font-size:13px;color:var(--g7);line-height:1.6;margin-bottom:20px;">
-        Importiert alle 3 Saisons aus der Excel-Datei:<br><br>
-        • F-Jugend 2023/24 – 25 Spieler<br>
-        • E-Jugend 2024/25 – 20 Spieler<br>
-        • E-Jugend 2025/26 – 31 Spieler<br><br>
-        <strong>Dauert ca. 1–2 Minuten.</strong>
+        Importiert die aktuelle Saison mit vollständigen Daten:<br><br>
+        • <strong>E-Jugend 2025/26</strong> – 32 Spieler, 42 Events<br>
+        • 28 Trainings, 6 Spiele, 3 Testspiele, 3 Trainingsspiele, 2 Hallenturniere<br>
+        • Vollständige Anwesenheitsliste<br><br>
+        ⚠️ Eine vorhandene Saison E-Jugend 2025/26 wird dabei ersetzt.
       </div>
-      <div id="importStatus" style="font-size:12px;color:var(--g5);min-height:20px;"></div>
-      <div class="save-bar">
-        <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
-        <button class="btn-save" id="importBtn" onclick="importHistoricData()">Import starten</button>
-      </div>`;
+      <div id="importStatus" style="font-size:12px;color:var(--g5);min-height:20px;margin-bottom:8px;"></div>
+      <div class="save-bar"><button class="btn-cancel" onclick="closeModal()">Abbrechen</button><button class="btn-save" id="importBtn" onclick="importHistoricData()">Import starten</button></div>`;
   }
 }
 
-function closeModal() { document.getElementById('modalOverlay').classList.add('hidden'); }
-document.getElementById('modalOverlay').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+function closeModal(){document.getElementById('modalOverlay').classList.add('hidden');}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
 
-// ═══════════════════════════════════════
-// ATTENDANCE STATE
-// ═══════════════════════════════════════
-function setAtt(pid, eid, status) {
-  if (!pendingAtt[eid]) pendingAtt[eid]={};
-  pendingAtt[eid][pid]=status;
-  const row = document.getElementById(`arow-${pid}`);
-  if (!row) return;
-  row.querySelectorAll('.att-btn').forEach(b=>{
-    b.classList.remove('anwesend','abwesend','na');
-    const s = b.textContent.includes('Anwesend')?'anwesend':b.textContent.includes('Abwesend')?'abwesend':'na';
-    if(s===status) b.classList.add(status);
+// ── ATTENDANCE FILTER IN MODAL ──
+function filterAttRows(f){
+  document.querySelectorAll('.att-filt').forEach(b=>b.classList.remove('active'));
+  document.getElementById('af-'+f).classList.add('active');
+  document.querySelectorAll('#attGrid .att-row').forEach(row=>{
+    const s=row.getAttribute('data-status')||'na';
+    row.style.display=(f==='all'||s===f)?'':'none';
   });
 }
 
-async function saveAllAttendance(eid, isSpiel) {
-  const attToSave = pendingAtt[eid]||{};
-  const players = currentSeason._players;
+// ── ATTENDANCE STATE ──
+function setAtt(pid,eid,status){
+  if(!pendingAtt[eid])pendingAtt[eid]={};
+  pendingAtt[eid][pid]=status;
+  const row=document.getElementById(`arow-${pid}`);
+  if(!row)return;
+  row.setAttribute('data-status',status);
+  row.querySelectorAll('.att-btn').forEach(b=>{
+    b.classList.remove('anwesend','abwesend','na');
+    const bs=b.textContent.trim()==='✓'?'anwesend':b.textContent.trim()==='✗'?'abwesend':'na';
+    if(bs===status)b.classList.add(status);
+  });
+}
 
-  // Build all attendance for players that have been interacted with
-  // Also check current state of buttons for any not in pendingAtt
-  const allAtt = players.map(p=>{
-    const row = document.getElementById(`arow-${p.id}`);
-    let status = attToSave[p.id];
-    if (!status && row) {
-      const active = row.querySelector('.att-btn.anwesend,.att-btn.abwesend,.att-btn.na');
-      if (active) status = active.classList.contains('anwesend')?'anwesend':active.classList.contains('abwesend')?'abwesend':'na';
-    }
-    if (!status) return null;
-    return { player_id: p.id, event_id: eid, status };
+async function saveAllAttendance(eid,isSpiel){
+  const players=currentSeason._players;
+  const allAtt=players.map(p=>{
+    const row=document.getElementById(`arow-${p.id}`);
+    const status=(pendingAtt[eid]&&pendingAtt[eid][p.id])||row?.getAttribute('data-status')||null;
+    if(!status||status==='na')return null;
+    return {player_id:p.id,event_id:eid,status};
   }).filter(Boolean);
 
-  if (allAtt.length>0) {
-    const { error } = await sb.from('attendance').upsert(allAtt, { onConflict:'player_id,event_id' });
-    if (error) { showToast('Fehler: '+error.message,'error'); return; }
+  // also save 'na' explicitly for completeness
+  const naAtt=players.map(p=>{
+    const row=document.getElementById(`arow-${p.id}`);
+    const status=(pendingAtt[eid]&&pendingAtt[eid][p.id])||row?.getAttribute('data-status')||null;
+    if(status!=='na')return null;
+    return {player_id:p.id,event_id:eid,status:'na'};
+  }).filter(Boolean);
+
+  const toUpsert=[...allAtt,...naAtt];
+  if(toUpsert.length>0){
+    const {error}=await sb.from('attendance').upsert(toUpsert,{onConflict:'player_id,event_id'});
+    if(error){showToast('Fehler Anwesenheit: '+error.message,'error');return;}
   }
 
-  // Save goals/assists if it's a game
-  if (isSpiel) {
-    const goalsToSave = players.map(p=>{
-      const gEl = document.getElementById(`goal-${p.id}`);
-      const aEl = document.getElementById(`asst-${p.id}`);
-      if (!gEl&&!aEl) return null;
-      const g = parseInt(gEl?.value)||0;
-      const a = parseInt(aEl?.value)||0;
-      if (g===0&&a===0) return null;
-      return { player_id:p.id, event_id:eid, goals:g, assists:a };
+  if(isSpiel){
+    const goalsUpsert=players.map(p=>{
+      const gEl=document.getElementById(`goal-${p.id}`);
+      const aEl=document.getElementById(`asst-${p.id}`);
+      if(!gEl&&!aEl)return null;
+      const g=parseInt(gEl?.value)||0;
+      const a=parseInt(aEl?.value)||0;
+      return {player_id:p.id,event_id:eid,goals:g,assists:a};
     }).filter(Boolean);
-
-    if (goalsToSave.length>0) {
-      await sb.from('goals').upsert(goalsToSave, { onConflict:'player_id,event_id' });
+    if(goalsUpsert.length>0){
+      const {error}=await sb.from('goals').upsert(goalsUpsert,{onConflict:'player_id,event_id'});
+      if(error){showToast('Fehler Tore: '+error.message,'error');return;}
     }
   }
 
@@ -982,129 +870,154 @@ async function saveAllAttendance(eid, isSpiel) {
   await loadSeasonData();
 }
 
-// ═══════════════════════════════════════
-// SAVE HELPERS
-// ═══════════════════════════════════════
-async function saveSeason() {
-  const team = document.getElementById('mTeam').value;
-  const saison = document.getElementById('mSaison').value.trim();
-  if (!saison) return;
-  const { data, error } = await sb.from('seasons').insert({team,saison}).select().single();
-  if (error) { showToast('Fehler: '+error.message,'error'); return; }
+// ── PHOTO UPLOAD ──
+let photoDataUrl=null;
+function previewPhoto(suffix){
+  const file=document.getElementById(`photoFile${suffix}`).files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    photoDataUrl=e.target.result;
+    const prev=document.getElementById(`photoPreview${suffix}`);
+    prev.src=photoDataUrl;prev.style.display='block';
+    document.getElementById(`photoHint${suffix}`).textContent='Foto ändern';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── SAVE HELPERS ──
+async function saveSeason(){
+  const team=document.getElementById('mTeam').value;
+  const saison=document.getElementById('mSaison').value.trim();
+  if(!saison)return;
+  const {data,error}=await sb.from('seasons').insert({team,saison}).select().single();
+  if(error){showToast('Fehler: '+error.message,'error');return;}
   seasons.push({...data,_players:[],_events:[],_attendance:[],_goals:[]});
-  currentSeason = seasons[seasons.length-1];
+  currentSeason=seasons[seasons.length-1];
   buildSeasonDropdown();
-  closeModal();
-  renderStats(); renderPlayerTable(); renderEingabe();
+  closeModal();renderStats();renderPlayerTable();renderEingabe();
   showToast('Saison angelegt ✓','success');
 }
 
-async function savePlayer(editId) {
-  const name = document.getElementById('mPlayerName').value.trim();
-  if (!name) return;
-  if (editId) {
-    const { error } = await sb.from('players').update({name}).eq('id',editId);
-    if (error) { showToast('Fehler','error'); return; }
-    const p = currentSeason._players.find(p=>p.id===editId);
-    if(p) p.name=name;
-  } else {
-    const { data, error } = await sb.from('players').insert({name,season_id:currentSeason.id}).select().single();
-    if (error) { showToast('Fehler','error'); return; }
+async function savePlayer(editId){
+  const name=document.getElementById('mPlayerName').value.trim();
+  if(!name)return;
+  const updates={name};
+  // Store photo as base64 in DB (small images only – for production use Supabase Storage)
+  if(photoDataUrl)updates.photo_url=photoDataUrl;
+  if(editId){
+    const {error}=await sb.from('players').update(updates).eq('id',editId);
+    if(error){showToast('Fehler','error');return;}
+    const p=currentSeason._players.find(p=>p.id===editId);
+    if(p){p.name=name;if(photoDataUrl)p.photo_url=photoDataUrl;}
+  }else{
+    const {data,error}=await sb.from('players').insert({...updates,season_id:currentSeason.id}).select().single();
+    if(error){showToast('Fehler','error');return;}
     currentSeason._players.push(data);
   }
-  closeModal(); closePlayer();
-  renderPlayerTable(); renderEingabe();
+  photoDataUrl=null;
+  closeModal();closePlayer();
+  renderPlayerTable();renderEingabe();
   showToast('Spieler gespeichert ✓','success');
 }
 
-async function saveEvent() {
-  const type = document.getElementById('mEvType').value;
-  const date = document.getElementById('mEvDate').value;
-  if (!date) return;
-  const { data, error } = await sb.from('events').insert({type,date,season_id:currentSeason.id}).select().single();
-  if (error) { showToast('Fehler','error'); return; }
+async function saveEvent(){
+  const type=document.getElementById('mEvType').value;
+  const date=document.getElementById('mEvDate').value;
+  if(!date)return;
+  const {data,error}=await sb.from('events').insert({type,date,season_id:currentSeason.id}).select().single();
+  if(error){showToast('Fehler','error');return;}
   currentSeason._events.push(data);
-  closeModal();
-  renderStats(); renderPlayerTable(); renderEingabe();
-  showToast('Angelegt – jetzt Anwesenheit erfassen ✓','success');
+  closeModal();renderStats();renderPlayerTable();renderEingabe();
+  showToast('Angelegt ✓','success');
   setTimeout(()=>showModal('attendance',data.id),400);
 }
 
-// ═══════════════════════════════════════
-// IMPORT
-// ═══════════════════════════════════════
-async function importHistoricData() {
+// ── IMPORT ──
+async function importHistoricData(){
   const btn=document.getElementById('importBtn');
-  btn.disabled=true; btn.textContent='Importiere…';
+  btn.disabled=true;btn.textContent='Importiere…';
   const status=document.getElementById('importStatus');
 
-  const historic=[
-    {team:'F-Jugend',saison:'2023/24',players:['Greil Gerhard','Kilger Elias','Weinberger Lio','Greil Max','Dachs Vincent','Aichinger Romy','Kandler Moritz','Kraus Sebastian','Ebner Felix','Dachs Franz','Kopp Johannes','Weinberger Elina','Kandler Xaver','Welter Luisa','Kilger Helmut','Seiderer Julian','Eizner Lukas','Weinberger Markus','Rager Felix','Weinberger Jonas','Thurnbauer Joschua','Loth Alexander','Metz Dominik','Aigner Ben'],trainings:28,spiele:14,
-     summary:[{n:'Greil Gerhard',t:30,s:16},{n:'Kilger Elias',t:30,s:17},{n:'Weinberger Lio',t:25,s:17},{n:'Greil Max',t:29,s:16},{n:'Dachs Vincent',t:24,s:17},{n:'Aichinger Romy',t:26,s:15},{n:'Kandler Moritz',t:26,s:16},{n:'Kraus Sebastian',t:30,s:15},{n:'Ebner Felix',t:26,s:13},{n:'Dachs Franz',t:21,s:13},{n:'Kopp Johannes',t:21,s:13},{n:'Weinberger Elina',t:24,s:15},{n:'Kandler Xaver',t:26,s:7},{n:'Welter Luisa',t:22,s:5},{n:'Kilger Helmut',t:30,s:15},{n:'Seiderer Julian',t:24,s:5},{n:'Eizner Lukas',t:20,s:10},{n:'Weinberger Markus',t:25,s:15},{n:'Rager Felix',t:26,s:11},{n:'Weinberger Jonas',t:15,s:0},{n:'Thurnbauer Joschua',t:17,s:1},{n:'Loth Alexander',t:24,s:2},{n:'Metz Dominik',t:9,s:1},{n:'Aigner Ben',t:9,s:3}]},
-    {team:'E-Jugend',saison:'2024/25',players:['Greil Gerhard','Kilger Helmut','Dachs Vincent','Aichinger Romy','Greil Max','Kilger Elias','Kopp Johannes','Rager Felix','Ebner Felix','Eizner Lukas','Kandler Moritz','Pfeffer Severin','Weinberger Jonas','Loth Alexander','Seiderer Emil','Seiderer Julian','Kraus Sebastian','Baumgartner Tim','Kandler Xaver','Metz Dominik'],trainings:43,spiele:18,
-     summary:[{n:'Greil Gerhard',t:33,s:18},{n:'Kilger Helmut',t:30,s:17},{n:'Dachs Vincent',t:32,s:17},{n:'Aichinger Romy',t:30,s:15},{n:'Greil Max',t:31,s:16},{n:'Kilger Elias',t:30,s:17},{n:'Kopp Johannes',t:34,s:12},{n:'Rager Felix',t:31,s:12},{n:'Ebner Felix',t:28,s:5},{n:'Eizner Lukas',t:26,s:10},{n:'Kandler Moritz',t:14,s:3},{n:'Pfeffer Severin',t:24,s:8},{n:'Weinberger Jonas',t:16,s:9},{n:'Loth Alexander',t:13,s:1},{n:'Seiderer Emil',t:13,s:2},{n:'Seiderer Julian',t:21,s:8},{n:'Kraus Sebastian',t:23,s:13},{n:'Baumgartner Tim',t:21,s:9},{n:'Kandler Xaver',t:1,s:1},{n:'Metz Dominik',t:0,s:0}]},
-    {team:'E-Jugend',saison:'2025/26',players:['Greil Gerhard','Kilger Helmut','Aichinger Romy','Dachs Vincent','Greil Max','Kilger Elias','Kopp Johannes','Kraus Sebastian','Rager Felix','Seiderer Julian','Pfeffer Severin','Zahlauer Jös','Baumgartner Tim','Ebner Felix','Eizner Lukas','Weinberger Jonas','Loth Alexander','Dachs Franze','Thurnbauer Joschua','Brunner Kilian','Ebner Leo','Ebner Sandro'],trainings:12,spiele:9,
-     summary:[{n:'Kilger Helmut',t:12,s:2},{n:'Kilger Elias',t:11,s:2},{n:'Kraus Sebastian',t:11,s:2},{n:'Greil Gerhard',t:10,s:2},{n:'Aichinger Romy',t:10,s:2},{n:'Greil Max',t:10,s:2},{n:'Dachs Vincent',t:9,s:2},{n:'Zahlauer Jös',t:8,s:2},{n:'Kopp Johannes',t:8,s:2},{n:'Rager Felix',t:7,s:1},{n:'Seiderer Julian',t:7,s:1},{n:'Eizner Lukas',t:7,s:0},{n:'Dachs Franze',t:7,s:2},{n:'Baumgartner Tim',t:6,s:0},{n:'Pfeffer Severin',t:5,s:1},{n:'Ebner Felix',t:4,s:0},{n:'Thurnbauer Joschua',t:4,s:1},{n:'Weinberger Jonas',t:1,s:0},{n:'Loth Alexander',t:0,s:0},{n:'Brunner Kilian',t:2,s:0},{n:'Ebner Leo',t:1,s:0},{n:'Ebner Sandro',t:2,s:0}]}
-  ];
+  // E-Jugend 2025/26 - aktuelle Saison mit vollständigen Daten
+  const EVENTS = [{"date": "2025-09-18", "type": "Test - Spiel"}, {"date": "2025-09-20", "type": "Spiel"}, {"date": "2025-09-22", "type": "Training"}, {"date": "2025-09-24", "type": "Training"}, {"date": "2025-09-26", "type": "Spiel"}, {"date": "2025-09-29", "type": "Training"}, {"date": "2025-10-01", "type": "Spiel"}, {"date": "2025-10-08", "type": "Test - Spiel"}, {"date": "2025-10-11", "type": "Spiel"}, {"date": "2025-10-15", "type": "Spiel"}, {"date": "2025-10-17", "type": "Spiel"}, {"date": "2025-10-20", "type": "Training"}, {"date": "2025-10-22", "type": "Test - Spiel"}, {"date": "2025-10-30", "type": "Training"}, {"date": "2025-11-06", "type": "Training"}, {"date": "2025-11-13", "type": "Training"}, {"date": "2025-11-20", "type": "Training"}, {"date": "2025-11-27", "type": "Training"}, {"date": "2025-11-30", "type": "Hallentunier"}, {"date": "2025-12-04", "type": "Training"}, {"date": "2025-12-11", "type": "Training"}, {"date": "2025-12-15", "type": "Trainingsspiel"}, {"date": "2025-12-18", "type": "Training"}, {"date": "2026-01-08", "type": "Training"}, {"date": "2026-01-15", "type": "Training"}, {"date": "2026-01-22", "type": "Training"}, {"date": "2026-01-26", "type": "Trainingsspiel"}, {"date": "2026-01-29", "type": "Training"}, {"date": "2026-02-05", "type": "Training"}, {"date": "2026-02-12", "type": "Training"}, {"date": "2026-02-19", "type": "Training"}, {"date": "2026-02-20", "type": "Hallentunier"}, {"date": "2026-02-26", "type": "Training"}, {"date": "2026-03-05", "type": "Training"}, {"date": "2026-03-10", "type": "Training"}, {"date": "2026-03-12", "type": "Training"}, {"date": "2026-03-13", "type": "Trainingsspiel"}, {"date": "2026-03-16", "type": "Training"}, {"date": "2026-03-18", "type": "Training"}, {"date": "2026-03-25", "type": "Training"}, {"date": "2026-03-30", "type": "Training"}, {"date": "2026-04-01", "type": "Training"}];
+  const PLAYERS = [{"name": "Greil Gerhard", "training": 20, "spiele": 12, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "abwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Kilger Helmut", "training": 19, "spiele": 11, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "abwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Aichinger Romy", "training": 16, "spiele": 10, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "abwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "na", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "abwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "abwesend", "2026-03-05": "anwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Baumgartner Tim", "training": 11, "spiele": 5, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "anwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Dachs Franze", "training": 13, "spiele": 8, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "na", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "abwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Dachs Vincent", "training": 17, "spiele": 11, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "abwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Ebner Felix", "training": 15, "spiele": 4, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "anwesend", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "abwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Eizner Lukas", "training": 16, "spiele": 5, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "na", "2025-10-08": "anwesend", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "abwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Greil Max", "training": 20, "spiele": 11, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "abwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Kandler Moritz", "training": 8, "spiele": 3, "attendance": {"2025-09-18": "abwesend", "2025-09-20": "abwesend", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "abwesend", "2025-09-29": "abwesend", "2025-10-01": "abwesend", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "anwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "abwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Kilger Elias", "training": 20, "spiele": 10, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "abwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Kopp Johannes", "training": 16, "spiele": 7, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "abwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Kraus Sebastian", "training": 22, "spiele": 11, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Loth Alexander", "training": 3, "spiele": 1, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Pfeffer Severin", "training": 11, "spiele": 7, "attendance": {"2025-09-18": "na", "2025-09-20": "anwesend", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "anwesend", "2025-10-15": "anwesend", "2025-10-17": "anwesend", "2025-10-20": "abwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "abwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "anwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Rager Felix", "training": 18, "spiele": 4, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "na", "2025-09-29": "anwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "anwesend", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "anwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Seiderer Julian", "training": 14, "spiele": 3, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "anwesend", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "anwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Thurnbauer Joschua", "training": 14, "spiele": 4, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "anwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "anwesend", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "anwesend", "2025-10-22": "anwesend", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "anwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "abwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Weinberger Jonas", "training": 4, "spiele": 2, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "anwesend", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "abwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Zahlauer Jös", "training": 19, "spiele": 8, "attendance": {"2025-09-18": "anwesend", "2025-09-20": "anwesend", "2025-09-22": "abwesend", "2025-09-24": "anwesend", "2025-09-26": "na", "2025-09-29": "anwesend", "2025-10-01": "anwesend", "2025-10-08": "anwesend", "2025-10-11": "na", "2025-10-15": "anwesend", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "anwesend", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "anwesend", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "abwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "anwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Brunner Kilian", "training": 2, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Ebner Leo", "training": 1, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Ebner Sandro", "training": 8, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Eizner", "training": 1, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Edenhofer Ben", "training": 1, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Greil Franze", "training": 17, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "anwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "anwesend", "2025-11-06": "na", "2025-11-13": "anwesend", "2025-11-20": "abwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "anwesend", "2025-12-11": "anwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "anwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Schlecht Max", "training": 2, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Sitzberger Leo", "training": 0, "spiele": 1, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "anwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Weinberger Elina", "training": 2, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Weinberger Elyas", "training": 1, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Weinberger Lio", "training": 15, "spiele": 1, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "anwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "anwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "anwesend", "2025-11-27": "anwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "anwesend", "2026-01-15": "anwesend", "2026-01-22": "anwesend", "2026-01-26": "na", "2026-01-29": "anwesend", "2026-02-05": "na", "2026-02-12": "anwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "anwesend", "2026-03-05": "anwesend", "2026-03-10": "anwesend", "2026-03-12": "anwesend", "2026-03-13": "anwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}, {"name": "Welter Luisa", "training": 1, "spiele": 0, "attendance": {"2025-09-18": "na", "2025-09-20": "na", "2025-09-22": "abwesend", "2025-09-24": "abwesend", "2025-09-26": "na", "2025-09-29": "abwesend", "2025-10-01": "na", "2025-10-08": "na", "2025-10-11": "na", "2025-10-15": "na", "2025-10-17": "na", "2025-10-20": "abwesend", "2025-10-22": "na", "2025-10-30": "abwesend", "2025-11-06": "na", "2025-11-13": "abwesend", "2025-11-20": "abwesend", "2025-11-27": "abwesend", "2025-11-30": "na", "2025-12-04": "abwesend", "2025-12-11": "abwesend", "2025-12-15": "na", "2025-12-18": "na", "2026-01-08": "abwesend", "2026-01-15": "abwesend", "2026-01-22": "abwesend", "2026-01-26": "na", "2026-01-29": "abwesend", "2026-02-05": "na", "2026-02-12": "abwesend", "2026-02-19": "na", "2026-02-20": "abwesend", "2026-02-26": "abwesend", "2026-03-05": "abwesend", "2026-03-10": "abwesend", "2026-03-12": "abwesend", "2026-03-13": "abwesend", "2026-03-16": "abwesend", "2026-03-18": "na", "2026-03-25": "na", "2026-03-30": "na", "2026-04-01": "na"}}];
 
-  let imported=0;
-  for (const hs of historic) {
-    status.textContent=`Importiere ${hs.team} ${hs.saison}…`;
-    const {data:season,error:se}=await sb.from('seasons').insert({team:hs.team,saison:hs.saison}).select().single();
-    if(se){showToast('Fehler: '+se.message,'error');continue;}
+  status.textContent='Lösche alte Daten und importiere E-Jugend 2025/26…';
 
-    const yr=hs.saison.split('/')[0];
-    const evs=[];
-    for(let i=0;i<hs.trainings;i++) evs.push({season_id:season.id,type:'Training',date:`${yr}-09-${String(i%28+1).padStart(2,'0')}`});
-    for(let i=0;i<hs.spiele;i++) evs.push({season_id:season.id,type:'Spiel',date:`${yr}-10-${String(i%28+1).padStart(2,'0')}`});
-    const {data:events}=await sb.from('events').insert(evs).select();
-    const tEvs=(events||[]).filter(e=>e.type==='Training');
-    const sEvs=(events||[]).filter(e=>e.type==='Spiel');
-
-    const {data:players}=await sb.from('players').insert(hs.players.map(n=>({name:n,season_id:season.id}))).select();
-    const attInserts=[];
-    for(const sum of hs.summary){
-      const p=(players||[]).find(p=>p.name===sum.n);
-      if(!p) continue;
-      tEvs.forEach((e,i)=>attInserts.push({player_id:p.id,event_id:e.id,status:i<sum.t?'anwesend':'abwesend'}));
-      sEvs.forEach((e,i)=>attInserts.push({player_id:p.id,event_id:e.id,status:i<sum.s?'anwesend':'abwesend'}));
+  // Delete existing season if present
+  const {data:existing}=await sb.from('seasons').select('id').eq('team','E-Jugend').eq('saison','2025/26');
+  if(existing&&existing.length>0){
+    for(const s of existing){
+      await sb.from('attendance').delete().in('player_id',(await sb.from('players').select('id').eq('season_id',s.id)).data?.map(p=>p.id)||[]);
+      await sb.from('goals').delete().in('event_id',(await sb.from('events').select('id').eq('season_id',s.id)).data?.map(e=>e.id)||[]);
+      await sb.from('players').delete().eq('season_id',s.id);
+      await sb.from('events').delete().eq('season_id',s.id);
+      await sb.from('seasons').delete().eq('id',s.id);
     }
-    for(let i=0;i<attInserts.length;i+=500) await sb.from('attendance').insert(attInserts.slice(i,i+500));
-
-    seasons.push({...season,_players:players||[],_events:events||[],_attendance:[],_goals:[]});
-    imported++;
   }
-  status.textContent=`✓ ${imported} Saisons importiert!`;
-  currentSeason=seasons[seasons.length-1];
-  buildSeasonDropdown();
-  await loadSeasonData();
+
+  // Insert season
+  const {data:season,error:se}=await sb.from('seasons').insert({team:'E-Jugend',saison:'2025/26'}).select().single();
+  if(se){showToast('Fehler: '+se.message,'error');btn.disabled=false;btn.textContent='Import starten';return;}
+
+  // Insert events
+  status.textContent='Events werden eingetragen…';
+  const evInserts=EVENTS.map(e=>({season_id:season.id,type:e.type,date:e.date}));
+  const {data:insertedEvents}=await sb.from('events').insert(evInserts).select();
+  const evMap={};
+  (insertedEvents||[]).forEach(e=>evMap[e.date+e.type]=e.id);
+
+  // Insert players
+  status.textContent='Spieler werden eingetragen…';
+  const plInserts=PLAYERS.map(p=>({name:p.name,season_id:season.id}));
+  const {data:insertedPlayers}=await sb.from('players').insert(plInserts).select();
+  const plMap={};
+  (insertedPlayers||[]).forEach(p=>plMap[p.name.trim()]=p.id);
+
+  // Insert attendance
+  status.textContent='Anwesenheit wird importiert…';
+  const attInserts=[];
+  for(const p of PLAYERS){
+    const pid=plMap[p.name.trim()];
+    if(!pid)continue;
+    for(const ev of EVENTS){
+      const eid=evMap[ev.date+ev.type];
+      if(!eid)continue;
+      const st=p.attendance[ev.date]||'na';
+      attInserts.push({player_id:pid,event_id:eid,status:st});
+    }
+  }
+  for(let i=0;i<attInserts.length;i+=500){
+    await sb.from('attendance').insert(attInserts.slice(i,i+500));
+  }
+
+  status.textContent='✓ E-Jugend 2025/26 importiert! ('+PLAYERS.length+' Spieler, '+EVENTS.length+' Events)';
+  await loadSeasons();
+  // Select the new season
+  const newSeason=seasons.find(s=>s.saison==='2025/26'&&s.team==='E-Jugend');
+  if(newSeason){currentSeason=newSeason;document.getElementById('seasonSelect').value=newSeason.id;await loadSeasonData();}
   closeModal();
   showToast('Import abgeschlossen ✓','success');
 }
 
-// ═══════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════
-function showView(v) {
+// ── NAVIGATION ──
+function showView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   document.querySelectorAll('#trainerNav .nav-btn').forEach(b=>b.classList.remove('active'));
   const idx={saison:0,eingabe:1,auswertung:2,eltern:3};
   document.querySelectorAll('#trainerNav .nav-btn')[idx[v]]?.classList.add('active');
-  document.getElementById('seasonBar').style.display = v==='eltern' ? 'flex' : (currentUser ? 'flex' : 'none');
-  if(v==='eingabe') renderEingabe();
-  if(v==='auswertung') renderAuswertung();
-  if(v==='eltern') renderEltern();
+  if(v==='eingabe')renderEingabe();
+  if(v==='auswertung')renderAuswertung();
+  if(v==='eltern')renderEltern();
 }
 
-// ═══════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════
+// ── TOAST ──
 let toastTimer;
 function showToast(msg,type='success'){
   const el=document.getElementById('toastEl');
-  el.textContent=msg; el.className='toast '+type;
-  el.style.display='block';
+  el.textContent=msg;el.className='toast '+type;el.style.display='block';
   clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>el.style.display='none',3000);
 }
