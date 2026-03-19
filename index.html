@@ -1283,7 +1283,7 @@ function renderAuswertung() {
   var filtEv=getFilteredEvents();
   var today2=new Date();today2.setHours(23,59,59,0);
   var trs=filtEv.filter(function(e){return e.type==='Training'&&new Date(e.date)<=today2;});
-  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);});
+  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type)&&new Date(e.date)<=today2;});
   var tIds=trs.map(function(e){return e.id;});
   var sIds=sps.map(function(e){return e.id;});
   var totalGoals=goals.filter(function(g){return sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g){return a+(g.goals||0);},0);
@@ -1355,7 +1355,7 @@ function renderEltern() {
   var filtEv=getFilteredEvents();
   var today2=new Date();today2.setHours(23,59,59,0);
   var trs=filtEv.filter(function(e){return e.type==='Training'&&new Date(e.date)<=today2;});
-  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);});
+  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type)&&new Date(e.date)<=today2;});
   var tIds=trs.map(function(e){return e.id;});
   var sIds=sps.map(function(e){return e.id;});
   var totalGoals=goals.filter(function(g){return sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g){return a+(g.goals||0);},0);
