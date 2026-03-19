@@ -1592,6 +1592,7 @@ async function savePlayer(editId) {
     active: document.getElementById('pActive').value === 'true'
   };
   if (photoB64) data.photo_url = photoB64;
+  var sid = editId;
   if (editId) {
     var r = await sb.from('players').update(data).eq('id', editId);
     if (r.error) { toast('Fehler: ' + r.error.message, 'er'); return; }
@@ -1601,6 +1602,7 @@ async function savePlayer(editId) {
     var r = await sb.from('players').insert(data).select().single();
     if (r.error) { toast('Fehler: ' + r.error.message, 'er'); return; }
     players.push(r.data);
+    sid = r.data.id;
   }
   var selTeams=typeof getSelectedTeams==='function'?getSelectedTeams():[];var pid=sid||editId;
   if(pid){sb.from('player_teams').delete().eq('player_id',pid).then(function(){if(selTeams.length>0){sb.from('player_teams').insert(selTeams.map(function(t){return{player_id:pid,team:t};})).then(function(){playerTeams[pid]=selTeams;buildTeamFilter();});}else{playerTeams[pid]=[];buildTeamFilter();}});}
