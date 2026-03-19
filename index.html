@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -879,7 +879,7 @@ function buildSeasonDropdown() {
   else {
     if (!curSeason && seasons.length) curSeason = seasons[seasons.length - 1];
     opts = seasons.map(function(s) {
-      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.team + ' ' + s.saison + '</option>';
+      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.saison + '</option>';
     }).join('');
   }
   var sel = document.getElementById('seasonSel');
