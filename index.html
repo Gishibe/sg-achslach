@@ -1280,7 +1280,22 @@ function renderAuswertung() {
     }
     return out;
   }
-  function sortBy(key){return en.slice().sort(function(a,b){return b[key]-a[key];}).slice(0,5);}
+  function sortBy(key){return en.slice().sort(function(a,b){return b[key]-a[key];}).slice(0,6);}
+  function mkRank(list, key, icon, title) {
+    var rows2 = '';
+    var meds2 = ['🥇','🥈','🥉'];
+    for (var i=0; i<list.length; i++) {
+      var p3 = list[i];
+      rows2 += '<div class="rank-row">'
+        + '<div class="rank-med">' + (meds2[i]||'') + '</div>'
+        + (p3.jersey_number ? '<span class="rank-nr">' + p3.jersey_number + '</span>' : '')
+        + av(p3, 26)
+        + '<div class="rank-name">' + p3.name + '</div>'
+        + '<div class="rank-val">' + p3[key] + (icon ? ' ' + icon : '') + '</div>'
+        + '</div>';
+    }
+    return '<div class="rank-card"><div class="rank-head">' + title + '</div>' + rows2 + '</div>';
+  }
   document.getElementById('ausRankGrid').innerHTML =
     '<div class="auswertung-grid-3">' +
       mkRank(sortBy('tC'), 'tC', '', '🏃 Training-Fleiß') +
@@ -1533,7 +1548,7 @@ function openPlayerModal(editId) {
   savBtn.onclick = function(){ savePlayer(_eid); };
   foot.appendChild(canBtn); foot.appendChild(savBtn);
   box.appendChild(head); box.appendChild(body); box.appendChild(foot);
-  document.getElementById('mOv').classList.remove('h');
+  document.getElementById('modalBg').classList.remove('h');
 }
 
 
