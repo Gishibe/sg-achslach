@@ -591,19 +591,10 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           <div class="card"><table class="tbl"><thead><tr><th>Foto</th><th>Name</th><th>Geburtsdatum</th><th>Alter</th><th>Status</th><th>Mannschaft</th><th></th></tr></thead><tbody id="spielerBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-training">
-          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-              <select class="fs" id="trFilterTeam" onchange="renderTrainingTab()" style="font-size:12px;padding:6px 10px;min-width:130px;"><option value="">Alle Mannschaften</option></select>
-              <select class="fs" id="trSort" onchange="renderTrainingTab()" style="font-size:12px;padding:6px 10px;">
-                <option value="date_desc">Datum &#x25BC;</option>
-                <option value="date_asc">Datum &#x25B2;</option>
-                <option value="team">Mannschaft</option>
-              </select>
-              <input class="fi" id="trSearch" oninput="renderTrainingTab()" placeholder="&#x1F50D; Suche..." style="font-size:12px;padding:6px 10px;width:160px;">
-            </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openEventModal('Training')">+ Training anlegen</button>
           </div>
-          <div class="card"><table class="tbl"><thead><tr><th onclick="trSetSort('date')" style="cursor:pointer;">Datum <span id="trSortIco-date">&#x25BC;</span></th><th>Uhrzeit</th><th onclick="trSetSort('team')" style="cursor:pointer;">Mannschaft <span id="trSortIco-team"></span></th><th>Ort</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="trainingBody"></tbody></table></div>
+          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Uhrzeit</th><th>Ort / Team</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="trainingBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-spiele">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
@@ -1112,46 +1103,11 @@ function renderSpielersTab() {
   tbody.innerHTML = rows;
 }
 
-var trSortDir = {date: 'desc', team: 'asc'};
-var trSortKey = 'date';
-function trSetSort(key) {
-  if (trSortKey === key) trSortDir[key] = trSortDir[key] === 'desc' ? 'asc' : 'desc';
-  else trSortKey = key;
-  var sel = document.getElementById('trSort');
-  if (sel) sel.value = key === 'date' ? (trSortDir.date === 'desc' ? 'date_desc' : 'date_asc') : 'team';
-  renderTrainingTab();
-}
 function renderTrainingTab() {
   var tbody = document.getElementById('trainingBody');
-  if (!tbody) return;
-  // Populate team filter
-  var tfSel = document.getElementById('trFilterTeam');
-  if (tfSel && tfSel.options.length <= 1) {
-    var teams = [];
-    events.forEach(function(e) { if (e.type==='Training' && e.team && teams.indexOf(e.team)<0) teams.push(e.team); });
-    teams.sort().forEach(function(t) {
-      var o = document.createElement('option'); o.value = t; o.textContent = t; tfSel.appendChild(o);
-    });
-  }
-  var filterTeam = tfSel ? tfSel.value : '';
-  var sortVal = document.getElementById('trSort') ? document.getElementById('trSort').value : 'date_desc';
-  var search = (document.getElementById('trSearch') ? document.getElementById('trSearch').value : '').toLowerCase();
-  var trainings = events.filter(function(e) {
-    if (e.type !== 'Training') return false;
-    if (filterTeam && e.team !== filterTeam) return false;
-    if (search) {
-      var hay = (e.date+' '+(e.location||'')+'  '+(e.notes||'')+'  '+(e.team||'')).toLowerCase();
-      if (hay.indexOf(search) < 0) return false;
-    }
-    return true;
-  });
-  trainings.sort(function(a,b) {
-    if (sortVal === 'date_asc') return a.date.localeCompare(b.date);
-    if (sortVal === 'team') return (a.team||'').localeCompare(b.team||'');
-    return b.date.localeCompare(a.date);
-  });
+  var trainings = events.filter(function(e) { return e.type === 'Training'; }).sort(function(a,b) { return b.date.localeCompare(a.date); });
   if (!trainings.length) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F3C3;</div><div class="empty-title">Keine Trainings gefunden</div></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">&#x1F3C3;</div><div class="empty-title">Noch kein Training</div></div></td></tr>';
     return;
   }
   var rows = '';
@@ -1161,13 +1117,11 @@ function renderTrainingTab() {
     var attCell = attCnt > 0
       ? badge('b-green', attCnt + ' dabei')
       : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
-    var teamBadge = e.team ? badge('b-blue', e.team) : '<span style="color:var(--gy);font-size:12px;">–</span>';
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
-      '<td>' + teamBadge + '</td>' +
-      '<td style="font-size:12px;color:var(--gy);">' + (e.location || '–') + '</td>' +
-      '<td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
+      '<td>' + (e.location || '–') + '</td>' +
+      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
       '<td>' + attCell + '</td>' +
       '<td><div class="tbl-actions">' +
         btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", '&#x1F4CB;') +
@@ -1177,13 +1131,7 @@ function renderTrainingTab() {
     '</tr>';
   }
   tbody.innerHTML = rows;
-  // Show count
-  var total = events.filter(function(e){return e.type==='Training';}).length;
-  if (trainings.length < total) {
-    tbody.innerHTML += '<tr><td colspan="7" style="text-align:center;padding:8px;font-size:11px;color:var(--gy);">' + trainings.length + ' von ' + total + ' Trainings</td></tr>';
-  }
 }
-
 
 function renderSpieleTab() {
   var tbody = document.getElementById('spieleBody');
