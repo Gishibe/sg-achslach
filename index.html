@@ -454,6 +454,21 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 @media(max-width:900px){.next-games-grid{grid-template-columns:1fr 1fr;}.eltern-rank-grid{grid-template-columns:1fr 1fr!important;}.eltern-stats{grid-template-columns:1fr 1fr!important;}}
 @media(max-width:600px){.next-games-grid{grid-template-columns:1fr;}.eltern-rank-grid{grid-template-columns:1fr!important;}}
 @media(max-width:390px){.bottom-nav-item{font-size:8px;}.bottom-nav{height:54px;}}
+
+.duty-section{margin-bottom:14px;}
+.duty-head{font-size:13px;font-weight:700;color:var(--bl);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--gyb);}
+.duty-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--gyb);}
+.duty-row:last-child{border-bottom:none;}
+.duty-done{background:none;border:1.5px solid var(--gybl);border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.duty-done.on{background:var(--gn);border-color:var(--gn);color:#fff;}
+.duty-name{flex:1;font-size:13px;font-weight:500;}
+.duty-player{font-size:11px;color:var(--gy);}
+.duty-del{background:none;border:none;cursor:pointer;color:var(--gybl);font-size:18px;line-height:1;padding:0 4px;}
+.duty-del:hover{color:#e53e3e;}
+.duty-add-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center;}
+.duty-inp{flex:1;min-width:110px;}
+.duty-tag{display:inline-block;background:var(--blp);color:var(--blm);border-radius:12px;padding:2px 8px;font-size:11px;margin-right:3px;margin-top:2px;}
+.result-duties{margin-top:4px;display:flex;flex-wrap:wrap;gap:2px;}
 </style>
 </head>
 <body>
@@ -661,6 +676,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+<script>
 
 const SB_URL = 'https://niorgrizesaoeclvdtiy.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
@@ -671,6 +687,7 @@ let playerTeams = {};
 let players = [], events = [], attendance = [], goals = [];
 let calView = 'month', calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
 let pendAtt = {}, photoB64 = null;
+let duties = {};
 let activeTab = 'spieler';
 
 // INIT
@@ -863,7 +880,7 @@ function buildSeasonDropdown() {
   else {
     if (!curSeason && seasons.length) curSeason = seasons[seasons.length - 1];
     opts = seasons.map(function(s) {
-      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.saison + '</option>';
+      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.team + ' ' + s.saison + '</option>';
     }).join('');
   }
   var sel = document.getElementById('seasonSel');
@@ -1054,6 +1071,7 @@ function renderTrainingTab() {
     var attCell = attCnt > 0
       ? badge('b-green', attCnt + ' anwesend')
       : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
+        btn('btn-ghost btn-sm', "openDutiesModal('" + e.id + "')", '&#x1F46A;') +
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
@@ -1283,13 +1301,13 @@ function renderAuswertung() {
   var filtEv=getFilteredEvents();
   var today2=new Date();today2.setHours(23,59,59,0);
   var trs=filtEv.filter(function(e){return e.type==='Training'&&new Date(e.date)<=today2;});
-  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type)&&new Date(e.date)<=today2;});
+  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);});
   var tIds=trs.map(function(e){return e.id;});
   var sIds=sps.map(function(e){return e.id;});
   var totalGoals=goals.filter(function(g){return sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g){return a+(g.goals||0);},0);
   var avgAtt=0;
   if(trs.length&&filtPl.length){var total=0;for(var i=0;i<filtPl.length;i++){total+=attendance.filter(function(x){return x.player_id===filtPl[i].id&&tIds.indexOf(x.event_id)>=0&&x.status==='anwesend';}).length;}avgAtt=Math.round(total/filtPl.length/trs.length*100);}
-  var teamLbl=curTeam==='Alle'?(curSeason?curSeason.saison:''):curTeam;
+  var teamLbl=curTeam==='Alle'?(curSeason?curSeason.team+' '+curSeason.saison:''):curTeam;
   document.getElementById('ausStatGrid').innerHTML =
     '<div class="stat-card"><div class="stat-val">' + filtPl.length + '</div><div class="stat-lbl">Spieler</div><div class="stat-sub">' + teamLbl + '</div></div>' +
     '<div class="stat-card"><div class="stat-val">' + trs.length + '</div><div class="stat-lbl">Trainings</div></div>' +
@@ -1355,7 +1373,7 @@ function renderEltern() {
   var filtEv=getFilteredEvents();
   var today2=new Date();today2.setHours(23,59,59,0);
   var trs=filtEv.filter(function(e){return e.type==='Training'&&new Date(e.date)<=today2;});
-  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type)&&new Date(e.date)<=today2;});
+  var sps=filtEv.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);});
   var tIds=trs.map(function(e){return e.id;});
   var sIds=sps.map(function(e){return e.id;});
   var totalGoals=goals.filter(function(g){return sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g){return a+(g.goals||0);},0);
@@ -1392,6 +1410,22 @@ function renderEltern() {
   var trainRows=buildNGRows(allUp.filter(function(e){return e.type==='Training';}).slice(0,5),true);
   var spieleRows=buildNGRows(allUp.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);}).slice(0,5),false);
   var sonstRows=buildNGRows(allUp.filter(function(e){return isSonstige(e.type);}).slice(0,5),false);
+  var gameRows = '';
+  for (var i=0; i<upcoming.length; i++) {
+    var e = upcoming[i];
+    var name = e.type === 'Training' ? 'Training' : (e.opponent || '–');
+    var haStr = e.home_away ? ' (' + e.home_away + ')' : '';
+    var locStr = e.location ? '<div class="next-game-loc">📍 ' + e.location + '</div>' : '';
+    var noteStr = e.notes ? '<div class="next-game-note">📝 ' + e.notes + '</div>' : '';
+    gameRows += '<div class="next-game-row">' +
+      '<div class="next-game-date">' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit'}) + (e.time ? '<br>' + fmtTime(e.time) : '') + '</div>' +
+      badge(evBadgeClass(e.type), e.type) +
+      '<div class="next-game-info">' +
+        '<div class="next-game-name">' + name + haStr + '</div>' +
+        locStr + noteStr +
+      '</div>' +
+    '</div>';
+  }
   var allRows = '';
   var sortedPl = en.slice().sort(function(a,b){return b.tC-a.tC;});
   for (var i=0; i<sortedPl.length; i++) {
@@ -1438,7 +1472,7 @@ function renderEltern() {
     '<div class="next-games" style="margin-bottom:16px;"><div class="card-head"><div class="card-head-title">📋 Letzte Spiele & Ergebnisse</div></div>' +
     resultRows + '</div>' : '';
 
-  var teamHdr=curTeam==='Alle'?(curSeason?curSeason.saison:'-'):curTeam+' · '+(curSeason?curSeason.saison:'');
+  var teamHdr=curTeam==='Alle'?'Saison '+(curSeason?curSeason.saison:'-'):curTeam+' - '+(curSeason?curSeason.saison:'');
   document.getElementById('elternBody').innerHTML =
     '<div class="eltern-header"><h2>SG Achslach-Gotteszell</h2><p>'+teamHdr+' · '+filtPl.length+' Spieler · '+trs.length+' Trainings · '+sps.length+' Spiele</p></div>' +
     '<div class="eltern-stats" style="grid-template-columns:repeat(4,1fr)">' +
@@ -1592,7 +1626,6 @@ async function savePlayer(editId) {
     active: document.getElementById('pActive').value === 'true'
   };
   if (photoB64) data.photo_url = photoB64;
-  var sid = editId;
   if (editId) {
     var r = await sb.from('players').update(data).eq('id', editId);
     if (r.error) { toast('Fehler: ' + r.error.message, 'er'); return; }
@@ -1602,7 +1635,6 @@ async function savePlayer(editId) {
     var r = await sb.from('players').insert(data).select().single();
     if (r.error) { toast('Fehler: ' + r.error.message, 'er'); return; }
     players.push(r.data);
-    sid = r.data.id;
   }
   var selTeams=typeof getSelectedTeams==='function'?getSelectedTeams():[];var pid=sid||editId;
   if(pid){sb.from('player_teams').delete().eq('player_id',pid).then(function(){if(selTeams.length>0){sb.from('player_teams').insert(selTeams.map(function(t){return{player_id:pid,team:t};})).then(function(){playerTeams[pid]=selTeams;buildTeamFilter();});}else{playerTeams[pid]=[];buildTeamFilter();}});}
@@ -1837,7 +1869,7 @@ function openSeasonModal(editId) {
     '<div class="modal-body">' +
       '<div class="fr2">' +
         '<div class="fg"><label class="fl">Team *</label><select class="fs" id="sTeam">' + teamOpts + '</select></div>' +
-        '<div class="fg"><label class="fl">Saison *</label><input class="fi" id="sSaison" value="' + ((s && s.saison) || '') + '" placeholder="2025-2026"></div>' +
+        '<div class="fg"><label class="fl">Saison *</label><input class="fi" id="sSaison" value="' + ((s && s.saison) || '') + '" placeholder="2025/26"></div>' +
       '</div>' +
     '</div>' +
     '<div class="modal-foot">' +
@@ -1865,6 +1897,68 @@ async function saveSeason(editId) {
 }
 
 // CONFIRM DELETE
+
+function openDutiesModal(evId) {
+  var ev = events.find(function(e){return e.id===evId;});
+  if (!ev) return;
+  var evDuties = duties[evId] || [];
+  var dtypes = [{key:'verkauf',label:'Verkauf / Kiosk',icon:'&#x1F354;'},{key:'verpflegung',label:'Verpflegung',icon:'&#x1F957;'},{key:'trikots',label:'Trikots waschen',icon:'&#x1F455;'}];
+  function dRows(type) {
+    var rows = evDuties.filter(function(d){return d.duty_type===type;});
+    var out = '';
+    for (var i=0; i<rows.length; i++) {
+      var d = rows[i];
+      out += '<div class="duty-row" id="dr-'+d.id+'">'
+        +'<button class="duty-done'+(d.done?' on':'')+' btn" onclick="toggleDuty(\''+d.id+'\',\''+evId+'\','+ (!d.done) +')">'+(d.done?'&#10003;':'&#9675;')+'</button>'
+        +'<span class="duty-name">'+d.parent_name+'</span>'
+        +(d.player_name?'<span class="duty-player">('+d.player_name+')</span>':'')
+        +'<button class="duty-del" onclick="deleteDuty(\''+d.id+'\',\''+evId+'\')">&times;</button>'
+        +'</div>';
+    }
+    out += '<div class="duty-add-row">'
+      +'<input class="fi duty-inp" id="di-name-'+type+'" placeholder="Name Elternteil">'
+      +'<input class="fi duty-inp" id="di-player-'+type+'" placeholder="Kind (optional)">'
+      +'<button class="btn btn-ghost btn-sm" onclick="addDuty(\''+evId+'\',\''+type+'\')">+ Hinzufügen</button>'
+      +'</div>';
+    return out;
+  }
+  var body = '';
+  for (var j=0; j<dtypes.length; j++) {
+    var dt = dtypes[j];
+    body += '<div class="duty-section"><div class="duty-head">'+dt.icon+' '+dt.label+'</div>'+dRows(dt.key)+'</div>';
+  }
+  showModal('<div class="modal-head"><div class="modal-title">Dienste · '+(ev.opponent||ev.type)+' · '+fmtDate(ev.date,{weekday:'short',day:'2-digit',month:'2-digit'})+'</div><button class="modal-x" onclick="closeModal()">&times;</button></div>'
+    +'<div class="modal-body">'+body+'</div>'
+    +'<div class="modal-foot"><button class="btn btn-blue" onclick="closeModal()">Schließen</button></div>');
+}
+
+async function addDuty(evId, type) {
+  var n=document.getElementById('di-name-'+type),pl=document.getElementById('di-player-'+type);
+  var name=n?n.value.trim():'';
+  if(!name){toast('Bitte Namen eingeben','er');return;}
+  var r=await sb.from('game_duties').insert({event_id:evId,duty_type:type,parent_name:name,player_name:pl&&pl.value.trim()?pl.value.trim():null,done:false}).select().single();
+  if(r.error){toast('Fehler: '+r.error.message,'er');return;}
+  if(!duties[evId])duties[evId]=[];
+  duties[evId].push(r.data);
+  openDutiesModal(evId);
+  toast('Eingetragen ✓','ok');
+}
+
+async function toggleDuty(dutyId, evId, newDone) {
+  var r=await sb.from('game_duties').update({done:newDone}).eq('id',dutyId);
+  if(r.error){toast('Fehler: '+r.error.message,'er');return;}
+  if(duties[evId]){var d=duties[evId].find(function(x){return x.id===dutyId;});if(d)d.done=newDone;}
+  openDutiesModal(evId);
+}
+
+async function deleteDuty(dutyId, evId) {
+  var r=await sb.from('game_duties').delete().eq('id',dutyId);
+  if(r.error){toast('Fehler: '+r.error.message,'er');return;}
+  if(duties[evId])duties[evId]=duties[evId].filter(function(x){return x.id!==dutyId;});
+  openDutiesModal(evId);
+  toast('Gelöscht ✓','ok');
+}
+
 function confirmDelete(type, id, name) {
   var msgs = {
     player: 'Spieler <b>' + name + '</b> löschen?<br><small>Alle Anwesenheiten und Statistiken werden ebenfalls gelöscht.</small>',
