@@ -483,7 +483,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 .duty-pill2{font-size:11px;background:transparent;border-radius:4px;padding:1px 0;color:var(--gy);}
 .duty-pill2 b{color:var(--color-text-secondary);font-weight:500;}
 
-.rank-jersey{display:inline-flex;align-items:center;justify-content:center;font-family:"Inter Tight",sans-serif;font-size:11px;font-weight:800;color:var(--color-text-primary);background:var(--color-background-secondary);border:1.5px solid var(--color-border-secondary);border-radius:4px;min-width:20px;height:20px;padding:0 4px;margin-left:5px;letter-spacing:-0.5px;}
+.rank-jersey{display:inline-flex;align-items:center;justify-content:center;font-family:"Inter Tight",sans-serif;font-size:13px;font-weight:900;color:#fff;background:var(--bl,#1a3a6b);border-radius:5px;min-width:24px;height:24px;padding:0 5px;margin-left:6px;letter-spacing:-0.5px;vertical-align:middle;}
 .ng-duties{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;border-top:0.5px solid var(--color-border-tertiary);padding-top:5px;}
 </style>
 </head>
@@ -800,6 +800,13 @@ function startApp() {
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
   setTrainerButton(true);
+  // Restore trainer nav items hidden by openParent
+  var na=document.getElementById('nav-admin'); if(na) na.style.display='';
+  var nk=document.getElementById('nav-kalender'); if(nk) nk.style.display='';
+  var nau=document.getElementById('nav-auswertung'); if(nau) nau.style.display='';
+  var ba=document.getElementById('bnav-admin'); if(ba) ba.style.display='';
+  var bk=document.getElementById('bnav-kalender'); if(bk) bk.style.display='';
+  var bau=document.getElementById('bnav-auswertung'); if(bau) bau.style.display='';
   loadData().then(function() {
     if (curSeason) {
       loadSeasonData().then(function() { showPage('admin'); });
