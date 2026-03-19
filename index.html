@@ -1250,7 +1250,8 @@ function renderUpcoming() {
 function renderAuswertung() {
   var filtPl = getFilteredPlayers();
   var filtEv = getFilteredEvents();
-  var trs = filtEv.filter(function(e) { return e.type === 'Training'; });
+  var today2 = new Date(); today2.setHours(23,59,59,0);
+  var trs = filtEv.filter(function(e) { return e.type === 'Training' && new Date(e.date) <= today2; });
   var sps = filtEv.filter(function(e) { return e.type !== 'Training'; });
   var tIds = trs.map(function(e) { return e.id; });
   var sIds = sps.map(function(e) { return e.id; });
@@ -1338,7 +1339,8 @@ function renderAuswertung() {
 function renderEltern() {
   var filtPl=getFilteredPlayers();
   var filtEv=getFilteredEvents();
-  var trs = filtEv.filter(function(e) { return e.type === 'Training'; });
+  var today2 = new Date(); today2.setHours(23,59,59,0);
+  var trs = filtEv.filter(function(e) { return e.type === 'Training' && new Date(e.date) <= today2; });
   var sps = filtEv.filter(function(e) { return e.type !== 'Training'; });
   var tIds = trs.map(function(e) { return e.id; });
   var sIds = sps.map(function(e) { return e.id; });
