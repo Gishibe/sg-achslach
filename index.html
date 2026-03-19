@@ -1566,7 +1566,7 @@ function openPlayerModal(editId) {
   savBtn.onclick = function(){ savePlayer(_eid); };
   foot.appendChild(canBtn); foot.appendChild(savBtn);
   box.appendChild(head); box.appendChild(body); box.appendChild(foot);
-  document.getElementById('mOv').classList.remove('h');
+  var mbg=document.getElementById('modalBg');if(mbg)mbg.classList.remove('h');
 }
 
 function addCustomTeam(){
