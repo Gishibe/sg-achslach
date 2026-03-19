@@ -1392,22 +1392,6 @@ function renderEltern() {
   var trainRows=buildNGRows(allUp.filter(function(e){return e.type==='Training';}).slice(0,5),true);
   var spieleRows=buildNGRows(allUp.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);}).slice(0,5),false);
   var sonstRows=buildNGRows(allUp.filter(function(e){return isSonstige(e.type);}).slice(0,5),false);
-  var gameRows = '';
-  for (var i=0; i<upcoming.length; i++) {
-    var e = upcoming[i];
-    var name = e.type === 'Training' ? 'Training' : (e.opponent || '–');
-    var haStr = e.home_away ? ' (' + e.home_away + ')' : '';
-    var locStr = e.location ? '<div class="next-game-loc">📍 ' + e.location + '</div>' : '';
-    var noteStr = e.notes ? '<div class="next-game-note">📝 ' + e.notes + '</div>' : '';
-    gameRows += '<div class="next-game-row">' +
-      '<div class="next-game-date">' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit'}) + (e.time ? '<br>' + fmtTime(e.time) : '') + '</div>' +
-      badge(evBadgeClass(e.type), e.type) +
-      '<div class="next-game-info">' +
-        '<div class="next-game-name">' + name + haStr + '</div>' +
-        locStr + noteStr +
-      '</div>' +
-    '</div>';
-  }
   var allRows = '';
   var sortedPl = en.slice().sort(function(a,b){return b.tC-a.tC;});
   for (var i=0; i<sortedPl.length; i++) {
