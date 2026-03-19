@@ -449,6 +449,8 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 @media(max-width:390px){.bottom-nav-item{font-size:8px;gap:1px;}.bottom-nav-item .bni{font-size:17px;}.bottom-nav{height:54px;}.main{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px));}}
 @media(max-width:900px){.eltern-rank-grid{grid-template-columns:1fr 1fr!important;}.eltern-stats{grid-template-columns:1fr 1fr!important;}}
 @media(max-width:600px){.eltern-rank-grid{grid-template-columns:1fr!important;}}
+
+.b-purple{background:#ede9fe;color:#5b21b6;}
 </style>
 </head>
 <body>
@@ -820,6 +822,11 @@ function getFilteredPlayers(){
   if(curTeam==='Alle') return players;
   return players.filter(function(p){return (playerTeams[p.id]||[]).indexOf(curTeam)>=0;});
 }
+
+function getFilteredEvents(){
+  if(curTeam==='Alle') return events;
+  return events.filter(function(e){return !e.team || e.team===curTeam;});
+}
 function addCustomTeam() {
   var inp=document.getElementById('pTeamCustom');
   var val=inp.value.trim(); if(!val) return;
@@ -1033,13 +1040,14 @@ function renderTrainingTab() {
   for (var i=0; i<trainings.length; i++) {
     var e = trainings[i];
     var attCnt = attendance.filter(function(a) { return a.event_id === e.id && a.status === 'anwesend'; }).length;
+    var teamBadge = e.team ? '<span class="badge b-purple" style="font-size:10px;">' + e.team + '</span> ' : '';
     var attCell = attCnt > 0
       ? badge('b-green', attCnt + ' anwesend')
       : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
-      '<td>' + (e.location || '–') + '</td>' +
+      '<td>' + teamBadge + (e.location || '–') + '</td>' +
       '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
       '<td>' + attCell + '</td>' +
       '<td><div class="tbl-actions">' +
@@ -1063,13 +1071,14 @@ function renderSpieleTab() {
   for (var i=0; i<spiele.length; i++) {
     var e = spiele[i];
     var attCnt = attendance.filter(function(a) { return a.event_id === e.id && a.status === 'anwesend'; }).length;
+    var evTeamBadge = e.team ? '<span class="badge b-purple" style="font-size:10px;">' + e.team + '</span> ' : '';
     var haBadge = e.home_away === 'Heim' ? badge('b-blue', 'Heim') : e.home_away === 'Auswärts' ? badge('b-gold', 'Auswärts') : '–';
     var attCell = attCnt > 0 ? badge('b-green', attCnt + ' dabei') : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
       '<td>' + badge(evBadgeClass(e.type), e.type) + '</td>' +
-      '<td style="font-weight:500;">' + (e.opponent || '–') + '</td>' +
+      '<td style="font-weight:500;">' + evTeamBadge + (e.opponent || '–') + '</td>' +
       '<td>' + haBadge + '</td>' +
       '<td>' + (e.score ? '<b>' + e.score + '</b>' : '–') + '</td>' +
       '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
@@ -1217,7 +1226,7 @@ function calDayClick(ds) { openEventModal('Training', null, ds); }
 
 function renderUpcoming() {
   var today = new Date(); today.setHours(0,0,0,0);
-  var upcoming = events.filter(function(e) { return new Date(e.date) >= today; }).sort(function(a,b) { return a.date.localeCompare(b.date); }).slice(0,6);
+  var upcoming = getFilteredEvents().filter(function(e) { return new Date(e.date) >= today; }).sort(function(a,b) { return a.date.localeCompare(b.date); }).slice(0,6);
   var el = document.getElementById('calUpcoming');
   if (!el) return;
   if (!upcoming.length) { el.innerHTML = '<div style="font-size:12px;color:var(--gy);">Keine bevorstehenden Termine</div>'; return; }
@@ -1237,11 +1246,12 @@ function renderUpcoming() {
 // AUSWERTUNG
 function renderAuswertung() {
   var filtPl = getFilteredPlayers();
-  var trs = events.filter(function(e) { return e.type === 'Training'; });
-  var sps = events.filter(function(e) { return e.type !== 'Training'; });
+  var filtEv = getFilteredEvents();
+  var trs = filtEv.filter(function(e) { return e.type === 'Training'; });
+  var sps = filtEv.filter(function(e) { return e.type !== 'Training'; });
   var tIds = trs.map(function(e) { return e.id; });
   var sIds = sps.map(function(e) { return e.id; });
-  var totalGoals = goals.reduce(function(a,g) { return a+(g.goals||0); }, 0);
+  var totalGoals = goals.filter(function(g){return tIds.indexOf(g.event_id)>=0||sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g) { return a+(g.goals||0); }, 0);
   var avgAtt = 0;
   if (trs.length && filtPl.length) {
     var total = 0;
@@ -1324,11 +1334,12 @@ function renderAuswertung() {
 // ELTERN
 function renderEltern() {
   var filtPl=getFilteredPlayers();
-  var trs = events.filter(function(e) { return e.type === 'Training'; });
-  var sps = events.filter(function(e) { return e.type !== 'Training'; });
+  var filtEv=getFilteredEvents();
+  var trs = filtEv.filter(function(e) { return e.type === 'Training'; });
+  var sps = filtEv.filter(function(e) { return e.type !== 'Training'; });
   var tIds = trs.map(function(e) { return e.id; });
   var sIds = sps.map(function(e) { return e.id; });
-  var totalGoals = goals.reduce(function(a,g) { return a+(g.goals||0); }, 0);
+  var totalGoals = goals.filter(function(g){return tIds.indexOf(g.event_id)>=0||sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g) { return a+(g.goals||0); }, 0);
   var avgAtt = 0;
   if (trs.length && filtPl.length) {
     var total = 0;
@@ -1358,7 +1369,7 @@ function renderEltern() {
   }
   function sortBy(key) { return en.slice().sort(function(a,b){return b[key]-a[key];}).slice(0,5); }
   var today = new Date(); today.setHours(0,0,0,0);
-  var upcoming = events.filter(function(e){return new Date(e.date)>=today;}).sort(function(a,b){return a.date.localeCompare(b.date);}).slice(0,5);
+  var upcoming = getFilteredEvents().filter(function(e){return new Date(e.date)>=today;}).sort(function(a,b){return a.date.localeCompare(b.date);}).slice(0,5);
   var gameRows = '';
   for (var i=0; i<upcoming.length; i++) {
     var e = upcoming[i];
@@ -1389,7 +1400,7 @@ function renderEltern() {
     '</tr>';
   }
   // Letzte 10 Spiele mit Ergebnis
-  var pastGames = events
+  var pastGames = getFilteredEvents()
     .filter(function(e){ return e.type !== 'Training' && new Date(e.date) < today; })
     .sort(function(a,b){ return b.date.localeCompare(a.date); })
     .slice(0, 10);
@@ -1605,6 +1616,15 @@ function openEventModal(type, editId, prefillDate) {
   var haOpts = ['','Heim','Auswärts'].map(function(v) {
     return '<option value="' + v + '"' + ((e && e.home_away === v) ? ' selected' : '') + '>' + (v || '– bitte wählen –') + '</option>';
   }).join('');
+  var allTeams = ['Alle'];
+  var pt = Object.values(playerTeams);
+  var teamSet = new Set();
+  pt.forEach(function(ts){ts.forEach(function(t){teamSet.add(t);});});
+  teamSet.forEach(function(t){allTeams.push(t);});
+  var evTeamVal = (e && e.team) || curTeam || 'Alle';
+  var teamSelOpts = allTeams.map(function(t){
+    return '<option value="'+t+'"'+(t===evTeamVal?' selected':'')+'>'+t+'</option>';
+  }).join('');
   showModal(
     '<div class="modal-head"><div class="modal-title">' + (e ? (type + ' bearbeiten') : (type + ' anlegen')) + '</div><button class="modal-x" onclick="closeModal()">×</button></div>' +
     '<div class="modal-body">' +
@@ -1623,6 +1643,7 @@ function openEventModal(type, editId, prefillDate) {
         '</div>' +
         '<div class="fg"><label class="fl">Ergebnis (z.B. 3:1)</label><input class="fi" id="evScore" value="' + ((e && e.score) || '') + '" placeholder="3:1"></div>' +
       '</div>' +
+      '<div class="fg"><label class="fl">Mannschaft</label><select class="fs" id="evTeam">' + teamSelOpts + '</select></div>' +
       '<div class="fg"><label class="fl">Notiz</label><textarea class="fta" id="evNotes">' + ((e && e.notes) || '') + '</textarea></div>' +
     '</div>' +
     '<div class="modal-foot">' +
@@ -1650,6 +1671,7 @@ async function saveEvent(editId) {
     opponent: (document.getElementById('evOpp') && document.getElementById('evOpp').value.trim()) || null,
     home_away: (document.getElementById('evHA') && document.getElementById('evHA').value) || null,
     score: (document.getElementById('evScore') && document.getElementById('evScore').value.trim()) || null,
+    team: (document.getElementById('evTeam') && document.getElementById('evTeam').value !== 'Alle') ? document.getElementById('evTeam').value : null,
     notes: document.getElementById('evNotes').value.trim() || null
   };
   var savedId;
