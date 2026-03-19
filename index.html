@@ -800,7 +800,13 @@ function startApp() {
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
   setTrainerButton(true);
-  loadData().then(function() { showPage('admin'); renderAdmin(); });
+  loadData().then(function() {
+    if (curSeason) {
+      loadSeasonData().then(function() { showPage('admin'); });
+    } else {
+      showPage('admin');
+    }
+  });
 }
 
 function setTrainerButton(isTrainer) {
