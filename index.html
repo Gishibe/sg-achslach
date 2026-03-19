@@ -1068,9 +1068,8 @@ function renderTrainingTab() {
     var e = trainings[i];
     var attCnt = attendance.filter(function(a) { return a.event_id === e.id && a.status === 'anwesend'; }).length;
     var attCell = attCnt > 0
-      ? badge('b-green', attCnt + ' anwesend')
+      ? badge('b-green', attCnt + ' dabei')
       : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
-        btn('btn-ghost btn-sm', "openDutiesModal('" + e.id + "')", '&#x1F46A;') +
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
@@ -1111,6 +1110,7 @@ function renderSpieleTab() {
       '<td>' + attCell + '</td>' +
       '<td><div class="tbl-actions">' +
         btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", '📋') +
+        btn('btn-ghost btn-sm', "openDutiesModal('" + e.id + "')", '&#x1F46A;') +
         btn('btn-ghost btn-sm', "openEventModal('" + esc(e.type) + "','" + e.id + "')", '✏️') +
         btn('btn-ghost btn-sm', "confirmDelete('event','" + e.id + "','" + esc(e.opponent || e.type) + " " + esc(fmtDate(e.date)) + "')", '🗑️') +
       '</div></td>' +
