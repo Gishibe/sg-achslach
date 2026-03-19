@@ -1558,12 +1558,15 @@ function openPlayerModal(editId) {
 async function savePlayer(editId) {
   var name = document.getElementById('pName').value.trim();
   if (!name) { toast('Name ist erforderlich.','er'); return; }
+  var jerseyEl = document.getElementById('pJersey');
   var data = {
     name: name,
     birthdate: document.getElementById('pBirth').value || null,
-    active: document.getElementById('pActive').value === 'true'
+    active: document.getElementById('pActive').value === 'true',
+    jersey_number: jerseyEl && jerseyEl.value ? parseInt(jerseyEl.value) : null
   };
   if (photoB64) data.photo_url = photoB64;
+  var sid = editId;
   if (editId) {
     var r = await sb.from('players').update(data).eq('id', editId);
     if (r.error) { toast('Fehler: ' + r.error.message, 'er'); return; }
@@ -1573,9 +1576,9 @@ async function savePlayer(editId) {
     var r = await sb.from('players').insert(data).select().single();
     if (r.error) { toast('Fehler: ' + r.error.message, 'er'); return; }
     players.push(r.data);
+    sid = r.data.id;
   }
-  var selTeams=typeof getSelectedTeams==='function'?getSelectedTeams():[];
-  var sid=savedId||editId;
+  var selTeams = typeof getSelectedTeams==='function' ? getSelectedTeams() : [];
   if(sid){
     sb.from('player_teams').delete().eq('player_id',sid).then(function(){
       if(selTeams.length>0){
