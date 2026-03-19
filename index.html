@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -1403,7 +1403,7 @@ function renderEltern() {
       var locStr=e.location&&!isTr?'<div class="next-game-loc">'+e.location+'</div>':'';
       var noteStr=e.notes?'<div class="next-game-note">'+e.notes+'</div>':'';
       out+='<div class="next-game-row"><div class="next-game-date">'+fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit'})+(e.time?'<br>'+fmtTime(e.time):'')+
-        '</div><div class="next-game-info"><div class="next-game-name">'+name+haStr+'</div>'+locStr+noteStr+'</div></div>';}
+        '</div><div class="next-game-info"><div class="next-game-name">'+name+haStr+'</div>'+locStr+noteStr+((!isTr&&(duties[e.id]||[]).length)?'<div class="result-duties">'+[['verkauf','Verkauf'],['verpflegung','Verpfl.'],['trikots','Trikots']].map(function(td){var td2=(duties[e.id]||[]).filter(function(d){return d.duty_type===td[0];});return td2.length?'<span class="duty-tag">'+td[1]+': '+td2.map(function(d){return d.parent_name;}).join(', ')+'</span>':'';}).filter(Boolean).join('')+'</div>':'')+'</div></div>';}
     return out;}
   var allUp=getFilteredEvents().filter(function(e){return new Date(e.date)>=today;}).sort(function(a,b){return a.date.localeCompare(b.date);});
   var trainRows=buildNGRows(allUp.filter(function(e){return e.type==='Training';}).slice(0,5),true);
@@ -1440,6 +1440,13 @@ function renderEltern() {
     var scoreStr = g.score ? '<span class="result-score">' + g.score + '</span>' : '<span class="result-score-na">–:–</span>';
     var scorerStr = scorers.length ? '<div class="result-scorers">⚽ ' + scorers.join(', ') + '</div>' : '';
     var haStr = g.home_away ? ' <span class="result-ha">' + g.home_away + '</span>' : '';
+    var gDuties = duties[g.id] || [];
+    var dutyParts = [];
+    [['verkauf','Verkauf'],['verpflegung','Verpfl.'],['trikots','Trikots']].forEach(function(td){
+      var td2 = gDuties.filter(function(d){return d.duty_type===td[0];});
+      if (td2.length) dutyParts.push('<span class="duty-tag">'+td[1]+': '+td2.map(function(d){return d.parent_name+(d.done?' ✓':'');}).join(', ')+'</span>');
+    });
+    var dutyStr = dutyParts.length ? '<div class="result-duties">'+dutyParts.join('')+'</div>' : '';
     resultRows +=
       '<div class="result-row">' +
         '<div class="result-date">' + fmtDate(g.date,{day:'2-digit',month:'2-digit',year:'2-digit'}) + '</div>' +
@@ -1447,6 +1454,7 @@ function renderEltern() {
         '<div class="result-info">' +
           '<div class="result-opp">' + (g.opponent || '–') + haStr + '</div>' +
           scorerStr +
+          dutyStr +
         '</div>' +
         scoreStr +
       '</div>';
