@@ -764,7 +764,13 @@ function openParent() {
   var bau = document.getElementById('bnav-auswertung'); if(bau) bau.style.display='none';
   // NO trainer button in eltern header – read only
   setTrainerButton(false);
-  loadData().then(function() { showPage('eltern'); });
+  loadData().then(function() {
+    if (curSeason) {
+      loadSeasonData().then(function() { showPage('eltern'); });
+    } else {
+      showPage('eltern');
+    }
+  });
 }
 
 function startApp() {
@@ -917,7 +923,15 @@ async function loadSeasonData() {
       var r3 = await sb.from('goals').select('*').in('event_id', eids);
       goals = r3.data || [];
     } catch(e) { goals = []; }
-  } else { attendance = []; goals = []; }
+    try {
+      var r4 = await sb.from('game_duties').select('*').in('event_id', eids);
+      duties = {};
+      (r4.data || []).forEach(function(d) {
+        if (!duties[d.event_id]) duties[d.event_id] = [];
+        duties[d.event_id].push(d);
+      });
+    } catch(e) { duties = {}; }
+  } else { attendance = []; goals = []; duties = {}; }
 }
 
 function refreshPage() {
