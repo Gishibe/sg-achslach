@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- v8.1 cache bust -->
-<title>SG Achslach-Gotteszell v9.3</title>
+<!-- v9.4 1773945352 -->
+<title>SG Achslach-Gotteszell v9.4</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -483,7 +483,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 .duty-pill2{font-size:11px;background:transparent;border-radius:4px;padding:1px 0;color:var(--gy);}
 .duty-pill2 b{color:var(--color-text-secondary);font-weight:500;}
 
-.rank-jersey{font-size:11px;color:var(--gy);font-weight:400;margin-left:4px;}
+.rank-jersey{display:inline-flex;align-items:center;justify-content:center;font-family:"Inter Tight",sans-serif;font-size:11px;font-weight:800;color:var(--color-text-primary);background:var(--color-background-secondary);border:1.5px solid var(--color-border-secondary);border-radius:4px;min-width:20px;height:20px;padding:0 4px;margin-left:5px;letter-spacing:-0.5px;}
 .ng-duties{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;border-top:0.5px solid var(--color-border-tertiary);padding-top:5px;}
 </style>
 </head>
@@ -1369,7 +1369,7 @@ function renderAuswertung() {
         '<div class="rank-med">' + (meds[i]||'') + '</div>' +
         '<div class="rank-pos">' + (i>=3?i+1:'') + '</div>' +
         av(p, 26) +
-        '<div class="rank-name">' + p.name + (p.jersey_number?'<span class="rank-jersey">#'+p.jersey_number+'</span>':'') + '</div>' +
+        '<div class="rank-name">' + p.name + (p.jersey_number?'<span class="rank-jersey">'+p.jersey_number+'</span>':'') + '</div>' +
         '<div class="rank-val">' + p[key] + (icon?' '+icon:'') + '</div>' +
       '</div>';
     }
@@ -1390,7 +1390,7 @@ function renderAuswertung() {
     var p = sorted[i];
     var tp = trs.length > 0 ? Math.round(p.tC/trs.length*100) : 0;
     rows += '<tr>' +
-      '<td><div style="display:flex;align-items:center;gap:8px;">' + av(p,30) + '<span style="font-weight:600;">' + p.name + '</span>' + (p.jersey_number?'<span class="rank-jersey">#'+p.jersey_number+'</span>':'') + '</div></td>' +
+      '<td><div style="display:flex;align-items:center;gap:8px;">' + av(p,30) + '<span style="font-weight:600;">' + p.name + '</span>' + (p.jersey_number?'<span class="rank-jersey">'+p.jersey_number+'</span>':'') + '</div></td>' +
       '<td><b>' + p.tC + '</b><span style="color:var(--gy)"> /' + trs.length + '</span></td>' +
       '<td><div class="prog"><div class="prog-bg"><div class="prog-fg ' + progClass(tp) + '" style="width:' + tp + '%"></div></div><span class="prog-pct">' + tp + '%</span></div></td>' +
       '<td>' + p.sC + '/' + sps.length + '</td>' +
@@ -1426,7 +1426,7 @@ function renderEltern() {
     var out = '';
     for (var i=0; i<list.length; i++) {
       var rp=list[i];
-      out += '<div class="rank-row"><div class="rank-med">' + (meds[i]||'') + '</div>' + av(rp,26) + '<div class="rank-name">' + rp.name + (rp.jersey_number?'<span class="rank-jersey">#'+rp.jersey_number+'</span>':'') + '</div><div class="rank-val">' + rp[key] + (ico?' '+ico:'') + '</div></div>';
+      out += '<div class="rank-row"><div class="rank-med">' + (meds[i]||'') + '</div>' + av(rp,26) + '<div class="rank-name">' + rp.name + (rp.jersey_number?'<span class="rank-jersey">'+rp.jersey_number+'</span>':'') + '</div><div class="rank-val">' + rp[key] + (ico?' '+ico:'') + '</div></div>';
     }
     return out;
   }
@@ -1476,7 +1476,7 @@ function renderEltern() {
     var p = sortedPl[i];
     var tp = trs.length ? Math.round(p.tC/trs.length*100) : 0;
     allRows += '<tr>' +
-      '<td><div style="display:flex;align-items:center;gap:8px;">' + av(p,28) + '<span style="font-weight:600;">' + p.name + '</span>' + (p.jersey_number?'<span class="rank-jersey">#'+p.jersey_number+'</span>':'') + '</div></td>' +
+      '<td><div style="display:flex;align-items:center;gap:8px;">' + av(p,28) + '<span style="font-weight:600;">' + p.name + '</span>' + (p.jersey_number?'<span class="rank-jersey">'+p.jersey_number+'</span>':'') + '</div></td>' +
       '<td><div class="prog"><div class="prog-bg"><div class="prog-fg ' + progClass(tp) + '" style="width:' + tp + '%"></div></div><span class="prog-pct">' + p.tC + '/' + trs.length + '</span></div></td>' +
       '<td>' + p.sC + '/' + sps.length + '</td>' +
       '<td>' + (p.goals > 0 ? badge('b-gold', p.goals + '⚽') : '–') + '</td>' +
