@@ -554,7 +554,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openEventModal('Training')">+ Training anlegen</button>
           </div>
-          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Uhrzeit</th><th>Ort</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="trainingBody"></tbody></table></div>
+          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Uhrzeit</th><th>Ort / Team</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="trainingBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-spiele">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
@@ -650,7 +650,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 <div id="toastEl" style="display:none;"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<
 
 const SB_URL = 'https://niorgrizesaoeclvdtiy.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pb3Jncml6ZXNhb2VjbHZkdGl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4MjIwODEsImV4cCI6MjA4OTM5ODA4MX0.qi4mcW9SWt52daMhMXUkg4XNP3wU40yYJrrKcFbIZuw';
@@ -752,7 +752,10 @@ function startApp() {
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
   setTrainerButton(true);
-  loadData().then(function() { showPage('admin'); });
+  loadData().then(function() {
+    showPage('admin');
+    renderAdmin();
+  });
 }
 
 function setTrainerButton(isTrainer) {
@@ -1045,7 +1048,7 @@ function renderTrainingTab() {
       ? badge('b-green', attCnt + ' anwesend')
       : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
     rows += '<tr>' +
-      '<td><b>' + fmtDate(e.date) + '</b></td>' +
+      '<td><b>' + fmtDate(e.date, {weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
       '<td>' + teamBadge + (e.location || '–') + '</td>' +
       '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
@@ -1075,7 +1078,7 @@ function renderSpieleTab() {
     var haBadge = e.home_away === 'Heim' ? badge('b-blue', 'Heim') : e.home_away === 'Auswärts' ? badge('b-gold', 'Auswärts') : '–';
     var attCell = attCnt > 0 ? badge('b-green', attCnt + ' dabei') : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
     rows += '<tr>' +
-      '<td><b>' + fmtDate(e.date) + '</b></td>' +
+      '<td><b>' + fmtDate(e.date, {weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
       '<td>' + badge(evBadgeClass(e.type), e.type) + '</td>' +
       '<td style="font-weight:500;">' + evTeamBadge + (e.opponent || '–') + '</td>' +
@@ -1771,6 +1774,7 @@ function setAtt(pid, eid, st) {
   var row = document.getElementById('ar-' + pid);
   if (!row) return;
   row.setAttribute('data-st', st);
+  row.setAttribute('data-pend', '1');
   var btns = row.querySelectorAll('.att-b');
   for (var i=0; i<btns.length; i++) {
     btns[i].classList.remove('ja','ab','un','na');
@@ -1784,7 +1788,8 @@ async function saveAtt(eid, isSpiel) {
   var activePl = players.filter(function(p){return p.active !== false;});
   var attArr = activePl.map(function(p) {
     var row = document.getElementById('ar-' + p.id);
-    var st = (pendAtt[eid] && pendAtt[eid][p.id]) || (row && row.getAttribute('data-st')) || 'na';
+    var pend = pendAtt[eid] && pendAtt[eid][p.id];
+    var st = pend || (row && row.getAttribute('data-st')) || 'na';
     return {player_id: p.id, event_id: eid, status: st};
   });
   var r1 = await sb.from('attendance').upsert(attArr, {onConflict:'player_id,event_id'});
