@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- v9.4 1773945352 -->
-<title>SG Achslach-Gotteszell v9.4</title>
+<!-- v9.5 1773950084 -->
+<title>SG Achslach-Gotteszell v9.5</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -175,7 +175,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 .month-cell.other .mday{color:var(--gybl);}
 .month-cell.today .mday{background:var(--blm);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
 .mday{font-size:12px;font-weight:600;color:var(--gyd);margin-bottom:3px;}
-.ev-chip{font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;display:block;}
+.ev-chip{font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:2px;cursor:pointer;display:flex;align-items:center;gap:3px;overflow:hidden;}
 .ev-chip:hover{opacity:.8;}
 .ec-training{background:var(--blp);color:var(--blm);}
 .ec-spiel{background:var(--gdp);color:var(--gd);}
@@ -485,6 +485,11 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 
 .rank-jersey{display:inline-flex;align-items:center;justify-content:center;font-family:"Inter Tight",sans-serif;font-size:13px;font-weight:900;color:#fff;background:var(--bl,#1a3a6b);border-radius:5px;min-width:24px;height:24px;padding:0 5px;margin-left:6px;letter-spacing:-0.5px;vertical-align:middle;}
 .ng-duties{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;border-top:0.5px solid var(--color-border-tertiary);padding-top:5px;}
+
+.cal-ha{font-size:9px;font-weight:600;padding:0 4px;border-radius:3px;margin-left:3px;vertical-align:middle;}
+.cal-ha-h{background:#E6F1FB;color:#0C447C;}
+.cal-ha-a{background:#FAEEDA;color:#633806;}
+
 </style>
 </head>
 <body>
@@ -800,7 +805,6 @@ function startApp() {
   var mu = document.getElementById('mobileUser');
   if (mu) mu.textContent = authUser.email.split('@')[0];
   setTrainerButton(true);
-  // Restore trainer nav items hidden by openParent
   var na=document.getElementById('nav-admin'); if(na) na.style.display='';
   var nk=document.getElementById('nav-kalender'); if(nk) nk.style.display='';
   var nau=document.getElementById('nav-auswertung'); if(nau) nau.style.display='';
@@ -1259,7 +1263,8 @@ function renderMonthCal() {
       var ev = dayEvs[j];
       var label = ev.type === 'Training' ? 'Training' : (ev.opponent || ev.type);
       var timeStr = ev.time ? ev.time.slice(0,5) + ' ' : '';
-      chips += '<span class="ev-chip ' + evChipClass(ev.type) + '" onclick="openAttModal(\'' + ev.id + '\');event.stopPropagation();">' + timeStr + label + '</span>';
+      var haStr2=(ev.home_away&&ev.type!=='Training')?'<span class="cal-ha '+(ev.home_away==='Heim'?'cal-ha-h':'cal-ha-a')+'">'+ev.home_away+'</span>':'';
+      chips += '<span class="ev-chip ' + evChipClass(ev.type) + '" onclick="openAttModal(\'' + ev.id + '\');event.stopPropagation();">' + timeStr + label + haStr2 + '</span>';
     }
     html += '<div class="month-cell' + (isToday ? ' today' : '') + '" onclick="calDayClick(\'' + ds + '\')">' +
       '<div class="mday">' + dayNum + '</div>' + chips + '</div>';
@@ -1301,7 +1306,8 @@ function renderWeekCal() {
     for (var j=0; j<dayEvs.length; j++) {
       var ev = dayEvs[j];
       var label = ev.type === 'Training' ? 'Training' : (ev.opponent || ev.type);
-      chips += '<span class="ev-chip ' + evChipClass(ev.type) + '" style="display:block;margin-bottom:2px;" onclick="openAttModal(\'' + ev.id + '\');event.stopPropagation();">' + (ev.time ? ev.time.slice(0,5) + ' ' : '') + label + '</span>';
+      var haStr3=(ev.home_away&&ev.type!=='Training')?'<span class="cal-ha '+(ev.home_away==='Heim'?'cal-ha-h':'cal-ha-a')+'">'+ev.home_away+'</span>':'';
+      chips += '<span class="ev-chip ' + evChipClass(ev.type) + '" style="display:block;margin-bottom:2px;" onclick="openAttModal(\'' + ev.id + '\');event.stopPropagation();">' + (ev.time ? ev.time.slice(0,5) + ' ' : '') + label + haStr3 + '</span>';
     }
     html += '<div style="min-height:60px;border-right:1px solid var(--gyb);border-bottom:1px solid var(--gyb);padding:4px;cursor:pointer;" onclick="calDayClick(\'' + ds + '\')">' + chips + '</div>';
   }
