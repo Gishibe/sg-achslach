@@ -451,6 +451,14 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 @media(max-width:600px){.eltern-rank-grid{grid-template-columns:1fr!important;}}
 
 .b-purple{background:#ede9fe;color:#5b21b6;}
+
+.next-games-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;}
+.next-games-col{background:var(--color-background-secondary);border-radius:var(--rl);overflow:hidden;}
+.ng-empty{padding:12px 14px;font-size:12px;color:var(--gy);}
+.ec-sonst{background:#f0abfc;color:#86198f;font-size:10px;}
+.b-pink{background:#fdf4ff;color:#86198f;}
+@media(max-width:700px){.next-games-grid{grid-template-columns:1fr;}}
+@media(max-width:900px){.next-games-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -562,6 +570,12 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           </div>
           <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Zeit</th><th>Typ</th><th>Gegner</th><th>Heim/Ausw.</th><th>Ergebnis</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="spieleBody"></tbody></table></div>
         </div>
+        <div class="tab-panel" id="tab-sonstige">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+            <button class="btn btn-blue" onclick="openEventModal('Sonstiges')">+ Termin anlegen</button>
+          </div>
+          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Typ</th><th>Bezeichnung / Notiz</th><th>Ort</th><th></th></tr></thead><tbody id="sonstigeBody"></tbody></table></div>
+        </div>
         <div class="tab-panel" id="tab-saisons">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openSeasonModal()">+ Saison anlegen</button>
@@ -609,6 +623,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
                 <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:var(--gd);border-radius:3px;display:inline-block;"></span><span style="font-size:12px;">Spiel</span></div>
                 <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:var(--pu);border-radius:3px;display:inline-block;"></span><span style="font-size:12px;">Test-/Trainingsspiel</span></div>
                 <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:var(--gn);border-radius:3px;display:inline-block;"></span><span style="font-size:12px;">Hallenturnier</span></div>
+                <div style="display:flex;align-items:center;gap:7px;"><span style="width:12px;height:12px;background:#f0abfc;border-radius:3px;display:inline-block;"></span><span style="font-size:12px;">Sonstiges</span></div>
               </div>
             </div>
           </div>
@@ -826,6 +841,10 @@ function getFilteredPlayers(){
   return players.filter(function(p){return (playerTeams[p.id]||[]).indexOf(curTeam)>=0;});
 }
 
+function isSonstige(type) {
+  return type === 'Vereinsfest' || type === 'Elternabend' || type === 'Sonstiges';
+}
+
 function getFilteredEvents(){
   if(curTeam==='Alle') return events;
   return events.filter(function(e){return !e.team || e.team===curTeam;});
@@ -947,6 +966,7 @@ function renderTab(tab) {
   if (tab === 'spieler') renderSpielersTab();
   else if (tab === 'training') renderTrainingTab();
   else if (tab === 'spiele') renderSpieleTab();
+  else if (tab === 'sonstige') renderSonstigeTab();
   else if (tab === 'saisons') renderSaisonsTab();
 }
 
@@ -981,6 +1001,7 @@ function evChipClass(t) {
   if (t === 'Training') return 'ec-training';
   if (t === 'Spiel') return 'ec-spiel';
   if (t === 'Hallenturnier') return 'ec-halle';
+  if (t === 'Vereinsfest' || t === 'Elternabend' || t === 'Sonstiges') return 'ec-sonst';
   return 'ec-test';
 }
 
@@ -988,6 +1009,7 @@ function evBadgeClass(t) {
   if (t === 'Training') return 'b-blue';
   if (t === 'Spiel') return 'b-gold';
   if (t === 'Hallenturnier') return 'b-green';
+  if (t === 'Vereinsfest' || t === 'Elternabend' || t === 'Sonstiges') return 'b-pink';
   return 'b-purple';
 }
 
@@ -1065,7 +1087,7 @@ function renderTrainingTab() {
 
 function renderSpieleTab() {
   var tbody = document.getElementById('spieleBody');
-  var spiele = events.filter(function(e) { return e.type !== 'Training'; }).sort(function(a,b) { return b.date.localeCompare(a.date); });
+  var spiele = events.filter(function(e) { return e.type !== 'Training' && !isSonstige(e.type); }).sort(function(a,b) { return b.date.localeCompare(a.date); });
   if (!spiele.length) {
     tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">⚽</div><div class="empty-title">Noch keine Spiele</div></div></td></tr>';
     return;
@@ -1096,6 +1118,31 @@ function renderSpieleTab() {
   tbody.innerHTML = rows;
 }
 
+
+function renderSonstigeTab() {
+  var tbody = document.getElementById('sonstigeBody');
+  if (!tbody) return;
+  var sonst = events.filter(function(e){return isSonstige(e.type);}).sort(function(a,b){return b.date.localeCompare(a.date);});
+  if (!sonst.length) {
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">📌</div><div class="empty-title">Noch keine sonstigen Termine</div></div></td></tr>';
+    return;
+  }
+  var rows = '';
+  for (var i=0;i<sonst.length;i++) {
+    var e = sonst[i];
+    rows += '<tr>' +
+      '<td><b>' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b>' + (e.time?'<br><small>'+fmtTime(e.time)+'</small>':'') + '</td>' +
+      '<td>' + badge('b-pink', e.type) + '</td>' +
+      '<td>' + (e.notes||'–') + '</td>' +
+      '<td>' + (e.location||'–') + '</td>' +
+      '<td><div class="tbl-actions">' +
+        btn('btn-ghost btn-sm', "openEventModal('" + e.type + "','" + e.id + "')", '✏️') +
+        btn('btn-ghost btn-sm', "confirmDelete('event','" + e.id + "','" + esc(e.notes||e.type) + "')", '🗑️') +
+      '</div></td>' +
+    '</tr>';
+  }
+  tbody.innerHTML = rows;
+}
 function renderSaisonsTab() {
   var tbody = document.getElementById('saisonBody');
   if (!seasons.length) {
@@ -1375,22 +1422,29 @@ function renderEltern() {
   function sortBy(key) { return en.slice().sort(function(a,b){return b[key]-a[key];}).slice(0,5); }
   var today = new Date(); today.setHours(0,0,0,0);
   var upcoming = getFilteredEvents().filter(function(e){return new Date(e.date)>=today;}).sort(function(a,b){return a.date.localeCompare(b.date);}).slice(0,5);
-  var gameRows = '';
-  for (var i=0; i<upcoming.length; i++) {
-    var e = upcoming[i];
-    var name = e.type === 'Training' ? 'Training' : (e.opponent || '–');
-    var haStr = e.home_away ? ' (' + e.home_away + ')' : '';
-    var locStr = e.location ? '<div class="next-game-loc">📍 ' + e.location + '</div>' : '';
-    var noteStr = e.notes ? '<div class="next-game-note">📝 ' + e.notes + '</div>' : '';
-    gameRows += '<div class="next-game-row">' +
-      '<div class="next-game-date">' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit'}) + (e.time ? '<br>' + fmtTime(e.time) : '') + '</div>' +
-      badge(evBadgeClass(e.type), e.type) +
-      '<div class="next-game-info">' +
-        '<div class="next-game-name">' + name + haStr + '</div>' +
-        locStr + noteStr +
-      '</div>' +
-    '</div>';
+  function buildNGRows(evList, isTraining) {
+    var out = '';
+    for (var i=0; i<evList.length; i++) {
+      var e = evList[i];
+      var name = isTraining ? (e.location || 'Training') : (e.opponent || e.type);
+      var haStr = e.home_away ? ' (' + e.home_away + ')' : '';
+      var locStr = e.location && !isTraining ? '<div class="next-game-loc">📍 ' + e.location + '</div>' : '';
+      var noteStr = e.notes ? '<div class="next-game-note">📝 ' + e.notes + '</div>' : '';
+      out += '<div class="next-game-row">' +
+        '<div class="next-game-date">' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit'}) + (e.time ? '<br>' + fmtTime(e.time) : '') + '</div>' +
+        '<div class="next-game-info">' +
+          '<div class="next-game-name">' + name + haStr + '</div>' +
+          locStr + noteStr +
+        '</div>' +
+      '</div>';
+    }
+    return out;
   }
+  var allUpcoming = getFilteredEvents().filter(function(e){return new Date(e.date)>=today;}).sort(function(a,b){return a.date.localeCompare(b.date);});
+  var trainRows  = buildNGRows(allUpcoming.filter(function(e){return e.type==='Training';}).slice(0,5), true);
+  var spieleRows = buildNGRows(allUpcoming.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);}).slice(0,5), false);
+  var sonstRows  = buildNGRows(allUpcoming.filter(function(e){return isSonstige(e.type);}).slice(0,5), false);
+  var gameRows   = trainRows + spieleRows + sonstRows;
   var allRows = '';
   var sortedPl = en.slice().sort(function(a,b){return b.tC-a.tC;});
   for (var i=0; i<sortedPl.length; i++) {
@@ -1453,8 +1507,19 @@ function renderEltern() {
       '<div class="rank-card"><div class="rank-head">Torschützen</div>'+rk(sortBy('goals'),'goals','',false)+'</div>' +
       '<div class="rank-card"><div class="rank-head">Vorlagen</div>'+rk(sortBy('assists'),'assists','',false)+'</div>' +
     '</div>' +
-    '<div class="next-games"><div class="card-head"><div class="card-head-title">Nächste Termine</div></div>' +
-      (gameRows || '<div style="padding:14px;font-size:13px;color:var(--gy);">Keine bevorstehenden Termine</div>') +
+    '<div class="next-games-grid">' +
+      '<div class="next-games-col">' +
+        '<div class="card-head"><div class="card-head-title">Training</div></div>' +
+        (trainRows || '<div class="ng-empty">Keine Trainings geplant</div>') +
+      '</div>' +
+      '<div class="next-games-col">' +
+        '<div class="card-head"><div class="card-head-title">Spiele</div></div>' +
+        (spieleRows || '<div class="ng-empty">Keine Spiele geplant</div>') +
+      '</div>' +
+      '<div class="next-games-col">' +
+        '<div class="card-head"><div class="card-head-title">Sonstige Termine</div></div>' +
+        (sonstRows || '<div class="ng-empty">Keine Termine</div>') +
+      '</div>' +
     '</div>' +
     '<div class="card"><div class="card-head"><div class="card-head-title">Alle Spieler</div></div>' +
       '<table class="tbl"><thead><tr><th>Spieler</th><th>Training</th><th>Spiele</th><th>Tore</th><th>Assists</th></tr></thead>' +
@@ -1614,7 +1679,7 @@ function openEventModal(type, editId, prefillDate) {
   var e = editId ? events.find(function(x){return x.id===editId;}) : null;
   var isSpiel = (e ? e.type : type) !== 'Training';
   var today = prefillDate || new Date().toISOString().split('T')[0];
-  var typeOpts = ['Training','Spiel','Test-Spiel','Trainingsspiel','Hallenturnier'].map(function(t) {
+  var typeOpts = ['Training','Spiel','Test-Spiel','Trainingsspiel','Hallenturnier','Vereinsfest','Elternabend','Sonstiges'].map(function(t) {
     var sel = ((e ? e.type : type) === t) ? ' selected' : '';
     return '<option' + sel + '>' + t + '</option>';
   }).join('');
@@ -1661,7 +1726,8 @@ function openEventModal(type, editId, prefillDate) {
 function toggleEventFields() {
   var t = document.getElementById('evType').value;
   var f = document.getElementById('spielFields');
-  if (f) f.style.display = (t !== 'Training') ? '' : 'none';
+  var isSpielType = (t !== 'Training' && !isSonstige(t));
+  if (f) f.style.display = isSpielType ? '' : 'none';
 }
 
 async function saveEvent(editId) {
