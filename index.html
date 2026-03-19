@@ -1447,12 +1447,15 @@ function renderEltern() {
 
 // MODAL – PLAYER
 function openPlayerModal(editId) {
+  var box = document.getElementById('modalBox');
+  var modalBg2 = document.getElementById('modalBg');
+  if (!box) { console.error('modalBox not found!'); return; }
+  if (!modalBg2) { console.error('modalBg not found!'); return; }
   var p = editId ? players.find(function(x){return x.id===editId;}) : null;
   photoB64 = null;
   var isActive = !p || p.active !== false;
   var pTeams = (p && playerTeams[p.id]) ? playerTeams[p.id] : [];
   var sugg = ['E-Jugend','F-Jugend','D-Jugend','C-Jugend','B-Jugend','A-Jugend'];
-  var box = document.getElementById('modalBox');
   box.innerHTML = '';
 
   var head = document.createElement('div'); head.className = 'modal-head';
@@ -1548,7 +1551,7 @@ function openPlayerModal(editId) {
   savBtn.onclick = function(){ savePlayer(_eid); };
   foot.appendChild(canBtn); foot.appendChild(savBtn);
   box.appendChild(head); box.appendChild(body); box.appendChild(foot);
-  document.getElementById('modalBg').classList.remove('h');
+  modalBg2.classList.remove('h');
 }
 
 
