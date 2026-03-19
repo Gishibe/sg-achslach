@@ -601,13 +601,13 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openEventModal('Training')">+ Training anlegen</button>
           </div>
-          <div class="card"><table class="tbl"><thead><tr><th>Datum</th><th>Uhrzeit</th><th>Ort / Team</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr></thead><tbody id="trainingBody"></tbody></table></div>
+          <div class="card" style="overflow-x:auto;"><table class="tbl" id="trainingTbl"><thead><tr><th class="th-filter" onclick="trSort('date')">Datum <span class="sort-ico" id="tico-date">&#x25BC;</span></th><th>Uhrzeit</th><th class="th-filter" onclick="trSort('team')">Mannschaft <span class="sort-ico" id="tico-team">&#x25B3;</span></th><th>Ort</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr><tr class="filter-row"><td><input class="filter-inp" id="tf-date" oninput="renderTrainingTab()" placeholder="Datum..."></td><td></td><td><select class="filter-inp" id="tf-team" onchange="renderTrainingTab()"><option value="">Alle</option></select></td><td><input class="filter-inp" id="tf-loc" oninput="renderTrainingTab()" placeholder="Ort..."></td><td></td><td></td><td></td></tr></thead><tbody id="trainingBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-spiele">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openEventModal('Spiel')">+ Spiel anlegen</button>
           </div>
-          <div class="card" style="overflow-x:auto;"><table class="tbl" id="spieleTbl"><thead><tr><th class="th-filter" onclick="spSort('date')">Datum <span class="sort-ico" id="sico-date">&#x25BC;</span></th><th>Zeit</th><th class="th-filter" onclick="spSort('type')">Typ <span class="sort-ico" id="sico-type"></span></th><th class="th-filter" onclick="spSort('opponent')">Gegner <span class="sort-ico" id="sico-opponent"></span></th><th class="th-filter" onclick="spSort('home_away')">Heim/Ausw. <span class="sort-ico" id="sico-home_away"></span></th><th>Ergebnis</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr><tr class="filter-row" id="spFilterRow"><td><input class="filter-inp" id="sf-date" oninput="renderSpieleTab()" placeholder="Datum..."></td><td></td><td><select class="filter-inp" id="sf-type" onchange="renderSpieleTab()"><option value="">Alle</option><option>Spiel</option><option>Test-Spiel</option><option>Trainingsspiel</option><option>Hallenturnier</option></select></td><td><input class="filter-inp" id="sf-opponent" oninput="renderSpieleTab()" placeholder="Gegner..."></td><td><select class="filter-inp" id="sf-ha" onchange="renderSpieleTab()"><option value="">Alle</option><option>Heim</option><option>Auswärts</option></select></td><td></td><td></td><td></td><td></td></tr></thead><tbody id="spieleBody"></tbody></table></div>
+          <div class="card" style="overflow-x:auto;"><table class="tbl" id="spieleTbl"><thead><tr><th class="th-filter" onclick="spSort('date')">Datum <span class="sort-ico" id="sico-date">&#x25BC;</span></th><th>Zeit</th><th class="th-filter" onclick="spSort('type')">Typ <span class="sort-ico" id="sico-type">&#x25B3;</span></th><th class="th-filter" onclick="spSort('opponent')">Gegner <span class="sort-ico" id="sico-opponent">&#x25B3;</span></th><th class="th-filter" onclick="spSort('home_away')">Heim/Ausw. <span class="sort-ico" id="sico-home_away">&#x25B3;</span></th><th class="th-filter" onclick="spSort('team')">Mannschaft <span class="sort-ico" id="sico-team">&#x25B3;</span></th><th>Ergebnis</th><th>Notiz</th><th>Anwesenheit</th><th></th></tr><tr class="filter-row"><td><input class="filter-inp" id="sf-date" oninput="renderSpieleTab()" placeholder="Datum..."></td><td></td><td><select class="filter-inp" id="sf-type" onchange="renderSpieleTab()"><option value="">Alle</option><option>Spiel</option><option>Test-Spiel</option><option>Trainingsspiel</option><option>Hallenturnier</option></select></td><td><input class="filter-inp" id="sf-opponent" oninput="renderSpieleTab()" placeholder="Gegner..."></td><td><select class="filter-inp" id="sf-ha" onchange="renderSpieleTab()"><option value="">Alle</option><option>Heim</option><option>Auswärts</option></select></td><td><select class="filter-inp" id="sf-team" onchange="renderSpieleTab()"><option value="">Alle</option></select></td><td></td><td></td><td></td><td></td></tr></thead><tbody id="spieleBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-sonstige">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
@@ -1110,11 +1110,44 @@ function renderSpielersTab() {
   tbody.innerHTML = rows;
 }
 
+var trSortKey = 'date', trSortDir = 'desc';
+function trSort(key) {
+  if (trSortKey === key) trSortDir = trSortDir === 'desc' ? 'asc' : 'desc';
+  else { trSortKey = key; trSortDir = key === 'date' ? 'desc' : 'asc'; }
+  ['date','team'].forEach(function(k) {
+    var el = document.getElementById('tico-'+k);
+    if (el) el.innerHTML = k === trSortKey ? (trSortDir==='desc'?'&#x25BC;':'&#x25B2;') : '&#x25B3;';
+  });
+  renderTrainingTab();
+}
 function renderTrainingTab() {
   var tbody = document.getElementById('trainingBody');
-  var trainings = events.filter(function(e) { return e.type === 'Training'; }).sort(function(a,b) { return b.date.localeCompare(a.date); });
+  if (!tbody) return;
+  // Populate team filter dropdown
+  var tfTeam = document.getElementById('tf-team');
+  if (tfTeam && tfTeam.options.length <= 1) {
+    var tms = [];
+    events.forEach(function(e) { if (e.type==='Training' && e.team && tms.indexOf(e.team)<0) tms.push(e.team); });
+    tms.sort().forEach(function(t) { var o=document.createElement('option');o.value=t;o.textContent=t;tfTeam.appendChild(o); });
+  }
+  var fDate  = (document.getElementById('tf-date')||{}).value||'';
+  var fTeam  = (document.getElementById('tf-team')||{}).value||'';
+  var fLoc   = ((document.getElementById('tf-loc')||{}).value||'').toLowerCase();
+  var trainings = events.filter(function(e) {
+    if (e.type !== 'Training') return false;
+    if (fDate && e.date.indexOf(fDate)<0 && fmtDate(e.date).indexOf(fDate)<0) return false;
+    if (fTeam && e.team !== fTeam) return false;
+    if (fLoc  && !(e.location||'').toLowerCase().includes(fLoc)) return false;
+    return true;
+  });
+  trainings.sort(function(a,b) {
+    var va = trSortKey==='team' ? (a.team||'') : a.date;
+    var vb = trSortKey==='team' ? (b.team||'') : b.date;
+    var r = va.localeCompare(vb);
+    return trSortDir === 'desc' ? -r : r;
+  });
   if (!trainings.length) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">&#x1F3C3;</div><div class="empty-title">Noch kein Training</div></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F3C3;</div><div class="empty-title">Keine Trainings gefunden</div></div></td></tr>';
     return;
   }
   var rows = '';
@@ -1124,11 +1157,13 @@ function renderTrainingTab() {
     var attCell = attCnt > 0
       ? badge('b-green', attCnt + ' dabei')
       : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
+    var teamBadge = e.team ? badge('b-blue', e.team) : '<span style="color:var(--gy);font-size:12px;">–</span>';
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
-      '<td>' + (e.location || '–') + '</td>' +
-      '<td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
+      '<td>' + teamBadge + '</td>' +
+      '<td style="font-size:12px;color:var(--gy);">' + (e.location || '–') + '</td>' +
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
       '<td>' + attCell + '</td>' +
       '<td><div class="tbl-actions">' +
         btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", '&#x1F4CB;') +
@@ -1137,14 +1172,17 @@ function renderTrainingTab() {
       '</div></td>' +
     '</tr>';
   }
-  tbody.innerHTML = rows;
+  var total = events.filter(function(e){return e.type==='Training';}).length;
+  tbody.innerHTML = rows + (trainings.length < total
+    ? '<tr><td colspan="7" style="text-align:center;padding:6px;font-size:11px;color:var(--gy);">' + trainings.length + ' von ' + total + ' Trainings</td></tr>' : '');
 }
+
 
 var spSortKey = 'date', spSortDir = 'desc';
 function spSort(key) {
   if (spSortKey === key) spSortDir = spSortDir === 'desc' ? 'asc' : 'desc';
   else { spSortKey = key; spSortDir = key === 'date' ? 'desc' : 'asc'; }
-  ['date','type','opponent','home_away'].forEach(function(k) {
+  ['date','type','opponent','home_away','team'].forEach(function(k) {
     var el = document.getElementById('sico-'+k);
     if (el) el.innerHTML = k === spSortKey ? (spSortDir==='desc'?'&#x25BC;':'&#x25B2;') : '&#x25B3;';
   });
@@ -1153,16 +1191,25 @@ function spSort(key) {
 function renderSpieleTab() {
   var tbody = document.getElementById('spieleBody');
   if (!tbody) return;
+  // Populate team dropdown
+  var sfTeam = document.getElementById('sf-team');
+  if (sfTeam && sfTeam.options.length <= 1) {
+    var tms = [];
+    events.forEach(function(e) { if (e.type!=='Training'&&!isSonstige(e.type)&&e.team&&tms.indexOf(e.team)<0) tms.push(e.team); });
+    tms.sort().forEach(function(t) { var o=document.createElement('option');o.value=t;o.textContent=t;sfTeam.appendChild(o); });
+  }
   var fDate = (document.getElementById('sf-date')||{}).value||'';
   var fType = (document.getElementById('sf-type')||{}).value||'';
   var fOpp  = ((document.getElementById('sf-opponent')||{}).value||'').toLowerCase();
   var fHA   = (document.getElementById('sf-ha')||{}).value||'';
+  var fTeam = (document.getElementById('sf-team')||{}).value||'';
   var spiele = events.filter(function(e) {
     if (e.type==='Training'||isSonstige(e.type)) return false;
     if (fDate && e.date.indexOf(fDate)<0 && fmtDate(e.date).indexOf(fDate)<0) return false;
     if (fType && e.type !== fType) return false;
-    if (fOpp && !(e.opponent||'').toLowerCase().includes(fOpp)) return false;
-    if (fHA && e.home_away !== fHA) return false;
+    if (fOpp  && !(e.opponent||'').toLowerCase().includes(fOpp)) return false;
+    if (fHA   && e.home_away !== fHA) return false;
+    if (fTeam && e.team !== fTeam) return false;
     return true;
   });
   spiele.sort(function(a,b) {
@@ -1171,23 +1218,25 @@ function renderSpieleTab() {
     return spSortDir === 'desc' ? -r : r;
   });
   if (!spiele.length) {
-    tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">&#x26BD;</div><div class="empty-title">Keine Spiele gefunden</div></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10"><div class="empty-state"><div class="empty-icon">&#x26BD;</div><div class="empty-title">Keine Spiele gefunden</div></div></td></tr>';
     return;
   }
   var rows = '';
   for (var i=0; i<spiele.length; i++) {
     var e = spiele[i];
     var attCnt = attendance.filter(function(a) { return a.event_id === e.id && a.status === 'anwesend'; }).length;
-    var haBadge = e.home_away === 'Heim' ? badge('b-blue', 'Heim') : e.home_away === 'Ausw\u00e4rts' ? badge('b-gold', 'Ausw\u00e4rts') : '\u2013';
+    var haBadge = e.home_away === 'Heim' ? badge('b-blue', 'Heim') : e.home_away === 'Auswärts' ? badge('b-gold', 'Auswärts') : '–';
+    var teamBadge = e.team ? badge('b-blue', e.team) : '<span style="color:var(--gy);font-size:12px;">–</span>';
     var attCell = attCnt > 0 ? badge('b-green', attCnt + ' dabei') : btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", 'Erfassen');
     rows += '<tr>' +
       '<td><b>' + fmtDate(e.date,{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</b></td>' +
       '<td>' + fmtTime(e.time) + '</td>' +
       '<td>' + badge(evBadgeClass(e.type), e.type) + '</td>' +
-      '<td style="font-weight:500;">' + (e.opponent || '\u2013') + '</td>' +
+      '<td style="font-weight:500;">' + (e.opponent || '–') + '</td>' +
       '<td>' + haBadge + '</td>' +
-      '<td>' + (e.score ? '<b>' + e.score + '</b>' : '\u2013') + '</td>' +
-      '<td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '\u2013') + '</td>' +
+      '<td>' + teamBadge + '</td>' +
+      '<td>' + (e.score ? '<b>' + e.score + '</b>' : '–') + '</td>' +
+      '<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (e.notes || '–') + '</td>' +
       '<td>' + attCell + '</td>' +
       '<td><div class="tbl-actions">' +
         btn('btn-ghost btn-sm', "openAttModal('" + e.id + "')", '&#x1F4CB;') +
@@ -1198,8 +1247,8 @@ function renderSpieleTab() {
     '</tr>';
   }
   var total = events.filter(function(e){return e.type!=='Training'&&!isSonstige(e.type);}).length;
-  tbody.innerHTML = rows + (spiele.length < total ?
-    '<tr><td colspan="9" style="text-align:center;padding:6px;font-size:11px;color:var(--gy);">' + spiele.length + ' von ' + total + ' Spielen</td></tr>' : '');
+  tbody.innerHTML = rows + (spiele.length < total
+    ? '<tr><td colspan="10" style="text-align:center;padding:6px;font-size:11px;color:var(--gy);">' + spiele.length + ' von ' + total + ' Spielen</td></tr>' : '');
 }
 
 
@@ -1844,7 +1893,14 @@ function openAttModal(evId) {
   if (!ev) return;
   var isSpiel = ev.type !== 'Training';
   var dateStr = fmtDate(ev.date, {weekday:'long',day:'2-digit',month:'long',year:'numeric'});
-  var activePl = players.filter(function(p){return p.active !== false;});
+  // Filter players by event team if event has team assigned
+  var activePl = players.filter(function(p) {
+    if (p.active === false) return false;
+    if (!ev.team) return true;
+    var pt = playerTeams[p.id] || [];
+    return pt.indexOf(ev.team) >= 0;
+  });
+  if (!activePl.length) activePl = players.filter(function(p){return p.active !== false;});
   var rows = '';
   for (var i=0; i<activePl.length; i++) {
     var p = activePl[i];
@@ -1927,7 +1983,14 @@ function setAtt(pid, eid, st) {
 }
 
 async function saveAtt(eid, isSpiel) {
-  var activePl = players.filter(function(p){return p.active !== false;});
+  // Filter players by event team if event has team assigned
+  var activePl = players.filter(function(p) {
+    if (p.active === false) return false;
+    if (!ev.team) return true;
+    var pt = playerTeams[p.id] || [];
+    return pt.indexOf(ev.team) >= 0;
+  });
+  if (!activePl.length) activePl = players.filter(function(p){return p.active !== false;});
   var attArr = activePl.map(function(p) {
     var row = document.getElementById('ar-' + p.id);
     var st = (pendAtt[eid] && pendAtt[eid][p.id]) || (row && row.getAttribute('data-st')) || 'na';
