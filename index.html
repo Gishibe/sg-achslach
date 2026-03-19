@@ -595,7 +595,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openPlayerModal()">+ Spieler anlegen</button>
           </div>
-          <div class="card"><table class="tbl"><thead><tr><th>Foto</th><th>Name</th><th>Geburtsdatum</th><th>Alter</th><th>Status</th><th>Mannschaft</th><th></th></tr></thead><tbody id="spielerBody"></tbody></table></div>
+          <div class="card" style="overflow-x:auto;"><table class="tbl"><thead><tr><th>Foto</th><th class="th-filter" onclick="plSort('name')">Name <span class="sort-ico" id="pico-name">&#x25B2;</span></th><th class="th-filter" onclick="plSort('birthdate')">Geburtsdatum <span class="sort-ico" id="pico-birthdate">&#x25B3;</span></th><th class="th-filter" onclick="plSort('age')">Alter <span class="sort-ico" id="pico-age">&#x25B3;</span></th><th>Status</th><th>Mannschaft</th><th></th></tr><tr class="filter-row"><td></td><td><input class="filter-inp" id="pf-name" oninput="renderSpielersTab()" placeholder="Name..."></td><td></td><td></td><td><select class="filter-inp" id="pf-status" onchange="renderSpielersTab()"><option value="">Alle</option><option value="aktiv">Aktiv</option><option value="inaktiv">Inaktiv</option></select></td><td><select class="filter-inp" id="pf-team" onchange="renderSpielersTab()"><option value="">Alle</option></select></td><td></td></tr></thead><tbody id="spielerBody"></tbody></table></div>
         </div>
         <div class="tab-panel" id="tab-training">
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
@@ -874,15 +874,29 @@ function buildTeamFilter() {
   var s2=document.getElementById('teamSelMobile'); if(s2) s2.innerHTML=s1?s1.innerHTML:'';
   var s3=document.getElementById('elternTeamSel'); if(s3) s3.innerHTML=opts;
 }
+function syncTabTeamFilters() {
+  var val = curTeam === 'Alle' ? '' : curTeam;
+  // Spieler tab
+  var pft = document.getElementById('pf-team');
+  if (pft) pft.value = val;
+  // Training tab
+  var tft = document.getElementById('tf-team');
+  if (tft) tft.value = val;
+  // Spiele tab
+  var sft = document.getElementById('sf-team');
+  if (sft) sft.value = val;
+}
 function onTeamChange(){
   var s=document.getElementById('teamSel'); if(s) curTeam=s.value;
   var s2=document.getElementById('teamSelMobile'); if(s2) s2.value=curTeam;
   var s3=document.getElementById('elternTeamSel'); if(s3) s3.value=curTeam;
+  syncTabTeamFilters();
   refreshPage();
 }
 function onTeamChangeMobile(){
   var s=document.getElementById('teamSelMobile'); if(s) curTeam=s.value;
   var s2=document.getElementById('teamSel'); if(s2) s2.value=curTeam;
+  syncTabTeamFilters();
   refreshPage();
 }
 function onElternTeamChange(){
@@ -1083,17 +1097,53 @@ function esc(s) {
 }
 
 // ADMIN TABS
+var plSortKey = 'name', plSortDir = 'asc';
+function plSort(key) {
+  if (plSortKey === key) plSortDir = plSortDir === 'asc' ? 'desc' : 'asc';
+  else { plSortKey = key; plSortDir = 'asc'; }
+  ['name','birthdate','age'].forEach(function(k) {
+    var el = document.getElementById('pico-'+k);
+    if (el) el.innerHTML = k === plSortKey ? (plSortDir==='asc'?'&#x25B2;':'&#x25BC;') : '&#x25B3;';
+  });
+  renderSpielersTab();
+}
 function renderSpielersTab() {
   var tbody = document.getElementById('spielerBody');
-  if (!players.length) {
-    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">👤</div><div class="empty-title">Noch keine Spieler</div><div class="empty-sub">Lege den ersten Spieler an.</div></div></td></tr>';
+  if (!tbody) return;
+  // Populate Mannschaft dropdown with available teams
+  var pfTeam = document.getElementById('pf-team');
+  if (pfTeam && pfTeam.options.length <= 1) {
+    var tms = new Set();
+    Object.values(playerTeams).forEach(function(ts){ts.forEach(function(t){tms.add(t);});});
+    Array.from(tms).sort().forEach(function(t) { var o=document.createElement('option');o.value=t;o.textContent=t;pfTeam.appendChild(o); });
+  }
+  var fName   = ((document.getElementById('pf-name')||{}).value||'').toLowerCase();
+  var fStatus = (document.getElementById('pf-status')||{}).value||'';
+  var fTeam   = (document.getElementById('pf-team')||{}).value||'';
+  var list = players.filter(function(p) {
+    if (fName && !p.name.toLowerCase().includes(fName)) return false;
+    if (fStatus === 'aktiv' && p.active === false) return false;
+    if (fStatus === 'inaktiv' && p.active !== false) return false;
+    if (fTeam && (playerTeams[p.id]||[]).indexOf(fTeam) < 0) return false;
+    return true;
+  });
+  list = list.slice().sort(function(a,b) {
+    var va, vb;
+    if (plSortKey === 'birthdate') { va=a.birthdate||''; vb=b.birthdate||''; }
+    else if (plSortKey === 'age') { va=a.birthdate||'9999'; vb=b.birthdate||'9999'; }
+    else { va=a.name||''; vb=b.name||''; }
+    var r = va.localeCompare(vb);
+    return plSortDir === 'asc' ? r : -r;
+  });
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">&#x1F464;</div><div class="empty-title">Keine Spieler gefunden</div></div></td></tr>';
     return;
   }
   var rows = '';
-  for (var i=0; i<players.length; i++) {
-    var p = players[i];
-    var ptList=(playerTeams[p.id]||[]).join(', ')||'-';
-    var jBadge=p.jersey_number?'<span class="badge b-blue" style="margin-right:4px;">'+p.jersey_number+'</span>':'';
+  for (var i=0; i<list.length; i++) {
+    var p = list[i];
+    var ptList = (playerTeams[p.id]||[]).join(', ') || '-';
+    var jBadge = p.jersey_number ? '<span class="badge b-blue" style="margin-right:4px;">'+p.jersey_number+'</span>' : '';
     rows += '<tr>' +
       '<td>' + av(p, 36) + '</td>' +
       '<td style="font-weight:600;">' + jBadge + p.name + '</td>' +
@@ -1102,13 +1152,16 @@ function renderSpielersTab() {
       '<td>' + badge(p.active !== false ? 'b-green' : 'b-gray', p.active !== false ? 'Aktiv' : 'Inaktiv') + '</td>' +
       '<td style="font-size:12px;color:var(--gy);">' + ptList + '</td>' +
       '<td><div class="tbl-actions">' +
-        btn('btn-ghost btn-sm', "openPlayerModal('" + p.id + "')", '✏️') +
-        btn('btn-ghost btn-sm', "confirmDelete('player','" + p.id + "','" + esc(p.name) + "')", '🗑️') +
+        btn('btn-ghost btn-sm', "openPlayerModal('" + p.id + "')", '&#x270F;&#xFE0F;') +
+        btn('btn-ghost btn-sm', "confirmDelete('player','" + p.id + "','" + esc(p.name) + "')", '&#x1F5D1;&#xFE0F;') +
       '</div></td>' +
     '</tr>';
   }
-  tbody.innerHTML = rows;
+  var total = players.length;
+  tbody.innerHTML = rows + (list.length < total
+    ? '<tr><td colspan="7" style="text-align:center;padding:6px;font-size:11px;color:var(--gy);">' + list.length + ' von ' + total + ' Spielern</td></tr>' : '');
 }
+
 
 var trSortKey = 'date', trSortDir = 'desc';
 function trSort(key) {
