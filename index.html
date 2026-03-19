@@ -497,6 +497,8 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
 .filter-row td{padding:4px 8px!important;background:var(--gyb);border-bottom:2px solid var(--gybl);}
 .filter-inp{width:100%;padding:4px 7px;border:1.5px solid var(--gybl);border-radius:5px;font-size:12px;outline:none;background:#fff;}
 .filter-inp:focus{border-color:var(--blm);}
+
+.saison-card-team{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-height:32px;}
 </style>
 </head>
 <body>
@@ -619,7 +621,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;}
           <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
             <button class="btn btn-blue" onclick="openSeasonModal()">+ Saison anlegen</button>
           </div>
-          <div class="card"><table class="tbl"><thead><tr><th>Team</th><th>Saison</th><th>Erstellt</th><th></th></tr></thead><tbody id="saisonBody"></tbody></table></div>
+          <div id="saisonsContent"></div>
         </div>
       </div>
     </div>
@@ -710,6 +712,7 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 let sb, authUser;
 let seasons = [], curSeason = null, curTeam = "Alle";
+let teams = []; // {id, season_id, name}
 let playerTeams = {};
 let players = [], events = [], attendance = [], goals = [];
 let calView = 'month', calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
@@ -847,6 +850,8 @@ function setTrainerButton(isTrainer) {
 async function loadData() {
   var r1 = await sb.from('seasons').select('*').order('saison');
   seasons = r1.data || [];
+  var rt = await sb.from('teams').select('*').order('name');
+  teams = rt.data || [];
   buildSeasonDropdown();
   var r2 = await sb.from('players').select('*').order('name');
   players = r2.data || [];
@@ -866,9 +871,13 @@ async function loadData() {
 var _v9_state_done = true;
 
 function buildTeamFilter() {
-  var teams = new Set();
-  Object.values(playerTeams).forEach(function(ts){ts.forEach(function(t){teams.add(t);});});
-  var arr = ['Alle'].concat(Array.from(teams).sort());
+  var teamSet = new Set();
+  // Teams from current season (new model)
+  var seasonTeams = curSeason ? teams.filter(function(t){return t.season_id===curSeason.id;}) : [];
+  seasonTeams.forEach(function(t){teamSet.add(t.name);});
+  // Fallback: teams from playerTeams (old model)
+  Object.values(playerTeams).forEach(function(ts){ts.forEach(function(t){teamSet.add(t);});});
+  var arr = ['Alle'].concat(Array.from(teamSet).sort());
   var opts = arr.map(function(t){return '<option value="'+t+'"'+(t===curTeam?' selected':'')+'>'+(t==='Alle'?'Alle Mannschaften':t)+'</option>';}).join('');
   var s1=document.getElementById('teamSel'); if(s1) s1.innerHTML=arr.map(function(t){return '<option value="'+t+'"'+(t===curTeam?' selected':'')+'>'+ t+'</option>';}).join('');
   var s2=document.getElementById('teamSelMobile'); if(s2) s2.innerHTML=s1?s1.innerHTML:'';
@@ -1331,26 +1340,79 @@ function renderSonstigeTab() {
   tbody.innerHTML = rows;
 }
 function renderSaisonsTab() {
-  var tbody = document.getElementById('saisonBody');
+  var cont = document.getElementById('saisonsContent');
+  if (!cont) return;
   if (!seasons.length) {
-    tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><div class="empty-icon">📁</div><div class="empty-title">Noch keine Saison</div></div></td></tr>';
+    cont.innerHTML = '<div class="empty-state"><div class="empty-icon">&#x1F4C1;</div><div class="empty-title">Noch keine Saison</div><div class="empty-sub">Lege die erste Saison an.</div></div>';
     return;
   }
-  var rows = '';
+  var html = '';
   for (var i=0; i<seasons.length; i++) {
     var s = seasons[i];
-    rows += '<tr>' +
-      '<td style="font-weight:600;">' + s.team + '</td>' +
-      '<td>' + s.saison + '</td>' +
-      '<td>' + fmtDate(s.created_at) + '</td>' +
-      '<td><div class="tbl-actions">' +
-        btn('btn-ghost btn-sm', "openSeasonModal('" + s.id + "')", '✏️') +
-        btn('btn-ghost btn-sm', "confirmDelete('season','" + s.id + "','" + esc(s.team) + " " + esc(s.saison) + "')", '🗑️') +
-      '</div></td>' +
-    '</tr>';
+    var sTeams = teams.filter(function(t){return t.season_id===s.id;});
+    var teamBadges = sTeams.map(function(t){
+      return '<span class="badge b-blue" style="display:inline-flex;align-items:center;gap:5px;">'
+        + t.name
+        + '<button onclick="deleteTeam(\''+t.id+'\',\''+s.id+'\')" style="background:none;border:none;cursor:pointer;color:var(--blm);font-size:13px;line-height:1;padding:0;margin-left:2px;">&times;</button>'
+        + '</span>';
+    }).join(' ');
+    html += '<div class="card" style="margin-bottom:14px;">';
+    html += '<div class="card-head" style="display:flex;align-items:center;justify-content:space-between;">';
+    html += '<div style="display:flex;align-items:center;gap:10px;">';
+    html += '<span style="font-family:Inter Tight,sans-serif;font-size:17px;font-weight:800;color:var(--bl);">&#x1F4C5; '+s.saison+'</span>';
+    html += '</div>';
+    html += '<div style="display:flex;gap:6px;">';
+    html += btn('btn-ghost btn-sm', "openSeasonModal('" + s.id + "')", '&#x270F;&#xFE0F; Umbenennen');
+    html += btn('btn-ghost btn-sm', "confirmDelete('season','" + s.id + "','" + esc(s.saison) + "')", '&#x1F5D1;&#xFE0F; Löschen');
+    html += '</div></div>';
+    html += '<div class="card-body">';
+    html += '<div style="font-size:11px;font-weight:600;color:var(--gy);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Mannschaften</div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;">';
+    html += (teamBadges || '<span style="font-size:12px;color:var(--gy);">Noch keine Mannschaft</span>');
+    html += '</div>';
+    html += '<div style="display:flex;gap:8px;align-items:center;">';
+    html += '<input class="fi" id="nt-'+s.id+'" placeholder="Mannschaft hinzufügen (z.B. E-Jugend)" style="max-width:260px;font-size:13px;padding:7px 10px;">';
+    html += '<button class="btn btn-blue btn-sm" onclick="addTeamToSeason(\''+s.id+'\')">';
+    html += '+ Mannschaft</button>';
+    html += '</div>';
+    html += '</div></div>';
   }
-  tbody.innerHTML = rows;
+  cont.innerHTML = html;
 }
+
+async function addTeamToSeason(seasonId) {
+  var inp = document.getElementById('nt-'+seasonId);
+  var name = inp ? inp.value.trim() : '';
+  if (!name) { toast('Bitte Mannschaftsname eingeben.','er'); return; }
+  var r = await sb.from('teams').insert({season_id: seasonId, name: name}).select().single();
+  if (r.error) {
+    if (r.error.code === '23505') { toast('Mannschaft existiert bereits.','er'); }
+    else { toast('Fehler: '+r.error.message,'er'); }
+    return;
+  }
+  teams.push(r.data);
+  if (inp) inp.value = '';
+  buildTeamFilter();
+  renderSaisonsTab();
+  toast(name+' hinzugefügt ✓','ok');
+}
+
+async function deleteTeam(teamId, seasonId) {
+  var t = teams.find(function(x){return x.id===teamId;});
+  if (!t) return;
+  // Check if any events use this team
+  var evCount = events.filter(function(e){return e.team===t.name||e.team_id===teamId;}).length;
+  if (evCount > 0) {
+    if (!confirm('Diese Mannschaft hat '+evCount+' Events. Trotzdem löschen?')) return;
+  }
+  var r = await sb.from('teams').delete().eq('id', teamId);
+  if (r.error) { toast('Fehler: '+r.error.message,'er'); return; }
+  teams = teams.filter(function(x){return x.id!==teamId;});
+  buildTeamFilter();
+  renderSaisonsTab();
+  toast('Mannschaft entfernt ✓','ok');
+}
+
 
 // CALENDAR
 function renderCal() {
@@ -2083,16 +2145,12 @@ async function saveAtt(eid, isSpiel) {
 // MODAL – SEASON
 function openSeasonModal(editId) {
   var s = editId ? seasons.find(function(x){return x.id===editId;}) : null;
-  var teamOpts = ['E-Jugend','F-Jugend','D-Jugend','C-Jugend','B-Jugend','A-Jugend'].map(function(t) {
-    return '<option' + ((s && s.team===t) ? ' selected' : '') + '>' + t + '</option>';
-  }).join('');
   showModal(
-    '<div class="modal-head"><div class="modal-title">' + (s ? 'Saison bearbeiten' : 'Saison anlegen') + '</div><button class="modal-x" onclick="closeModal()">×</button></div>' +
+    '<div class="modal-head"><div class="modal-title">' + (s ? 'Saison umbenennen' : 'Saison anlegen') + '</div><button class="modal-x" onclick="closeModal()">&times;</button></div>' +
     '<div class="modal-body">' +
-      '<div class="fr2">' +
-        '<div class="fg"><label class="fl">Team *</label><select class="fs" id="sTeam">' + teamOpts + '</select></div>' +
-        '<div class="fg"><label class="fl">Saison *</label><input class="fi" id="sSaison" value="' + ((s && s.saison) || '') + '" placeholder="2025/26"></div>' +
-      '</div>' +
+      '<div class="fg"><label class="fl">Saison-Bezeichnung *</label>' +
+      '<input class="fi" id="sSaison" value="' + ((s && s.saison) || '') + '" placeholder="z.B. 2025-2026"></div>' +
+      '<div style="font-size:12px;color:var(--gy);margin-top:4px;">Mannschaften werden direkt im Saisons-Reiter verwaltet.</div>' +
     '</div>' +
     '<div class="modal-foot">' +
       '<button class="btn btn-ghost" onclick="closeModal()">Abbrechen</button>' +
@@ -2101,22 +2159,23 @@ function openSeasonModal(editId) {
   );
 }
 
+
 async function saveSeason(editId) {
-  var team = document.getElementById('sTeam').value;
   var saison = document.getElementById('sSaison').value.trim();
-  if (!saison) { toast('Saison ist erforderlich.','er'); return; }
+  if (!saison) { toast('Bezeichnung ist erforderlich.','er'); return; }
   if (editId) {
-    var r = await sb.from('seasons').update({team:team,saison:saison}).eq('id',editId);
+    var r = await sb.from('seasons').update({saison:saison}).eq('id',editId);
     if (r.error) { toast('Fehler: '+r.error.message,'er'); return; }
-    var s = seasons.find(function(x){return x.id===editId;}); if(s){s.team=team;s.saison=saison;}
+    var s = seasons.find(function(x){return x.id===editId;}); if(s) s.saison=saison;
   } else {
-    var r = await sb.from('seasons').insert({team:team,saison:saison}).select().single();
+    var r = await sb.from('seasons').insert({saison:saison,team:''}).select().single();
     if (r.error) { toast('Fehler: '+r.error.message,'er'); return; }
     seasons.push(r.data); curSeason = r.data;
   }
   closeModal(); buildSeasonDropdown(); renderSaisonsTab();
-  toast(editId ? 'Saison aktualisiert ✓' : 'Saison angelegt ✓', 'ok');
+  toast(editId ? 'Saison umbenannt ✓' : 'Saison angelegt ✓', 'ok');
 }
+
 
 // CONFIRM DELETE
 
