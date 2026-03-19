@@ -2098,12 +2098,13 @@ function setAtt(pid, eid, st) {
 }
 
 async function saveAtt(eid, isSpiel) {
-  // Filter players by event team if event has team assigned
+  var ev = events.find(function(e){return e.id===eid;});
+  var evTeam = ev ? (ev.team || null) : null;
   var activePl = players.filter(function(p) {
     if (p.active === false) return false;
-    if (!ev.team) return true;
+    if (!evTeam) return true;
     var pt = playerTeams[p.id] || [];
-    return pt.indexOf(ev.team) >= 0;
+    return pt.indexOf(evTeam) >= 0;
   });
   if (!activePl.length) activePl = players.filter(function(p){return p.active !== false;});
   var attArr = activePl.map(function(p) {
