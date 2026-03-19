@@ -1792,7 +1792,10 @@ async function saveAtt(eid, isSpiel) {
     var st = pend || (row && row.getAttribute('data-st')) || 'na';
     return {player_id: p.id, event_id: eid, status: st};
   });
-  var r1 = await sb.from('attendance').upsert(attArr, {onConflict:'player_id,event_id'});
+  // Delete existing rows for this event, then insert fresh
+  var rDel = await sb.from('attendance').delete().eq('event_id', eid);
+  if (rDel.error) { toast('Fehler: ' + rDel.error.message, 'er'); return; }
+  var r1 = await sb.from('attendance').insert(attArr);
   if (r1.error) { toast('Fehler: ' + r1.error.message, 'er'); return; }
   for (var i=0; i<attArr.length; i++) {
     var a = attArr[i];
@@ -1818,6 +1821,7 @@ async function saveAtt(eid, isSpiel) {
   delete pendAtt[eid];
   closeModal();
   toast('Anwesenheit gespeichert ✓', 'ok');
+  console.log('Saved attendance for event:', eid, attArr.length, 'rows');
   renderAdmin(); renderAuswertung();
 }
 
