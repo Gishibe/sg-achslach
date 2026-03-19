@@ -863,7 +863,7 @@ function buildSeasonDropdown() {
   else {
     if (!curSeason && seasons.length) curSeason = seasons[seasons.length - 1];
     opts = seasons.map(function(s) {
-      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.team + ' ' + s.saison + '</option>';
+      return '<option value="' + s.id + '"' + (s.id === (curSeason && curSeason.id) ? ' selected' : '') + '>' + s.saison + '</option>';
     }).join('');
   }
   var sel = document.getElementById('seasonSel');
@@ -1289,7 +1289,7 @@ function renderAuswertung() {
   var totalGoals=goals.filter(function(g){return sIds.indexOf(g.event_id)>=0;}).reduce(function(a,g){return a+(g.goals||0);},0);
   var avgAtt=0;
   if(trs.length&&filtPl.length){var total=0;for(var i=0;i<filtPl.length;i++){total+=attendance.filter(function(x){return x.player_id===filtPl[i].id&&tIds.indexOf(x.event_id)>=0&&x.status==='anwesend';}).length;}avgAtt=Math.round(total/filtPl.length/trs.length*100);}
-  var teamLbl=curTeam==='Alle'?(curSeason?curSeason.team+' '+curSeason.saison:''):curTeam;
+  var teamLbl=curTeam==='Alle'?(curSeason?curSeason.saison:''):curTeam;
   document.getElementById('ausStatGrid').innerHTML =
     '<div class="stat-card"><div class="stat-val">' + filtPl.length + '</div><div class="stat-lbl">Spieler</div><div class="stat-sub">' + teamLbl + '</div></div>' +
     '<div class="stat-card"><div class="stat-val">' + trs.length + '</div><div class="stat-lbl">Trainings</div></div>' +
@@ -1438,7 +1438,7 @@ function renderEltern() {
     '<div class="next-games" style="margin-bottom:16px;"><div class="card-head"><div class="card-head-title">📋 Letzte Spiele & Ergebnisse</div></div>' +
     resultRows + '</div>' : '';
 
-  var teamHdr=curTeam==='Alle'?'Saison '+(curSeason?curSeason.saison:'-'):curTeam+' - '+(curSeason?curSeason.saison:'');
+  var teamHdr=curTeam==='Alle'?(curSeason?curSeason.saison:'-'):curTeam+' · '+(curSeason?curSeason.saison:'');
   document.getElementById('elternBody').innerHTML =
     '<div class="eltern-header"><h2>SG Achslach-Gotteszell</h2><p>'+teamHdr+' · '+filtPl.length+' Spieler · '+trs.length+' Trainings · '+sps.length+' Spiele</p></div>' +
     '<div class="eltern-stats" style="grid-template-columns:repeat(4,1fr)">' +
@@ -1835,7 +1835,7 @@ function openSeasonModal(editId) {
     '<div class="modal-body">' +
       '<div class="fr2">' +
         '<div class="fg"><label class="fl">Team *</label><select class="fs" id="sTeam">' + teamOpts + '</select></div>' +
-        '<div class="fg"><label class="fl">Saison *</label><input class="fi" id="sSaison" value="' + ((s && s.saison) || '') + '" placeholder="2025/26"></div>' +
+        '<div class="fg"><label class="fl">Saison *</label><input class="fi" id="sSaison" value="' + ((s && s.saison) || '') + '" placeholder="2025-2026"></div>' +
       '</div>' +
     '</div>' +
     '<div class="modal-foot">' +
